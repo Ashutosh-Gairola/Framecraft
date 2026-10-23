@@ -1,0 +1,111 @@
+{
+  "sounds": {
+    "clang": {
+      "kind": "clang"
+    },
+    "clang-hi": {
+      "kind": "clang",
+      "pitch": 1.3
+    },
+    "clang-lo": {
+      "kind": "clang",
+      "pitch": 0.75
+    },
+    "shing": {
+      "kind": "shing"
+    },
+    "impact": {
+      "kind": "impact"
+    },
+    "impact-lo": {
+      "kind": "impact",
+      "pitch": 0.7
+    },
+    "boom": {
+      "kind": "boom"
+    },
+    "whoosh": {
+      "kind": "whoosh"
+    },
+    "whoosh-long": {
+      "kind": "whoosh",
+      "dur": 0.9
+    },
+    "burst": {
+      "kind": "burst"
+    },
+    "thunder": {
+      "kind": "thunder"
+    },
+    "wind-12": {
+      "kind": "wind",
+      "dur": 12
+    },
+    "wind-20": {
+      "kind": "wind",
+      "dur": 20
+    },
+    "wind-s6": {
+      "kind": "wind",
+      "dur": 7.6
+    },
+    "charge": {
+      "kind": "charge"
+    },
+    "charge-long": {
+      "kind": "charge",
+      "dur": 3.5
+    },
+    "crackle": {
+      "kind": "crackle"
+    },
+    "roar": {
+      "kind": "roar"
+    },
+    "cry": {
+      "kind": "cry"
+    },
+    "taiko": {
+      "kind": "taiko"
+    },
+    "taiko-lo": {
+      "kind": "taiko",
+      "pitch": 0.8
+    },
+    "score-s1": {
+      "kind": "score",
+      "dur": 12,
+      "mood": "calm"
+    },
+    "score-s2": {
+      "kind": "score",
+      "dur": 20,
+      "mood": "tense"
+    },
+    "score-s3": {
+      "kind": "score",
+      "dur": 20,
+      "mood": "epic"
+    },
+    "score-s4": {
+      "kind": "score",
+      "dur": 20,
+      "mood": "epic"
+    },
+    "score-s5a": {
+      "kind": "score",
+      "dur": 11,
+      "mood": "climax"
+    },
+    "score-s5b": {
+      "kind": "score",
+      "dur": 8.5,
+      "mood": "climax"
+    },
+    "score-s6": {
+      "kind": "score",
+      "dur": 7.6,
+      "mood": "fade"
+    }
+  }
+}

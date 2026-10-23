@@ -1,0 +1,81 @@
+{
+  "version": 1,
+  "kind": "sequence",
+  "title": "Mountain Shrine",
+  "slug": "mountain-shrine",
+  "fps": 24,
+  "frames": 1920,
+  "seconds": 80,
+  "aspect": "16:9",
+  "width": 1920,
+  "height": 1080,
+  "script": "noon",
+  "colors": {
+    "sky": "#f2d7ae",
+    "ink": "#2c261f",
+    "moon": "#fff6e4",
+    "accent": "#c4452d",
+    "practical": "#fffaf2",
+    "iris": "#5c3d32",
+    "skin": "#f0c2ae",
+    "hair": "#241c16",
+    "sclera": "#f6f3ee",
+    "line": "#241c16"
+  },
+  "designColors": {
+    "pine": "#2e5b3c",
+    "meadow": "#7fa255",
+    "glacier": "#9fc1d6"
+  },
+  "style": "painted-world",
+  "styleReference": "Cinematic realism in three.js: golden-hour light, atmospheric perspective, volumetric fog and cloud, smooth drone moves. No cuts, no shake, no text, no logos.",
+  "cast": [],
+  "motion": [
+    "cloth-hair",
+    "effects",
+    "handling",
+    "locomotion"
+  ],
+  "scenes": [
+    {
+      "id": "s1-above-the-clouds",
+      "title": "Above the Clouds",
+      "index": 0,
+      "start": 0,
+      "seconds": 20,
+      "dir": "scenes/s1-above-the-clouds",
+      "composition": "compositions/s1-above-the-clouds.html",
+      "lines": 0
+    },
+    {
+      "id": "s2-the-valley",
+      "title": "The Valley",
+      "index": 1,
+      "start": 20,
+      "seconds": 20,
+      "dir": "scenes/s2-the-valley",
+      "composition": "compositions/s2-the-valley.html",
+      "lines": 0
+    },
+    {
+      "id": "s3-the-shrine",
+      "title": "The Shrine",
+      "index": 2,
+      "start": 40,
+      "seconds": 20,
+      "dir": "scenes/s3-the-shrine",
+      "composition": "compositions/s3-the-shrine.html",
+      "lines": 0
+    },
+    {
+      "id": "s4-the-range",
+      "title": "The Range",
+      "index": 3,
+      "start": 60,
+      "seconds": 20,
+      "dir": "scenes/s4-the-range",
+      "composition": "compositions/s4-the-range.html",
+      "lines": 0
+    }
+  ]
+}

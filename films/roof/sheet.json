@@ -1,0 +1,104 @@
+{
+  "version": 3,
+  "logline": "On a roof in the rain, a red moon opens and a line of light falls.",
+  "slug": "roof",
+  "seconds": 8,
+  "fps": 24,
+  "frames": 192,
+  "aspect": "16:9",
+  "width": 1920,
+  "height": 1080,
+  "script": "indigo",
+  "colors": {
+    "sky": "#1b2d6b",
+    "ink": "#101628",
+    "moon": "#d5e2ff",
+    "accent": "#e23b4a",
+    "practical": "#f0c36a",
+    "iris": "#e7a04a",
+    "skin": "#f0c2ae",
+    "hair": "#16141c",
+    "sclera": "#f6f3ee",
+    "line": "#e7eefc"
+  },
+  "designColors": {},
+  "style": "ink-cel",
+  "styleReference": "",
+  "animation": "limited",
+  "lines": [
+    {
+      "speaker": "Ren",
+      "text": "The rain hid the sound of the blade.",
+      "emotion": "resolve",
+      "shot": "button",
+      "source": ""
+    }
+  ],
+  "card": "",
+  "props": "a short blade, held low",
+  "voice": {
+    "mode": "line",
+    "speaker": "Ren",
+    "onScreen": true,
+    "emotion": "resolve",
+    "intensity": 1,
+    "register": "male",
+    "engine": "auto",
+    "voice": "",
+    "lang": "en",
+    "source": "",
+    "speakers": {
+      "Ren": {
+        "register": "male",
+        "voice": ""
+      }
+    }
+  },
+  "cast": [
+    {
+      "name": "Ren",
+      "slug": "ren",
+      "kind": "original",
+      "reference": ""
+    }
+  ],
+  "motion": [
+    "blade",
+    "effects"
+  ],
+  "shots": [
+    {
+      "id": "establish",
+      "label": "Establish",
+      "start": 0,
+      "end": 2.4,
+      "dur": 2.4,
+      "sakuga": false,
+      "size": "wide",
+      "camera": "push",
+      "drawings": 3
+    },
+    {
+      "id": "sakuga",
+      "label": "Sakuga",
+      "start": 2.4,
+      "end": 6,
+      "dur": 3.6,
+      "sakuga": true,
+      "size": "medium",
+      "camera": "shake",
+      "drawings": 8
+    },
+    {
+      "id": "button",
+      "label": "Button",
+      "start": 6,
+      "end": 8,
+      "dur": 2,
+      "sakuga": false,
+      "size": "close",
+      "camera": "locked",
+      "drawings": 3
+    }
+  ]
+}

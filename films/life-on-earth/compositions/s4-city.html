@@ -1,0 +1,42 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; background: #d5e2ff; }
+    .s4-city-cv { position: absolute; inset: 0; width: 1920px; height: 1080px; display: block; }
+  </style>
+  <div id="root" data-composition-id="s4-city" data-start="0" data-duration="20" data-width="1920" data-height="1080">
+    <canvas id="s4-city-cv" class="clip s4-city-cv" data-start="0" data-duration="20" data-track-index="1" width="1920" height="1080"></canvas>
+    <audio id="s4-city-fx0" class="clip" src="assets/sfx/traffic-20.wav" data-start="0" data-duration="20" data-track-index="20" data-volume="0.6"></audio>
+    <audio id="s4-city-fx1" class="clip" src="assets/sfx/birds-20.wav" data-start="0" data-duration="20" data-track-index="21" data-volume="0.2"></audio>
+    <audio id="s4-city-fx2" class="clip" src="assets/sfx/score-4.wav" data-start="0" data-duration="20" data-track-index="22" data-volume="0.36"></audio>
+    <audio id="s4-city-fx3" class="clip" src="assets/sfx/whoosh.wav" data-start="15.5" data-duration="0.6" data-track-index="23" data-volume="0.35"></audio>
+  </div>
+  <script>
+    (function () {
+      // The sheet's paints: the world derives every color from these.
+      const PAINT = {"sky":"#1b2d6b","ink":"#101628","moon":"#d5e2ff","accent":"#e23b4a","practical":"#f0c36a","iris":"#e7a04a","skin":"#f0c2ae","hair":"#16141c","sclera":"#f6f3ee","line":"#e7eefc","ocean":"#1e5aa0","land":"#4f7d3a","cyan":"#6fd3e6"};
+      window.__hf = window.__hf || {};
+      window.__hf.buildReady = window.__hf.buildReady || {};
+      let ready;
+      const built = new Promise((resolve) => (ready = resolve));
+      window.__hf.buildReady["s4-city"] = built;
+      let render = null;
+      let pending = 60;
+      // HyperFrames sends film time; the world is one continuous path across every scene.
+      window.addEventListener("hf-seek", (e) => {
+        pending = e.detail.time;
+        if (render) render(pending);
+        else if (e.detail.waitUntil) e.detail.waitUntil(built.then(() => render && render(pending)));
+      });
+      // "./": a dynamic import without it is a bare package name and never loads.
+      import("./assets/world.js")
+        .then((world) => {
+          render = world.createWorld(document.getElementById("s4-city-cv"), PAINT).render;
+          render(pending);
+        })
+        .catch((error) => console.error("s4-city: the world failed to load", error))
+        .finally(() => ready());
+      window.__timelines = window.__timelines || {};
+      window.__timelines["s4-city"] = gsap.timeline({ paused: true });
+    })();
+  </script>
+</template>

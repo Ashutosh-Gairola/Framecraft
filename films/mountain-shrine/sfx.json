@@ -1,0 +1,33 @@
+{
+  "sounds": {
+    "wind-20": {
+      "kind": "wind",
+      "dur": 20
+    },
+    "stream-20": {
+      "kind": "stream",
+      "dur": 20
+    },
+    "birds-20": {
+      "kind": "birds",
+      "dur": 20
+    },
+    "bell": {
+      "kind": "bell"
+    },
+    "bell-hi": {
+      "kind": "bell",
+      "pitch": 1.5
+    },
+    "score-a": {
+      "kind": "score",
+      "dur": 20,
+      "mood": "serene"
+    },
+    "score-b": {
+      "kind": "score",
+      "dur": 20,
+      "mood": "calm"
+    }
+  }
+}

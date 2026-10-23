@@ -1,0 +1,58 @@
+{
+  "lang": "en",
+  "onScreen": false,
+  "lines": [
+    {
+      "index": 1,
+      "text": "You came all this way just to lose?",
+      "speaker": "Shadow",
+      "shot": "approach",
+      "emotion": "cold",
+      "intensity": 1,
+      "engine": "say",
+      "voice": "Daniel",
+      "tempo": 1,
+      "file": "assets/voice/s1-encounter/line-1.wav",
+      "start": 2.917,
+      "duration": 1.933,
+      "jcut": false,
+      "mouth": {
+        "onTwos": true,
+        "prefix": "shadow-mouth",
+        "shapes": [
+          "closed",
+          "mid",
+          "open"
+        ],
+        "keys": []
+      },
+      "audio": "<audio id=\"vo-s1-encounter-1\" class=\"clip\" src=\"assets/voice/s1-encounter/line-1.wav\" data-start=\"2.917\" data-duration=\"1.933\" data-track-index=\"9\" data-volume=\"1\"></audio>"
+    },
+    {
+      "index": 2,
+      "text": "I came to end this.",
+      "speaker": "Phantom",
+      "shot": "button",
+      "emotion": "resolve",
+      "intensity": 1,
+      "engine": "say",
+      "voice": "Rishi",
+      "tempo": 1,
+      "file": "assets/voice/s1-encounter/line-2.wav",
+      "start": 9.417,
+      "duration": 1.243,
+      "jcut": false,
+      "mouth": {
+        "onTwos": true,
+        "prefix": "phantom-mouth",
+        "shapes": [
+          "closed",
+          "mid",
+          "open"
+        ],
+        "keys": []
+      },
+      "audio": "<audio id=\"vo-s1-encounter-2\" class=\"clip\" src=\"assets/voice/s1-encounter/line-2.wav\" data-start=\"9.417\" data-duration=\"1.243\" data-track-index=\"10\" data-volume=\"1\"></audio>"
+    }
+  ]
+}

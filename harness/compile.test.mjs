@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { ASPECTS, compileBrief, SCRIPTS, shotPlan } from "./compile.js";
+import { ASPECTS, compileBrief, detectMotion, parseCast, SCRIPTS, shotPlan, STYLES } from "./compile.js";
 
 for (const seconds of [8, 12, 20]) {
   const shots = shotPlan(seconds);
@@ -82,5 +82,115 @@ for (const script of Object.values(SCRIPTS)) {
 }
 
 assert.deepEqual(Object.keys(ASPECTS), ["16:9", "9:16"]);
+
+// Cast: originals wait on a model sheet; references are followed.
+const cast = parseCast("Ren\nAoi: ref media/aoi.png\nKage: tall, scar over the left eye\nMio: original");
+assert.equal(cast.ok, true);
+assert.deepEqual(
+  cast.cast.map((m) => [m.name, m.slug, m.kind]),
+  [["Ren", "ren", "original"], ["Aoi", "aoi", "image"], ["Kage", "kage", "notes"], ["Mio", "mio", "original"]],
+);
+assert.equal(cast.cast[1].reference, "media/aoi.png");
+assert.equal(parseCast("Ren\nren").ok, false);
+assert.equal(parseCast("A\nB\nC\nD\nE").ok, false);
+assert.equal(parseCast(": no name").ok, false);
+assert.equal(parseCast([{ name: "Sora", reference: "https://example.com/sora.webp" }]).cast[0].kind, "image");
+
+// Motion cards come from the scene's words, whole words only.
+const motion = detectMotion("She draws her katana and leaps", "an umbrella");
+assert.deepEqual(motion.map((m) => m.id), ["blade", "locomotion", "handling"]);
+assert.deepEqual(detectMotion("A bowl of rice").map((m) => m.id), []);
+
+const full = compileBrief({
+  logline: "A swordsman cuts through falling petals.",
+  seconds: 12,
+  aspect: "16:9",
+  script: "festival",
+  style: "retro",
+  styleReference: "media/ova-still.png",
+  dialogue: "Not yet.",
+  cast: "Kaito: ref media/kaito.png",
+  props: "a katana",
+  designColors: { scarf: "#2f8f6b" },
+  voice: { mode: "line", emotion: "cold", intensity: 0.8, register: "male" },
+});
+assert.equal(full.ok, true, full.error);
+assert.match(full.markdown, /## Art style\nRetro cel/);
+assert.match(full.markdown, /Style reference: media\/ova-still\.png/);
+assert.match(full.markdown, /Kaito — follows a reference \(image\): media\/kaito\.png/);
+assert.match(full.markdown, /references\/blade\.md/);
+assert.match(full.markdown, /references\/effects\.md/);
+assert.match(full.markdown, /- scarf #2f8f6b/);
+assert.match(full.markdown, /Line 1, Kaito: male register\. Cold at 0\.8/);
+assert.match(full.markdown, /html-anime-voice\/SKILL\.md/);
+assert.match(full.markdown, /3b\. Voice/);
+assert.equal(full.sheet.version, 3);
+assert.deepEqual(full.sheet.lines, [{ speaker: "Kaito", text: "Not yet.", emotion: "cold", shot: "button", source: "" }]);
+assert.equal(full.sheet.voice.lang, "en");
+assert.deepEqual(full.sheet.designColors, { scarf: "#2f8f6b" });
+assert.equal(full.sheet.shots.at(-1).end, 12);
+assert.equal(full.sheet.shots.filter((x) => x.sakuga).length, 1);
+assert.match(brief.markdown, /No named cast/);
+assert.match(brief.markdown, /Voice off/);
+assert.match(brief.markdown, /## Art style\nInk cel/);
+
+const base = { logline: "A bell.", seconds: 8, aspect: "16:9", script: "indigo" };
+assert.equal(compileBrief({ ...base, style: "oil" }).ok, false);
+assert.equal(compileBrief({ ...base, designColors: { sky: "#000000" } }).ok, false);
+assert.equal(compileBrief({ ...base, designColors: { a: "#111111", b: "#222222", c: "#333333", d: "#444444" } }).ok, false);
+assert.equal(compileBrief({ ...base, designColors: { teal: "teal" } }).ok, false);
+assert.equal(compileBrief({ ...base, voice: { mode: "line" } }).ok, false, "voice needs dialogue");
+assert.equal(compileBrief({ ...base, dialogue: "Hi.", voice: { mode: "line", emotion: "smug" } }).ok, false);
+assert.equal(compileBrief({ ...base, dialogue: "Hi.", cast: "Ren", voice: { mode: "line", speaker: "Aoi" } }).ok, false);
+assert.equal(compileBrief({ ...base, slug: "Bad Slug" }).ok, false);
+assert.equal(compileBrief({ ...base, slug: "bell" }).slug, "bell");
+const ja = compileBrief({ ...base, dialogue: "まだだ。", voice: { mode: "line" } });
+assert.equal(ja.sheet.voice.lang, "ja");
+assert.match(ja.markdown, /Japanese/);
+const es = compileBrief({ ...base, dialogue: "Todavía no.", voice: { mode: "line", lang: "es" } });
+assert.match(es.markdown, /Spanish/);
+for (const style of Object.values(STYLES)) {
+  assert.doesNotMatch(JSON.stringify(style), /#[0-9a-f]{3,6}/i, "styles must not carry hexes");
+}
+
+// Two placed lines with speakers, and a title card.
+const duel = compileBrief({
+  ...base,
+  seconds: 12,
+  cast: "Shadow\nPhantom",
+  lines: [
+    { speaker: "Shadow", text: "You came all this way just to lose?", emotion: "cold" },
+    { speaker: "Phantom", text: "I came to end this.", emotion: "resolve" },
+  ],
+  card: "THE BATTLE IS NOT OVER.",
+  voice: { mode: "line", speakers: { Shadow: { register: "male" }, Phantom: { register: "male", voice: "Daniel" } } },
+});
+assert.equal(duel.ok, true, duel.error);
+assert.deepEqual(duel.sheet.lines.map((l) => [l.speaker, l.shot, l.emotion]), [["Shadow", "approach", "cold"], ["Phantom", "button", "resolve"]]);
+assert.match(duel.markdown, /> You came all this way just to lose\?\n— Shadow, approach shot, cold/);
+assert.match(duel.markdown, /Title card, on screen, not spoken/);
+assert.match(duel.markdown, /> THE BATTLE IS NOT OVER\./);
+assert.match(duel.markdown, /Line 2, Phantom: male register, voice Daniel\. Resolve/);
+assert.equal(duel.sheet.card, "THE BATTLE IS NOT OVER.");
+const lines3 = [1, 2, 3].map((n) => ({ text: `Line ${n}.` }));
+assert.equal(compileBrief({ ...base, lines: lines3 }).ok, false);
+assert.equal(compileBrief({ ...base, lines: [{ text: "A.", shot: "turn" }] }).ok, false, "no turn shot at 8s");
+assert.equal(compileBrief({ ...base, lines: [{ text: "A.", shot: "button" }, { text: "B.", shot: "establish" }] }).ok, false);
+assert.equal(compileBrief({ ...base, lines: [{ text: "A.", emotion: "smug" }] }).ok, false);
+assert.equal(compileBrief({ ...base, card: "x".repeat(61) }).ok, false);
+const seq = compileBrief({ ...base, sequence: { slug: "duel", scene: "s2-clash", index: 1, start: 20, title: "First Clash" } });
+assert.match(seq.markdown, /^# html-anime · scene 2 · First Clash/);
+assert.match(seq.markdown, /films\/duel\/compositions\/s2-clash\.html/);
+assert.match(seq.markdown, /node harness\/check\.js films\/duel,/);
+assert.equal(seq.sheet.sequence.root, "../..");
+
+// Full animation is the default; limited keeps the classic drawing counts.
+assert.equal(brief.sheet.animation, "full");
+assert.match(brief.markdown, /Every frame between keys is inbetweened/);
+assert.match(brief.markdown, /8 keys, inbetweened/);
+const limited = compileBrief({ ...base, animation: "limited" });
+assert.match(limited.markdown, /8 unique drawings/);
+assert.match(limited.markdown, /3 drawings ·/);
+assert.equal(compileBrief({ ...base, animation: "smooth" }).ok, false);
 
 console.log("compile: ok");

@@ -1,4 +1,4 @@
-import { SCRIPTS, compileBrief } from "./harness/compile.js";
+import { EMOTIONS, SCRIPTS, compileBrief } from "./harness/compile.js";
 
 document.body.classList.add("is-live");
 
@@ -19,11 +19,11 @@ const CUT = 16;
 
 const AGENTS = {
   claude: {
-    note: "Claude Code reads CLAUDE.md, then the five skills.",
+    note: "Claude Code reads CLAUDE.md, then starts with the director skill.",
     command: "git clone https://github.com/blixvip/html-anime.git\ncd html-anime\nclaude",
   },
   codex: {
-    note: "Codex reads AGENTS.md, then the five skills.",
+    note: "Codex reads AGENTS.md, then starts with the director skill.",
     command: "git clone https://github.com/blixvip/html-anime.git\ncd html-anime\ncodex",
   },
   cursor: {
@@ -31,7 +31,7 @@ const AGENTS = {
     command: "git clone https://github.com/blixvip/html-anime.git\ncd html-anime\ncursor .",
   },
   grok: {
-    note: "Grok reads AGENTS.md, then the five skills.",
+    note: "Grok reads AGENTS.md, then starts with the director skill.",
     command: "git clone https://github.com/blixvip/html-anime.git\ncd html-anime\ngrok",
   },
 };
@@ -86,14 +86,33 @@ function buildCells() {
   }
 }
 
+function buildEmotions() {
+  const box = document.querySelector("#emotions");
+  for (const [id, emotion] of Object.entries(EMOTIONS)) {
+    const label = document.createElement("label");
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "emotion";
+    input.value = id;
+    input.checked = id === "neutral";
+    label.append(input, emotion.label);
+    box.append(label);
+  }
+}
+
 function readForm() {
   const data = new FormData(form);
   return {
     logline: data.get("logline"),
     dialogue: data.get("dialogue"),
+    cast: data.get("cast"),
+    props: data.get("props"),
     seconds: data.get("seconds"),
     aspect: data.get("aspect"),
     script: data.get("script"),
+    style: data.get("style"),
+    animation: data.get("animation"),
+    voice: { mode: data.get("voice"), emotion: data.get("emotion") },
     agent: data.get("agent"),
   };
 }
@@ -178,10 +197,11 @@ copyCommand.addEventListener("click", () => {
 });
 
 buildCells();
+buildEmotions();
 paintSwatches();
 
 const params = new URLSearchParams(location.search);
-for (const name of ["aspect", "script", "seconds", "agent"]) {
+for (const name of ["aspect", "script", "seconds", "agent", "style", "animation", "voice", "emotion"]) {
   const value = params.get(name);
   if (!value) continue;
   const radio = form.querySelector(`input[name="${name}"][value="${CSS.escape(value)}"]`);

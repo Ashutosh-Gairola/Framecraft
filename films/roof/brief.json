@@ -1,0 +1,18 @@
+{
+  "slug": "roof",
+  "logline": "On a roof in the rain, a red moon opens and a line of light falls.",
+  "seconds": 8,
+  "aspect": "16:9",
+  "script": "indigo",
+  "style": "ink-cel",
+  "dialogue": "The rain hid the sound of the blade.",
+  "cast": "Ren: original",
+  "props": "a short blade, held low",
+  "voice": {
+    "mode": "line",
+    "speaker": "Ren",
+    "emotion": "resolve",
+    "register": "male"
+  },
+  "animation": "limited"
+}

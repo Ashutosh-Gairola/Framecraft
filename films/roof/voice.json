@@ -1,0 +1,81 @@
+{
+  "lang": "en",
+  "onScreen": true,
+  "lines": [
+    {
+      "index": 1,
+      "text": "The rain hid the sound of the blade.",
+      "speaker": "Ren",
+      "shot": "button",
+      "emotion": "resolve",
+      "intensity": 1,
+      "engine": "say",
+      "voice": "Daniel",
+      "tempo": 1,
+      "file": "assets/voice/line-1.wav",
+      "start": 5.917,
+      "duration": 1.745,
+      "jcut": true,
+      "mouth": {
+        "onTwos": true,
+        "prefix": "mouth",
+        "shapes": [
+          "closed",
+          "mid",
+          "open"
+        ],
+        "keys": [
+          [
+            6,
+            "mid"
+          ],
+          [
+            6.083,
+            "open"
+          ],
+          [
+            6.25,
+            "mid"
+          ],
+          [
+            6.333,
+            "open"
+          ],
+          [
+            6.583,
+            "mid"
+          ],
+          [
+            6.75,
+            "open"
+          ],
+          [
+            6.833,
+            "mid"
+          ],
+          [
+            6.917,
+            "open"
+          ],
+          [
+            7.167,
+            "mid"
+          ],
+          [
+            7.25,
+            "open"
+          ],
+          [
+            7.417,
+            "mid"
+          ],
+          [
+            7.583,
+            "closed"
+          ]
+        ]
+      },
+      "audio": "<audio id=\"vo-line-1\" class=\"clip\" src=\"assets/voice/line-1.wav\" data-start=\"5.917\" data-duration=\"1.745\" data-track-index=\"9\" data-volume=\"1\"></audio>"
+    }
+  ]
+}

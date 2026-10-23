@@ -255,6 +255,14 @@
             <span>Line</span>
             <input type="text" name="dialogue" value="The rain hid the sound of the blade." />
           </label>
+          <label class="field">
+            <span>Cast · one per line · Name, or Name: reference</span>
+            <textarea class="short" name="cast" placeholder="Ren: original&#10;Aoi: media/aoi.png">Ren: original</textarea>
+          </label>
+          <label class="field">
+            <span>Props &amp; action</span>
+            <input type="text" name="props" value="a short blade, held low" />
+          </label>
           <div>
             <div class="seg-label" id="len-label">Length</div>
             <div class="seg" role="radiogroup" aria-labelledby="len-label">
@@ -280,6 +288,34 @@
             </div>
           </div>
           <div>
+            <div class="seg-label" id="style-label">Art style</div>
+            <div class="seg" role="radiogroup" aria-labelledby="style-label">
+              <label><input type="radio" name="style" value="ink-cel" checked />Ink cel</label>
+              <label><input type="radio" name="style" value="retro" />Retro cel</label>
+              <label><input type="radio" name="style" value="painted-world" />Painted world</label>
+              <label><input type="radio" name="style" value="manga" />Manga ink</label>
+              <label><input type="radio" name="style" value="chibi" />Chibi</label>
+            </div>
+          </div>
+          <div>
+            <div class="seg-label" id="anim-label">Animation</div>
+            <div class="seg" role="radiogroup" aria-labelledby="anim-label">
+              <label><input type="radio" name="animation" value="full" checked />Full · smooth</label>
+              <label><input type="radio" name="animation" value="limited" />Limited · held drawings</label>
+            </div>
+          </div>
+          <div>
+            <div class="seg-label" id="voice-label">Voice</div>
+            <div class="seg" role="radiogroup" aria-labelledby="voice-label">
+              <label><input type="radio" name="voice" value="off" checked />Off</label>
+              <label><input type="radio" name="voice" value="line" />Speak the line</label>
+            </div>
+          </div>
+          <div>
+            <div class="seg-label" id="emotion-label">Emotion</div>
+            <div class="seg" role="radiogroup" aria-labelledby="emotion-label" id="emotions"></div>
+          </div>
+          <div>
             <div class="seg-label" id="agent-label">Agent</div>
             <div class="seg" role="radiogroup" aria-labelledby="agent-label">
               <label><input type="radio" name="agent" value="claude" checked />Claude</label>
@@ -302,28 +338,40 @@
 
       <section id="skills">
         <h2>Skills</h2>
-        <p class="section-lead">Five files, read in order. Each one owns a single job.</p>
+        <p class="section-lead">A studio crew, one skill per role. The director runs them in order. Each one owns a single job.</p>
         <table>
           <tbody>
             <tr>
-              <th><a href="skills/html-anime-direct/SKILL.md">Direct</a></th>
-              <td>Which shots exist, and which one of them may be expensive.</td>
+              <th><a href="skills/html-anime-director/SKILL.md">Director</a></th>
+              <td>Refines the brief, builds the sheet or a sequence of sheets, holds the gates, signs off.</td>
             </tr>
             <tr>
-              <th><a href="skills/html-anime-cel/SKILL.md">Cel</a></th>
-              <td>Flat color, one hard shadow, a silhouette behind the figure, rain on its own layer.</td>
+              <th><a href="skills/html-anime-designer/SKILL.md">Designer</a></th>
+              <td>An original character gets a model sheet example to approve first. A reference is followed exactly.</td>
             </tr>
             <tr>
-              <th><a href="skills/html-anime-timing/SKILL.md">Timing</a></th>
-              <td>Twos for acting. A hold of at least 12 frames. One or two smear frames in the sakuga shot.</td>
+              <th><a href="skills/html-anime-art/SKILL.md">Art</a></th>
+              <td>The style to follow, the color roles, the value plan, the backgrounds.</td>
             </tr>
             <tr>
-              <th><a href="skills/html-anime-camera/SKILL.md">Camera</a></th>
-              <td>Where the cut is, where the eyes sit, and how a tall frame is composed.</td>
+              <th><a href="skills/html-anime-motion/SKILL.md">Motion</a></th>
+              <td>Key poses, grips, pivots, and frame counts for blades, strikes, running, tools, cloth, and effects.</td>
+            </tr>
+            <tr>
+              <th><a href="skills/html-anime-cameraman/SKILL.md">Cameraman</a></th>
+              <td>Size, angle, lens feel, where the eyes sit, and the one move a shot may have.</td>
+            </tr>
+            <tr>
+              <th><a href="skills/html-anime-staff/SKILL.md">Staff</a></th>
+              <td>Layout, keys, inbetweens, correction against the model sheet, finishing. Paints by <a href="skills/html-anime-cel/SKILL.md">cel</a>, times by <a href="skills/html-anime-timing/SKILL.md">timing</a>.</td>
+            </tr>
+            <tr>
+              <th><a href="skills/html-anime-voice/SKILL.md">Voice</a></th>
+              <td>Casts a voice per character, in any language, with emotion. Generates the audio and the mouth track.</td>
             </tr>
             <tr>
               <th><a href="skills/html-anime-render/SKILL.md">Render</a></th>
-              <td>The HyperFrames file. A color dip is the cut. Lint has to pass.</td>
+              <td>The HyperFrames file. A color dip is the cut. The checks have to pass. 24 fps.</td>
             </tr>
           </tbody>
         </table>

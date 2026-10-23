@@ -409,6 +409,8 @@ input[type="text"] {
 
 textarea { min-height: 96px; resize: vertical; }
 
+textarea.short { min-height: 64px; }
+
 .seg {
   display: flex;
   flex-wrap: wrap;
@@ -553,6 +555,8 @@ th a {
 }
 
 td { color: var(--ink-soft); }
+
+td a { color: inherit; }
 
 tr:hover th a { color: var(--mark); }
 tr:last-child th,

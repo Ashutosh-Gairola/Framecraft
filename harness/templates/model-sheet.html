@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>{{Name}} — model sheet — {{slug}}</title>
+    <!--
+      Model sheet template. Copy to films/<slug>/design/<name>.html.
+      1. Set the :root paints to the sheet's hexes (sheet.json "colors", plus any "designColors").
+      2. Set HEAD (the head height in px): 630 / the style's heads. 7 heads → 90. 2.5 heads (chibi) → 252.
+         Move the guide lines to multiples of HEAD above the ground line (y 930).
+      3. Replace each mannequin <g> in <defs> with the character's named parts, drawn once and
+         reused with <use> across the views, so staff can lift them into the film unchanged.
+      4. Fill every {{placeholder}}. Delete the expression or mouth cells you don't need (keep the
+         mouths when the voice is on). films/roof/design/ren.html is a finished example.
+      Static SVG only: no script, no external files, no paints outside :root.
+    -->
+    <style>
+      :root {
+        --sky: #1b2d6b;
+        --ink: #101628;
+        --moon: #d5e2ff;
+        --accent: #e23b4a;
+        --practical: #f0c36a;
+        --iris: #e7a04a;
+        --skin: #f0c2ae;
+        --hair: #16141c;
+        --sclera: #f6f3ee;
+        --line: #e7eefc;
+      }
+      html,
+      body {
+        margin: 0;
+        background: var(--ink);
+      }
+      svg {
+        display: block;
+        width: 100%;
+        height: auto;
+        max-width: 1920px;
+      }
+      text {
+        font-family: ui-sans-serif, system-ui, sans-serif;
+        fill: var(--line);
+      }
+      .h1 { font-size: 34px; font-weight: 700; letter-spacing: 0.04em; }
+      .h2 { font-size: 15px; font-weight: 600; letter-spacing: 0.14em; fill: var(--practical); }
+      .lab { font-size: 14px; opacity: 0.75; }
+      .note { font-size: 16px; }
+      .guide { stroke: var(--line); stroke-width: 1; opacity: 0.18; stroke-dasharray: 6 6; }
+      .cell { fill: var(--sky); opacity: 0.35; }
+      .mannequin { fill: none; stroke: var(--line); stroke-width: 3; opacity: 0.6; }
+    </style>
+  </head>
+  <body>
+    <svg viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <!-- Mannequin at 7 heads (HEAD = 90), origin at the feet. Replace with the character. -->
+        <g id="body-front" class="mannequin">
+          <ellipse cx="0" cy="-585" rx="32" ry="45" />
+          <path d="M-8,-540 L-8,-522 M8,-540 L8,-522" />
+          <path d="M-48,-520 L48,-520 L40,-360 L46,-300 L-46,-300 L-40,-360 Z" />
+          <path d="M-48,-516 L-66,-330 M48,-516 L66,-330" />
+          <path d="M-30,-300 L-26,0 M30,-300 L26,0" />
+        </g>
+        <g id="body-3q" class="mannequin">
+          <ellipse cx="6" cy="-585" rx="28" ry="45" />
+          <path d="M-40,-520 L44,-520 L36,-360 L42,-300 L-40,-300 L-36,-360 Z" />
+          <path d="M-40,-516 L-56,-330 M44,-516 L64,-330" />
+          <path d="M-24,-300 L-22,0 M28,-300 L28,0" />
+        </g>
+        <g id="body-side" class="mannequin">
+          <ellipse cx="4" cy="-585" rx="26" ry="45" />
+          <path d="M-24,-520 L26,-520 L22,-360 L26,-300 L-26,-300 L-22,-360 Z" />
+          <path d="M0,-516 L8,-330" />
+          <path d="M0,-300 L0,0" />
+        </g>
+        <use id="body-back" href="#body-front" />
+        <g id="face" class="mannequin">
+          <ellipse cx="0" cy="0" rx="150" ry="190" />
+          <path d="M-150,0 H150 M0,-190 V190" opacity="0.5" />
+          <ellipse cx="-60" cy="0" rx="34" ry="26" /><ellipse cx="60" cy="0" rx="34" ry="26" />
+        </g>
+        <path id="m-closed" d="M-25,120 Q0,134 25,118" fill="none" stroke="var(--hair)" stroke-width="4" stroke-linecap="round" />
+        <path id="m-mid" d="M-25,118 Q0,140 25,117 Q0,126 -25,118 Z" fill="var(--hair)" />
+        <path id="m-open" d="M-23,114 Q0,164 23,113 Q0,122 -23,114 Z" fill="var(--hair)" />
+      </defs>
+
+      <text class="h1" x="40" y="62">{{NAME}}</text>
+      <text class="lab" x="40" y="84">model sheet · films/{{slug}} · {{style}} · {{heads}} heads · {{original | follows: reference}}</text>
+
+      <text class="h2" x="40" y="120">TURNAROUND</text>
+      <path class="guide" d="M40 300 H1100 M40 390 H1100 M40 480 H1100 M40 570 H1100 M40 660 H1100 M40 750 H1100 M40 840 H1100" />
+      <path d="M40 930 H1100" stroke="var(--line)" stroke-width="2" opacity="0.5" />
+      <g transform="translate(220 930)"><use href="#body-front" /></g>
+      <g transform="translate(470 930)"><use href="#body-3q" /></g>
+      <g transform="translate(720 930)"><use href="#body-side" /></g>
+      <g transform="translate(970 930)"><use href="#body-back" /></g>
+      <g class="lab" text-anchor="middle">
+        <text x="220" y="960">front</text><text x="470" y="960">three-quarter</text><text x="720" y="960">side</text><text x="970" y="960">back</text>
+      </g>
+
+      <text class="h2" x="1140" y="120">EXPRESSIONS</text>
+      <rect class="cell" x="1140" y="136" width="176" height="250" />
+      <rect class="cell" x="1328" y="136" width="176" height="250" />
+      <rect class="cell" x="1516" y="136" width="176" height="250" />
+      <rect class="cell" x="1704" y="136" width="176" height="250" />
+      <g transform="translate(1228 256) scale(0.5)"><use href="#face" /><use href="#m-closed" /></g>
+      <g transform="translate(1416 256) scale(0.5)"><use href="#face" /><use href="#m-closed" /></g>
+      <g transform="translate(1604 256) scale(0.5)"><use href="#face" /><use href="#m-closed" /></g>
+      <g transform="translate(1792 256) scale(0.5)"><use href="#face" /><use href="#m-open" /></g>
+      <g class="lab" text-anchor="middle">
+        <text x="1228" y="408">neutral</text><text x="1416" y="408">{{line emotion}}</text><text x="1604" y="408">blink</text><text x="1792" y="408">sakuga</text>
+      </g>
+
+      <text class="h2" x="1140" y="456">MOUTHS · ON TWOS · FROM voice.json</text>
+      <rect class="cell" x="1140" y="470" width="240" height="120" />
+      <rect class="cell" x="1390" y="470" width="240" height="120" />
+      <rect class="cell" x="1640" y="470" width="240" height="120" />
+      <g transform="translate(1260 262) scale(2.2)"><use href="#m-closed" /></g>
+      <g transform="translate(1510 262) scale(2.2)"><use href="#m-mid" /></g>
+      <g transform="translate(1760 262) scale(2.2)"><use href="#m-open" /></g>
+      <g class="lab" text-anchor="middle">
+        <text x="1260" y="612">#mouth-closed</text><text x="1510" y="612">#mouth-mid</text><text x="1760" y="612">#mouth-open</text>
+      </g>
+
+      <text class="h2" x="1140" y="660">PROP · {{PROP}} · GRIP AND PIVOT</text>
+      <rect class="cell" x="1140" y="674" width="740" height="150" />
+      <text class="lab" x="1160" y="808">pivot: {{where}}. Length {{n}} heads. {{how it is held}}</text>
+
+      <text class="h2" x="40" y="1002">PAINTS</text>
+      <g transform="translate(130 980)">
+        <rect width="28" height="28" fill="var(--hair)" stroke="var(--line)" stroke-width="1" /><text class="lab" x="36" y="19">{{part}}: hair {{hex}}</text>
+      </g>
+
+      <text class="h2" x="1140" y="872">NOTES</text>
+      <g class="note">
+        <text x="1140" y="904">Silhouette: {{what reads in black}}</text>
+        <text x="1140" y="932">Line: {{weights}}; shadow: {{tiers}}</text>
+        <text x="1140" y="960">Eyes: {{size, spacing, catchlights}}</text>
+        <text x="1140" y="988">Never change: {{three things}}</text>
+        <text x="1140" y="1016">Voice: {{register, language, emotion}}</text>
+      </g>
+    </svg>
+  </body>
+</html>

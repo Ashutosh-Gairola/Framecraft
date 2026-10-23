@@ -1,0 +1,109 @@
+{
+  "version": 3,
+  "logline": "In the smoking courtyard Phantom rises from his knees and makes one final dash; the two silhouettes pass each other, a thin red line flashes across the screen, and one blade falls to the stone.",
+  "slug": "stickman-blade-fight-s5-final-frame",
+  "seconds": 12,
+  "fps": 24,
+  "frames": 288,
+  "aspect": "16:9",
+  "width": 1920,
+  "height": 1080,
+  "script": "indigo",
+  "colors": {
+    "sky": "#1b2d6b",
+    "ink": "#101628",
+    "moon": "#d5e2ff",
+    "accent": "#e23b4a",
+    "practical": "#f0c36a",
+    "iris": "#e7a04a",
+    "skin": "#f0c2ae",
+    "hair": "#16141c",
+    "sclera": "#f6f3ee",
+    "line": "#e7eefc"
+  },
+  "designColors": {
+    "volt": "#38b6ff"
+  },
+  "style": "ink-cel",
+  "styleReference": "Stickman silhouettes: solid ink and solid white figures, no faces, no line on the figures. Glowing blades as flat light shapes. Speed lines and impact frames.",
+  "animation": "full",
+  "lines": [],
+  "card": "THE BATTLE IS NOT OVER.",
+  "props": "cracked crimson katana; one blue blade embedded in the stone; a tiny blue spark; smoke; rain resumes; lightning",
+  "voice": {
+    "mode": "off"
+  },
+  "cast": [
+    {
+      "name": "Shadow",
+      "slug": "shadow",
+      "kind": "notes",
+      "reference": "A black stickman wielding a crimson energy katana. Fast, aggressive, unpredictable."
+    },
+    {
+      "name": "Phantom",
+      "slug": "phantom",
+      "kind": "notes",
+      "reference": "A white stickman wielding two electric-blue blades. Precise, defensive, and incredibly fast."
+    }
+  ],
+  "motion": [
+    "blade",
+    "locomotion",
+    "effects"
+  ],
+  "sequence": {
+    "slug": "stickman-blade-fight",
+    "scene": "s5-final-frame",
+    "index": 4,
+    "start": 72,
+    "title": "The Final Frame",
+    "root": "../.."
+  },
+  "shots": [
+    {
+      "id": "establish",
+      "label": "Establish",
+      "start": 0,
+      "end": 2.5,
+      "dur": 2.5,
+      "sakuga": false,
+      "size": "wide",
+      "camera": "push",
+      "drawings": 3
+    },
+    {
+      "id": "approach",
+      "label": "Approach",
+      "start": 2.5,
+      "end": 5,
+      "dur": 2.5,
+      "sakuga": false,
+      "size": "medium",
+      "camera": "pan",
+      "drawings": 3
+    },
+    {
+      "id": "sakuga",
+      "label": "Sakuga",
+      "start": 5,
+      "end": 9,
+      "dur": 4,
+      "sakuga": true,
+      "size": "medium",
+      "camera": "shake",
+      "drawings": 8
+    },
+    {
+      "id": "button",
+      "label": "Button",
+      "start": 9,
+      "end": 12,
+      "dur": 3,
+      "sakuga": false,
+      "size": "close",
+      "camera": "locked",
+      "drawings": 3
+    }
+  ]
+}

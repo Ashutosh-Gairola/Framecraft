@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Stickman Blade Fight — html-anime</title>
+    <style>
+      html, body { margin: 0; background: #101628; }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: #101628; }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  </head>
+  <body>
+    <div id="root" data-composition-id="stickman-blade-fight" data-start="0" data-duration="84" data-width="1920" data-height="1080">
+      <div id="s1-encounter-host" data-composition-id="s1-encounter" data-composition-src="compositions/s1-encounter.html" data-start="0" data-duration="12" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <div id="s2-first-clash-host" data-composition-id="s2-first-clash" data-composition-src="compositions/s2-first-clash.html" data-start="12" data-duration="20" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <div id="s3-blades-of-the-storm-host" data-composition-id="s3-blades-of-the-storm" data-composition-src="compositions/s3-blades-of-the-storm.html" data-start="32" data-duration="20" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <div id="s4-ultimate-techniques-host" data-composition-id="s4-ultimate-techniques" data-composition-src="compositions/s4-ultimate-techniques.html" data-start="52" data-duration="20" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <div id="s5-final-frame-host" data-composition-id="s5-final-frame" data-composition-src="compositions/s5-final-frame.html" data-start="72" data-duration="12" data-track-index="1" data-width="1920" data-height="1080"></div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      window.__timelines["stickman-blade-fight"] = gsap.timeline({ paused: true });
+    </script>
+  </body>
+</html>

@@ -1,6 +1,6 @@
 ---
-description: Draw an html-anime film in code when the user pastes a sheet or asks for an anime made as HTML.
+description: Draw an html-anime film in code when the user pastes a sheet, a script, or asks for an anime made as HTML.
 alwaysApply: true
 ---
 
-Follow AGENTS.md. Read the five skills in `skills/` before drawing. The sheet is the brief.
+Follow AGENTS.md. Start with `skills/html-anime-director/SKILL.md`; it names the crew skills to read and in which order. The sheet is the brief.

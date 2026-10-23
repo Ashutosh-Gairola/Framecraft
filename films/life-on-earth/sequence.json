@@ -1,0 +1,100 @@
+{
+  "version": 1,
+  "kind": "sequence",
+  "title": "Life on Earth",
+  "slug": "life-on-earth",
+  "fps": 24,
+  "frames": 2880,
+  "seconds": 120,
+  "aspect": "16:9",
+  "width": 1920,
+  "height": 1080,
+  "script": "indigo",
+  "colors": {
+    "sky": "#1b2d6b",
+    "ink": "#101628",
+    "moon": "#d5e2ff",
+    "accent": "#e23b4a",
+    "practical": "#f0c36a",
+    "iris": "#e7a04a",
+    "skin": "#f0c2ae",
+    "hair": "#16141c",
+    "sclera": "#f6f3ee",
+    "line": "#e7eefc"
+  },
+  "designColors": {
+    "ocean": "#1e5aa0",
+    "land": "#4f7d3a",
+    "cyan": "#6fd3e6"
+  },
+  "style": "painted-world",
+  "styleReference": "Nature-documentary realism in three.js: physically inspired light, one continuous camera journey from a coral reef to the coast, the countryside, a city, and a forest, joined by bubbles, a surface bre",
+  "cast": [],
+  "motion": [
+    "locomotion",
+    "handling",
+    "effects"
+  ],
+  "scenes": [
+    {
+      "id": "s1-underwater",
+      "title": "The Mysterious Underwater World",
+      "index": 0,
+      "start": 0,
+      "seconds": 20,
+      "dir": "scenes/s1-underwater",
+      "composition": "compositions/s1-underwater.html",
+      "lines": 0
+    },
+    {
+      "id": "s2-coast",
+      "title": "Coastal Life",
+      "index": 1,
+      "start": 20,
+      "seconds": 20,
+      "dir": "scenes/s2-coast",
+      "composition": "compositions/s2-coast.html",
+      "lines": 0
+    },
+    {
+      "id": "s3-countryside",
+      "title": "Peaceful Rural Life",
+      "index": 2,
+      "start": 40,
+      "seconds": 20,
+      "dir": "scenes/s3-countryside",
+      "composition": "compositions/s3-countryside.html",
+      "lines": 0
+    },
+    {
+      "id": "s4-city",
+      "title": "Bustling Modern City",
+      "index": 3,
+      "start": 60,
+      "seconds": 20,
+      "dir": "scenes/s4-city",
+      "composition": "compositions/s4-city.html",
+      "lines": 0
+    },
+    {
+      "id": "s5-forest",
+      "title": "The Living Forest",
+      "index": 4,
+      "start": 80,
+      "seconds": 20,
+      "dir": "scenes/s5-forest",
+      "composition": "compositions/s5-forest.html",
+      "lines": 0
+    },
+    {
+      "id": "s6-connection",
+      "title": "The Grand Connection of All Life",
+      "index": 5,
+      "start": 100,
+      "seconds": 20,
+      "dir": "scenes/s6-connection",
+      "composition": "compositions/s6-connection.html",
+      "lines": 0
+    }
+  ]
+}

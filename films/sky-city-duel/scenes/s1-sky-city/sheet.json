@@ -1,0 +1,107 @@
+{
+  "version": 3,
+  "logline": "Above the clouds a shattered futuristic city floats in a lightning storm; Kuro and Seren face each other on a cracked platform as wind tears at coat and hair and their auras flare.",
+  "slug": "sky-city-duel-s1-sky-city",
+  "seconds": 12,
+  "fps": 24,
+  "frames": 288,
+  "aspect": "16:9",
+  "width": 1920,
+  "height": 1080,
+  "script": "indigo",
+  "colors": {
+    "sky": "#1b2d6b",
+    "ink": "#101628",
+    "moon": "#d5e2ff",
+    "accent": "#e23b4a",
+    "practical": "#f0c36a",
+    "iris": "#e7a04a",
+    "skin": "#f0c2ae",
+    "hair": "#16141c",
+    "sclera": "#f6f3ee",
+    "line": "#e7eefc"
+  },
+  "designColors": {},
+  "style": "painted-world",
+  "styleReference": "Premium cinematic anime: dramatic cel shading, atmospheric perspective over clouds, rich red-gold contrast, impact frames, speed ramps. No narration, no subtitles, no logos.",
+  "animation": "full",
+  "lines": [],
+  "card": "",
+  "props": "katana of dark energy; twin celestial blades; storm clouds; lightning; wind in the coat and hair; aura glow",
+  "voice": {
+    "mode": "off"
+  },
+  "cast": [
+    {
+      "name": "Kuro",
+      "slug": "kuro",
+      "kind": "notes",
+      "reference": "Silver-haired swordsman, long black coat with glowing crimson markings, katana forged from dark energy."
+    },
+    {
+      "name": "Seren",
+      "slug": "seren",
+      "kind": "notes",
+      "reference": "Female warrior, flowing white hair, golden eyes, elegant black-and-gold armor, a pair of luminous celestial blades."
+    }
+  ],
+  "motion": [
+    "blade",
+    "cloth-hair",
+    "effects"
+  ],
+  "sequence": {
+    "slug": "sky-city-duel",
+    "scene": "s1-sky-city",
+    "index": 0,
+    "start": 0,
+    "title": "The Sky City",
+    "root": "../.."
+  },
+  "shots": [
+    {
+      "id": "establish",
+      "label": "Establish",
+      "start": 0,
+      "end": 2.5,
+      "dur": 2.5,
+      "sakuga": false,
+      "size": "wide",
+      "camera": "push",
+      "drawings": 3
+    },
+    {
+      "id": "approach",
+      "label": "Approach",
+      "start": 2.5,
+      "end": 5,
+      "dur": 2.5,
+      "sakuga": false,
+      "size": "medium",
+      "camera": "pan",
+      "drawings": 3
+    },
+    {
+      "id": "sakuga",
+      "label": "Sakuga",
+      "start": 5,
+      "end": 9,
+      "dur": 4,
+      "sakuga": true,
+      "size": "medium",
+      "camera": "shake",
+      "drawings": 8
+    },
+    {
+      "id": "button",
+      "label": "Button",
+      "start": 9,
+      "end": 12,
+      "dur": 3,
+      "sakuga": false,
+      "size": "close",
+      "camera": "locked",
+      "drawings": 3
+    }
+  ]
+}

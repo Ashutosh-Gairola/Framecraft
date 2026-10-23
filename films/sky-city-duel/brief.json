@@ -1,0 +1,57 @@
+{
+  "title": "Sky City Duel",
+  "slug": "sky-city-duel",
+  "aspect": "16:9",
+  "script": "indigo",
+  "style": "painted-world",
+  "styleReference": "Premium cinematic anime: dramatic cel shading, atmospheric perspective over clouds, rich red-gold contrast, impact frames, speed ramps. No narration, no subtitles, no logos.",
+  "animation": "full",
+  "cast": [
+    { "name": "Kuro", "reference": "Silver-haired swordsman, long black coat with glowing crimson markings, katana forged from dark energy." },
+    { "name": "Seren", "reference": "Female warrior, flowing white hair, golden eyes, elegant black-and-gold armor, a pair of luminous celestial blades." }
+  ],
+  "scenes": [
+    {
+      "id": "s1-sky-city",
+      "title": "The Sky City",
+      "seconds": 12,
+      "logline": "Above the clouds a shattered futuristic city floats in a lightning storm; Kuro and Seren face each other on a cracked platform as wind tears at coat and hair and their auras flare.",
+      "props": "katana of dark energy; twin celestial blades; storm clouds; lightning; wind in the coat and hair; aura glow"
+    },
+    {
+      "id": "s2-first-strike",
+      "title": "First Strike",
+      "seconds": 20,
+      "logline": "Kuro vanishes in a burst of crimson and reappears behind Seren with a horizontal slash; she blocks with both blades and the clash of sparks sends a shockwave that shatters the platform.",
+      "props": "katana; twin blades crossed to block; sparks; shockwave; platform shatters into falling stone"
+    },
+    {
+      "id": "s3-among-the-ruins",
+      "title": "Among the Ruins",
+      "seconds": 20,
+      "logline": "They leap between floating ruins trading lightning-fast strikes, an aerial kick, a spinning attack and a midair counter, every clash knocking stone into the clouds.",
+      "props": "katana; twin blades; jump and land between ruins; kick; spinning strike; parry; falling stone fragments; wind"
+    },
+    {
+      "id": "s4-celestial-barrage",
+      "title": "Celestial Barrage",
+      "seconds": 20,
+      "logline": "Seren spreads golden spectral wings and launches dozens of floating energy swords; Kuro sprints across collapsing structures deflecting them, then channels crimson lightning into a devastating circular slash.",
+      "props": "golden wings; dozens of energy swords; deflect with the katana; sprint across collapsing bridges; crimson lightning; circular slash shockwave"
+    },
+    {
+      "id": "s5-dragon-and-phoenix",
+      "title": "Dragon and Phoenix",
+      "seconds": 20,
+      "logline": "Both charge their ultimates: Kuro summons a crimson dragon of shadow and lightning, Seren a radiant golden phoenix ringed with burning celestial rings, and they collide above the city in an explosion of red and gold that lights the whole sky.",
+      "props": "crimson dragon of lightning; golden phoenix; burning rings; collision explosion; the sky lights red and gold"
+    },
+    {
+      "id": "s6-last-clash",
+      "title": "The Last Clash",
+      "seconds": 12,
+      "logline": "As the light fades both warriors descend onto opposite sides of the ruined platform, exhausted, weapons glowing faintly; a close-up of their eyes, a sudden rush toward each other, and a brilliant white flash.",
+      "props": "katana glowing faintly; twin blades glowing faintly; wind; dust; descend and land; final dash; white flash"
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "sounds": {
+    "wind-20": {
+      "kind": "wind",
+      "dur": 20
+    },
+    "rumble-20": {
+      "kind": "rumble",
+      "dur": 20
+    },
+    "drone-20": {
+      "kind": "drone",
+      "dur": 20
+    },
+    "thunder": {
+      "kind": "thunder"
+    },
+    "boom": {
+      "kind": "boom"
+    },
+    "crackle": {
+      "kind": "crackle"
+    },
+    "score-1": {
+      "kind": "score",
+      "dur": 20,
+      "mood": "calm"
+    },
+    "score-2": {
+      "kind": "score",
+      "dur": 20,
+      "mood": "tense"
+    },
+    "score-3": {
+      "kind": "score",
+      "dur": 20,
+      "mood": "epic"
+    },
+    "score-4": {
+      "kind": "score",
+      "dur": 20,
+      "mood": "epic"
+    },
+    "score-5": {
+      "kind": "score",
+      "dur": 20,
+      "mood": "climax"
+    },
+    "score-6": {
+      "kind": "score",
+      "dur": 20,
+      "mood": "serene"
+    },
+    "bell": {
+      "kind": "bell",
+      "pitch": 2
+    }
+  }
+}

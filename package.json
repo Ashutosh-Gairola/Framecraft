@@ -3,6 +3,13 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node harness/compile.test.mjs"
+    "test": "node harness/compile.test.mjs && node harness/voice.test.mjs && node harness/check.test.mjs && node harness/sequence.test.mjs && node harness/sfx.test.mjs && node harness/edit.test.mjs && node harness/refs.test.mjs",
+    "refs": "node harness/refs.js",
+    "sheet": "node harness/sheet.js",
+    "voice": "node harness/voice.js",
+    "check": "node harness/check.js",
+    "sequence": "node harness/sequence.js",
+    "sfx": "node harness/sfx.js",
+    "edit": "node harness/edit.js"
   }
 }

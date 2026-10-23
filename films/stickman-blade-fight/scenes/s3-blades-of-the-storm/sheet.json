@@ -1,0 +1,159 @@
+{
+  "version": 3,
+  "logline": "Phantom rushes in a zigzag of three blue afterimages; Shadow closes his eyes, blocks the real strike, and answers with a full-body spinning slash whose crimson wave throws Phantom through a wooden pillar.",
+  "slug": "stickman-blade-fight-s3-blades-of-the-storm",
+  "seconds": 20,
+  "fps": 24,
+  "frames": 480,
+  "aspect": "16:9",
+  "width": 1920,
+  "height": 1080,
+  "script": "indigo",
+  "colors": {
+    "sky": "#1b2d6b",
+    "ink": "#101628",
+    "moon": "#d5e2ff",
+    "accent": "#e23b4a",
+    "practical": "#f0c36a",
+    "iris": "#e7a04a",
+    "skin": "#f0c2ae",
+    "hair": "#16141c",
+    "sclera": "#f6f3ee",
+    "line": "#e7eefc"
+  },
+  "designColors": {
+    "volt": "#38b6ff"
+  },
+  "style": "ink-cel",
+  "styleReference": "Stickman silhouettes: solid ink and solid white figures, no faces, no line on the figures. Glowing blades as flat light shapes. Speed lines and impact frames.",
+  "animation": "full",
+  "lines": [
+    {
+      "speaker": "Phantom",
+      "text": "Let's see if you can follow this.",
+      "emotion": "joy",
+      "shot": "turn",
+      "source": ""
+    }
+  ],
+  "card": "",
+  "props": "twin blue blades charged with lightning; crimson katana held in both hands; rain freezing for an instant; afterimages; collapsing pillar; six midair clashes with white impact flashes",
+  "voice": {
+    "mode": "line",
+    "speaker": "Phantom",
+    "onScreen": false,
+    "emotion": "neutral",
+    "intensity": 1,
+    "register": "female",
+    "engine": "auto",
+    "voice": "",
+    "lang": "en",
+    "source": "",
+    "speakers": {
+      "Shadow": {
+        "register": "male",
+        "voice": ""
+      },
+      "Phantom": {
+        "register": "male",
+        "voice": ""
+      }
+    }
+  },
+  "cast": [
+    {
+      "name": "Shadow",
+      "slug": "shadow",
+      "kind": "notes",
+      "reference": "A black stickman wielding a crimson energy katana. Fast, aggressive, unpredictable."
+    },
+    {
+      "name": "Phantom",
+      "slug": "phantom",
+      "kind": "notes",
+      "reference": "A white stickman wielding two electric-blue blades. Precise, defensive, and incredibly fast."
+    }
+  ],
+  "motion": [
+    "blade",
+    "strike",
+    "handling",
+    "effects"
+  ],
+  "sequence": {
+    "slug": "stickman-blade-fight",
+    "scene": "s3-blades-of-the-storm",
+    "index": 2,
+    "start": 32,
+    "title": "Blades of the Storm",
+    "root": "../.."
+  },
+  "shots": [
+    {
+      "id": "establish",
+      "label": "Establish",
+      "start": 0,
+      "end": 3,
+      "dur": 3,
+      "sakuga": false,
+      "size": "wide",
+      "camera": "push",
+      "drawings": 3
+    },
+    {
+      "id": "approach",
+      "label": "Approach",
+      "start": 3,
+      "end": 6,
+      "dur": 3,
+      "sakuga": false,
+      "size": "medium",
+      "camera": "pan",
+      "drawings": 3
+    },
+    {
+      "id": "turn",
+      "label": "Turn",
+      "start": 6,
+      "end": 9,
+      "dur": 3,
+      "sakuga": false,
+      "size": "close",
+      "camera": "locked",
+      "drawings": 3
+    },
+    {
+      "id": "sakuga",
+      "label": "Sakuga",
+      "start": 9,
+      "end": 14,
+      "dur": 5,
+      "sakuga": true,
+      "size": "medium",
+      "camera": "shake",
+      "drawings": 8
+    },
+    {
+      "id": "aftermath",
+      "label": "Aftermath",
+      "start": 14,
+      "end": 17.5,
+      "dur": 3.5,
+      "sakuga": false,
+      "size": "wide",
+      "camera": "locked",
+      "drawings": 3
+    },
+    {
+      "id": "button",
+      "label": "Button",
+      "start": 17.5,
+      "end": 20,
+      "dur": 2.5,
+      "sakuga": false,
+      "size": "close",
+      "camera": "locked",
+      "drawings": 3
+    }
+  ]
+}

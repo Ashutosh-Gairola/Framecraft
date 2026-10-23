@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Sky City Duel — html-anime</title>
+    <style>
+      html, body { margin: 0; background: #101628; }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: #101628; }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  </head>
+  <body>
+    <div id="root" data-composition-id="sky-city-duel" data-start="0" data-duration="104" data-width="1920" data-height="1080">
+      <div id="s1-sky-city-host" data-composition-id="s1-sky-city" data-composition-src="compositions/s1-sky-city.html" data-start="0" data-duration="12" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <div id="s2-first-strike-host" data-composition-id="s2-first-strike" data-composition-src="compositions/s2-first-strike.html" data-start="12" data-duration="20" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <div id="s3-among-the-ruins-host" data-composition-id="s3-among-the-ruins" data-composition-src="compositions/s3-among-the-ruins.html" data-start="32" data-duration="20" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <div id="s4-celestial-barrage-host" data-composition-id="s4-celestial-barrage" data-composition-src="compositions/s4-celestial-barrage.html" data-start="52" data-duration="20" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <div id="s5-dragon-and-phoenix-host" data-composition-id="s5-dragon-and-phoenix" data-composition-src="compositions/s5-dragon-and-phoenix.html" data-start="72" data-duration="20" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <div id="s6-last-clash-host" data-composition-id="s6-last-clash" data-composition-src="compositions/s6-last-clash.html" data-start="92" data-duration="12" data-track-index="1" data-width="1920" data-height="1080"></div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      window.__timelines["sky-city-duel"] = gsap.timeline({ paused: true });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,43 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; background: #fff6e4; }
+    .s3-the-shrine-cv { position: absolute; inset: 0; width: 1920px; height: 1080px; display: block; }
+  </style>
+  <div id="root" data-composition-id="s3-the-shrine" data-start="0" data-duration="20" data-width="1920" data-height="1080">
+    <canvas id="s3-the-shrine-cv" class="clip s3-the-shrine-cv" data-start="0" data-duration="20" data-track-index="1" width="1920" height="1080"></canvas>
+    <audio id="s3-the-shrine-fx0" class="clip" src="assets/sfx/wind-20.wav" data-start="0" data-duration="20" data-track-index="20" data-volume="0.5"></audio>
+    <audio id="s3-the-shrine-fx1" class="clip" src="assets/sfx/score-a.wav" data-start="0" data-duration="20" data-track-index="21" data-volume="0.45"></audio>
+    <audio id="s3-the-shrine-fx2" class="clip" src="assets/sfx/bell.wav" data-start="4" data-duration="7" data-track-index="22" data-volume="0.6"></audio>
+    <audio id="s3-the-shrine-fx3" class="clip" src="assets/sfx/bell-hi.wav" data-start="9.5" data-duration="7" data-track-index="23" data-volume="0.4"></audio>
+    <audio id="s3-the-shrine-fx4" class="clip" src="assets/sfx/bell.wav" data-start="15" data-duration="5" data-track-index="22" data-volume="0.5"></audio>
+  </div>
+  <script>
+    (function () {
+      // The sheet's paints: the world derives every color from these.
+      const PAINT = {"sky":"#f2d7ae","ink":"#2c261f","moon":"#fff6e4","accent":"#c4452d","practical":"#fffaf2","iris":"#5c3d32","skin":"#f0c2ae","hair":"#241c16","sclera":"#f6f3ee","line":"#241c16","pine":"#2e5b3c","meadow":"#7fa255","glacier":"#9fc1d6"};
+      window.__hf = window.__hf || {};
+      window.__hf.buildReady = window.__hf.buildReady || {};
+      let ready;
+      const built = new Promise((resolve) => (ready = resolve));
+      window.__hf.buildReady["s3-the-shrine"] = built;
+      let render = null;
+      let pending = 40;
+      // HyperFrames sends film time; the world is one continuous path across every scene.
+      window.addEventListener("hf-seek", (e) => {
+        pending = e.detail.time;
+        if (render) render(pending);
+        else if (e.detail.waitUntil) e.detail.waitUntil(built.then(() => render && render(pending)));
+      });
+      // "./": a dynamic import without it is a bare package name and never loads.
+      import("./assets/world.js")
+        .then((world) => {
+          render = world.createWorld(document.getElementById("s3-the-shrine-cv"), PAINT).render;
+          render(pending);
+        })
+        .catch((error) => console.error("s3-the-shrine: the world failed to load", error))
+        .finally(() => ready());
+      window.__timelines = window.__timelines || {};
+      window.__timelines["s3-the-shrine"] = gsap.timeline({ paused: true });
+    })();
+  </script>
+</template>

@@ -1,0 +1,111 @@
+{
+  "version": 1,
+  "kind": "sequence",
+  "title": "Sky City Duel",
+  "slug": "sky-city-duel",
+  "fps": 24,
+  "frames": 2496,
+  "seconds": 104,
+  "aspect": "16:9",
+  "width": 1920,
+  "height": 1080,
+  "script": "indigo",
+  "colors": {
+    "sky": "#1b2d6b",
+    "ink": "#101628",
+    "moon": "#d5e2ff",
+    "accent": "#e23b4a",
+    "practical": "#f0c36a",
+    "iris": "#e7a04a",
+    "skin": "#f0c2ae",
+    "hair": "#16141c",
+    "sclera": "#f6f3ee",
+    "line": "#e7eefc"
+  },
+  "designColors": {},
+  "style": "painted-world",
+  "styleReference": "Premium cinematic anime: dramatic cel shading, atmospheric perspective over clouds, rich red-gold contrast, impact frames, speed ramps. No narration, no subtitles, no logos.",
+  "cast": [
+    {
+      "name": "Kuro",
+      "slug": "kuro",
+      "kind": "notes",
+      "reference": "Silver-haired swordsman, long black coat with glowing crimson markings, katana forged from dark energy."
+    },
+    {
+      "name": "Seren",
+      "slug": "seren",
+      "kind": "notes",
+      "reference": "Female warrior, flowing white hair, golden eyes, elegant black-and-gold armor, a pair of luminous celestial blades."
+    }
+  ],
+  "motion": [
+    "blade",
+    "cloth-hair",
+    "effects",
+    "strike",
+    "locomotion"
+  ],
+  "scenes": [
+    {
+      "id": "s1-sky-city",
+      "title": "The Sky City",
+      "index": 0,
+      "start": 0,
+      "seconds": 12,
+      "dir": "scenes/s1-sky-city",
+      "composition": "compositions/s1-sky-city.html",
+      "lines": 0
+    },
+    {
+      "id": "s2-first-strike",
+      "title": "First Strike",
+      "index": 1,
+      "start": 12,
+      "seconds": 20,
+      "dir": "scenes/s2-first-strike",
+      "composition": "compositions/s2-first-strike.html",
+      "lines": 0
+    },
+    {
+      "id": "s3-among-the-ruins",
+      "title": "Among the Ruins",
+      "index": 2,
+      "start": 32,
+      "seconds": 20,
+      "dir": "scenes/s3-among-the-ruins",
+      "composition": "compositions/s3-among-the-ruins.html",
+      "lines": 0
+    },
+    {
+      "id": "s4-celestial-barrage",
+      "title": "Celestial Barrage",
+      "index": 3,
+      "start": 52,
+      "seconds": 20,
+      "dir": "scenes/s4-celestial-barrage",
+      "composition": "compositions/s4-celestial-barrage.html",
+      "lines": 0
+    },
+    {
+      "id": "s5-dragon-and-phoenix",
+      "title": "Dragon and Phoenix",
+      "index": 4,
+      "start": 72,
+      "seconds": 20,
+      "dir": "scenes/s5-dragon-and-phoenix",
+      "composition": "compositions/s5-dragon-and-phoenix.html",
+      "lines": 0
+    },
+    {
+      "id": "s6-last-clash",
+      "title": "The Last Clash",
+      "index": 5,
+      "start": 92,
+      "seconds": 12,
+      "dir": "scenes/s6-last-clash",
+      "composition": "compositions/s6-last-clash.html",
+      "lines": 0
+    }
+  ]
+}

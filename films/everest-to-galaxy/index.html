@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Everest to the Galaxy — html-anime</title>
+    <style>
+      html, body { margin: 0; background: #d5e2ff; }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: #d5e2ff; }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  </head>
+  <body>
+    <div id="root" data-composition-id="everest-to-galaxy" data-start="0" data-duration="120" data-width="1920" data-height="1080">
+      <div id="s1-everest-host" data-composition-id="s1-everest" data-composition-src="compositions/s1-everest.html" data-start="0" data-duration="20" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <div id="s2-volcano-host" data-composition-id="s2-volcano" data-composition-src="compositions/s2-volcano.html" data-start="20" data-duration="20" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <div id="s3-earth-host" data-composition-id="s3-earth" data-composition-src="compositions/s3-earth.html" data-start="40" data-duration="20" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <div id="s4-space-host" data-composition-id="s4-space" data-composition-src="compositions/s4-space.html" data-start="60" data-duration="20" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <div id="s5-solar-system-host" data-composition-id="s5-solar-system" data-composition-src="compositions/s5-solar-system.html" data-start="80" data-duration="20" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <div id="s6-milky-way-host" data-composition-id="s6-milky-way" data-composition-src="compositions/s6-milky-way.html" data-start="100" data-duration="20" data-track-index="1" data-width="1920" data-height="1080"></div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      window.__timelines["everest-to-galaxy"] = gsap.timeline({ paused: true });
+    </script>
+  </body>
+</html>

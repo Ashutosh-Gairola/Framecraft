@@ -1,0 +1,101 @@
+{
+  "version": 1,
+  "kind": "sequence",
+  "title": "Everest to the Galaxy",
+  "slug": "everest-to-galaxy",
+  "fps": 24,
+  "frames": 2880,
+  "seconds": 120,
+  "aspect": "16:9",
+  "width": 1920,
+  "height": 1080,
+  "script": "indigo",
+  "colors": {
+    "sky": "#1b2d6b",
+    "ink": "#101628",
+    "moon": "#d5e2ff",
+    "accent": "#e23b4a",
+    "practical": "#f0c36a",
+    "iris": "#e7a04a",
+    "skin": "#f0c2ae",
+    "hair": "#16141c",
+    "sclera": "#f6f3ee",
+    "line": "#e7eefc"
+  },
+  "designColors": {
+    "ocean": "#1e5aa0",
+    "land": "#4f7d3a",
+    "cyan": "#6fd3e6"
+  },
+  "style": "painted-world",
+  "styleReference": "Cinematic realism in three.js: physically inspired light, one continuous camera journey from Everest to the Milky Way, transitions through cloud, smoke, haze, and scale. No cuts, no text, no logos.",
+  "cast": [],
+  "motion": [
+    "cloth-hair",
+    "effects",
+    "handling",
+    "locomotion"
+  ],
+  "scenes": [
+    {
+      "id": "s1-everest",
+      "title": "The Roof of the World",
+      "index": 0,
+      "start": 0,
+      "seconds": 20,
+      "dir": "scenes/s1-everest",
+      "composition": "compositions/s1-everest.html",
+      "lines": 0
+    },
+    {
+      "id": "s2-volcano",
+      "title": "Fire and Earth",
+      "index": 1,
+      "start": 20,
+      "seconds": 20,
+      "dir": "scenes/s2-volcano",
+      "composition": "compositions/s2-volcano.html",
+      "lines": 0
+    },
+    {
+      "id": "s3-earth",
+      "title": "Earth From Above",
+      "index": 2,
+      "start": 40,
+      "seconds": 20,
+      "dir": "scenes/s3-earth",
+      "composition": "compositions/s3-earth.html",
+      "lines": 0
+    },
+    {
+      "id": "s4-space",
+      "title": "Leaving Earth",
+      "index": 3,
+      "start": 60,
+      "seconds": 20,
+      "dir": "scenes/s4-space",
+      "composition": "compositions/s4-space.html",
+      "lines": 0
+    },
+    {
+      "id": "s5-solar-system",
+      "title": "The Solar System",
+      "index": 4,
+      "start": 80,
+      "seconds": 20,
+      "dir": "scenes/s5-solar-system",
+      "composition": "compositions/s5-solar-system.html",
+      "lines": 0
+    },
+    {
+      "id": "s6-milky-way",
+      "title": "The Milky Way",
+      "index": 5,
+      "start": 100,
+      "seconds": 20,
+      "dir": "scenes/s6-milky-way",
+      "composition": "compositions/s6-milky-way.html",
+      "lines": 0
+    }
+  ]
+}

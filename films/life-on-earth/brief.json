@@ -1,0 +1,18 @@
+{
+  "title": "Life on Earth",
+  "slug": "life-on-earth",
+  "aspect": "16:9",
+  "script": "indigo",
+  "style": "painted-world",
+  "styleReference": "Nature-documentary realism in three.js: physically inspired light, one continuous camera journey from a coral reef to the coast, the countryside, a city, and a forest, joined by bubbles, a surface break, a road, and birds in flight. No cuts, no text, no logos.",
+  "animation": "full",
+  "designColors": { "ocean": "#1e5aa0", "land": "#4f7d3a", "cyan": "#6fd3e6" },
+  "scenes": [
+    { "id": "s1-underwater", "title": "The Mysterious Underwater World", "seconds": 20, "logline": "Beneath turquoise water sunbeams fall on a coral reef; the camera glides between coral heads past reef fish, a sea turtle, rays, and clownfish in anemones, rises over a silver school turning in patterns, sees a whale pass in the blue, and follows rising bubbles up through the surface.", "props": "coral; anemones; sea grass; rock arch; reef fish; silver school; turtle; rays; clownfish; whale; bubbles; light rays; caustics" },
+    { "id": "s2-coast", "title": "Coastal Life", "seconds": 20, "logline": "Out of the water a golden beach and green hills appear; low over the waves, then a drone sweep along the coast past a fishing village and boats, a tracking shot along the beach with people and crabs, and a turn inland over fields.", "props": "waves; beach; tide pools; seabirds; pelicans; crabs; fishermen; boats; fishing village; coastal grass" },
+    { "id": "s3-countryside", "title": "Peaceful Rural Life", "seconds": 20, "logline": "From high above the countryside the camera descends to follow a farmer between crop rows, passes cattle and buffaloes at a pond, goats, chickens and ducks, villagers by the river, and reveals the whole village before following the road away.", "props": "fields; crops; village; river; pond; farmers; villagers; children; cattle; buffaloes; goats; chickens; ducks; oxen; chimney smoke; butterflies" },
+    { "id": "s4-city", "title": "Bustling Modern City", "seconds": 20, "logline": "The road widens into a city; a drone reveals the skyline, flies down between glass towers to a street with pedestrians, cyclists and traffic, looks up between the towers, and cranes over a green park before following birds out of the city.", "props": "skyscrapers; streets; crossings; traffic; trams; pedestrians; cyclists; park; pigeons; crows; trees; reflections" },
+    { "id": "s5-forest", "title": "The Living Forest", "seconds": 20, "logline": "Over the suburbs the birds lead to a vast forest; the camera descends into a misty clearing where deer cross a trail, tracks low through ferns to a stream with fish, frogs and dragonflies, tilts up a towering trunk, and rises above the canopy beside an eagle.", "props": "trees; ferns; moss; mushrooms; fallen logs; stream; deer; fox; rabbits; squirrels; songbirds; butterflies; dragonflies; frogs; eagle; mist; light shafts" },
+    { "id": "s6-connection", "title": "The Grand Connection of All Life", "seconds": 20, "logline": "Rising above the forest at golden hour, the camera pulls back over rivers, farmland, villages, suburbs, the city, and the coast to the shining ocean and the mountains, and settles on the whole living landscape.", "props": "golden hour; river; forest; farmland; city; coast; ocean; mountains; birds" }
+  ]
+}

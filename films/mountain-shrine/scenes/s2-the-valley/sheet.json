@@ -1,0 +1,119 @@
+{
+  "version": 3,
+  "logline": "The camera flies forward low through the valley over pine forests, a winding river, a wooden bridge and a lake reflecting the peaks, with waterfalls in the mist and birds gliding past.",
+  "slug": "mountain-shrine-s2-the-valley",
+  "seconds": 20,
+  "fps": 24,
+  "frames": 480,
+  "aspect": "16:9",
+  "width": 1920,
+  "height": 1080,
+  "script": "noon",
+  "colors": {
+    "sky": "#f2d7ae",
+    "ink": "#2c261f",
+    "moon": "#fff6e4",
+    "accent": "#c4452d",
+    "practical": "#fffaf2",
+    "iris": "#5c3d32",
+    "skin": "#f0c2ae",
+    "hair": "#241c16",
+    "sclera": "#f6f3ee",
+    "line": "#241c16"
+  },
+  "designColors": {
+    "pine": "#2e5b3c",
+    "meadow": "#7fa255",
+    "glacier": "#9fc1d6"
+  },
+  "style": "painted-world",
+  "styleReference": "Cinematic realism in three.js: golden-hour light, atmospheric perspective, volumetric fog and cloud, smooth drone moves. No cuts, no shake, no text, no logos.",
+  "animation": "full",
+  "lines": [],
+  "card": "",
+  "props": "pine forest; river; wooden bridge; lake reflections; waterfalls; birds; wildflowers in the wind",
+  "voice": {
+    "mode": "off"
+  },
+  "cast": [],
+  "motion": [
+    "handling",
+    "cloth-hair"
+  ],
+  "sequence": {
+    "slug": "mountain-shrine",
+    "scene": "s2-the-valley",
+    "index": 1,
+    "start": 20,
+    "title": "The Valley",
+    "root": "../.."
+  },
+  "shots": [
+    {
+      "id": "establish",
+      "label": "Establish",
+      "start": 0,
+      "end": 3,
+      "dur": 3,
+      "sakuga": false,
+      "size": "wide",
+      "camera": "push",
+      "drawings": 3
+    },
+    {
+      "id": "approach",
+      "label": "Approach",
+      "start": 3,
+      "end": 6,
+      "dur": 3,
+      "sakuga": false,
+      "size": "medium",
+      "camera": "pan",
+      "drawings": 3
+    },
+    {
+      "id": "turn",
+      "label": "Turn",
+      "start": 6,
+      "end": 9,
+      "dur": 3,
+      "sakuga": false,
+      "size": "close",
+      "camera": "locked",
+      "drawings": 3
+    },
+    {
+      "id": "sakuga",
+      "label": "Sakuga",
+      "start": 9,
+      "end": 14,
+      "dur": 5,
+      "sakuga": true,
+      "size": "medium",
+      "camera": "shake",
+      "drawings": 8
+    },
+    {
+      "id": "aftermath",
+      "label": "Aftermath",
+      "start": 14,
+      "end": 17.5,
+      "dur": 3.5,
+      "sakuga": false,
+      "size": "wide",
+      "camera": "locked",
+      "drawings": 3
+    },
+    {
+      "id": "button",
+      "label": "Button",
+      "start": 17.5,
+      "end": 20,
+      "dur": 2.5,
+      "sakuga": false,
+      "size": "close",
+      "camera": "locked",
+      "drawings": 3
+    }
+  ]
+}

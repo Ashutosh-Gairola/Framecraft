@@ -1,0 +1,32 @@
+{
+  "lang": "en",
+  "onScreen": false,
+  "lines": [
+    {
+      "index": 1,
+      "text": "Let's see if you can follow this.",
+      "speaker": "Phantom",
+      "shot": "turn",
+      "emotion": "joy",
+      "intensity": 1,
+      "engine": "say",
+      "voice": "Rishi",
+      "tempo": 1,
+      "file": "assets/voice/s3-blades-of-the-storm/line-1.wav",
+      "start": 6.417,
+      "duration": 1.871,
+      "jcut": false,
+      "mouth": {
+        "onTwos": true,
+        "prefix": "mouth",
+        "shapes": [
+          "closed",
+          "mid",
+          "open"
+        ],
+        "keys": []
+      },
+      "audio": "<audio id=\"vo-s3-blades-of-the-storm-1\" class=\"clip\" src=\"assets/voice/s3-blades-of-the-storm/line-1.wav\" data-start=\"6.417\" data-duration=\"1.871\" data-track-index=\"9\" data-volume=\"1\"></audio>"
+    }
+  ]
+}

@@ -1,0 +1,119 @@
+{
+  "version": 3,
+  "logline": "Through the clouds a colossal active volcano appears over black lava fields; glowing lava flows down its slopes, the crater bubbles, and the camera sweeps around it and rises through the towering plume.",
+  "slug": "everest-to-galaxy-s2-volcano",
+  "seconds": 20,
+  "fps": 24,
+  "frames": 480,
+  "aspect": "16:9",
+  "width": 1920,
+  "height": 1080,
+  "script": "indigo",
+  "colors": {
+    "sky": "#1b2d6b",
+    "ink": "#101628",
+    "moon": "#d5e2ff",
+    "accent": "#e23b4a",
+    "practical": "#f0c36a",
+    "iris": "#e7a04a",
+    "skin": "#f0c2ae",
+    "hair": "#16141c",
+    "sclera": "#f6f3ee",
+    "line": "#e7eefc"
+  },
+  "designColors": {
+    "ocean": "#1e5aa0",
+    "land": "#4f7d3a",
+    "cyan": "#6fd3e6"
+  },
+  "style": "painted-world",
+  "styleReference": "Cinematic realism in three.js: physically inspired light, one continuous camera journey from Everest to the Milky Way, transitions through cloud, smoke, haze, and scale. No cuts, no text, no logos.",
+  "animation": "full",
+  "lines": [],
+  "card": "",
+  "props": "lava flows; bubbling crater; smoke plume; ash particles; black lava fields; fire glow",
+  "voice": {
+    "mode": "off"
+  },
+  "cast": [],
+  "motion": [
+    "handling",
+    "effects"
+  ],
+  "sequence": {
+    "slug": "everest-to-galaxy",
+    "scene": "s2-volcano",
+    "index": 1,
+    "start": 20,
+    "title": "Fire and Earth",
+    "root": "../.."
+  },
+  "shots": [
+    {
+      "id": "establish",
+      "label": "Establish",
+      "start": 0,
+      "end": 3,
+      "dur": 3,
+      "sakuga": false,
+      "size": "wide",
+      "camera": "push",
+      "drawings": 3
+    },
+    {
+      "id": "approach",
+      "label": "Approach",
+      "start": 3,
+      "end": 6,
+      "dur": 3,
+      "sakuga": false,
+      "size": "medium",
+      "camera": "pan",
+      "drawings": 3
+    },
+    {
+      "id": "turn",
+      "label": "Turn",
+      "start": 6,
+      "end": 9,
+      "dur": 3,
+      "sakuga": false,
+      "size": "close",
+      "camera": "locked",
+      "drawings": 3
+    },
+    {
+      "id": "sakuga",
+      "label": "Sakuga",
+      "start": 9,
+      "end": 14,
+      "dur": 5,
+      "sakuga": true,
+      "size": "medium",
+      "camera": "shake",
+      "drawings": 8
+    },
+    {
+      "id": "aftermath",
+      "label": "Aftermath",
+      "start": 14,
+      "end": 17.5,
+      "dur": 3.5,
+      "sakuga": false,
+      "size": "wide",
+      "camera": "locked",
+      "drawings": 3
+    },
+    {
+      "id": "button",
+      "label": "Button",
+      "start": 17.5,
+      "end": 20,
+      "dur": 2.5,
+      "sakuga": false,
+      "size": "close",
+      "camera": "locked",
+      "drawings": 3
+    }
+  ]
+}

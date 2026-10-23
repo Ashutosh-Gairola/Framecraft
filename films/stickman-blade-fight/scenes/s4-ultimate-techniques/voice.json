@@ -1,0 +1,58 @@
+{
+  "lang": "en",
+  "onScreen": false,
+  "lines": [
+    {
+      "index": 1,
+      "text": "Enough.",
+      "speaker": "Shadow",
+      "shot": "approach",
+      "emotion": "angry",
+      "intensity": 1,
+      "engine": "say",
+      "voice": "Daniel",
+      "tempo": 1,
+      "file": "assets/voice/s4-ultimate-techniques/line-1.wav",
+      "start": 3.417,
+      "duration": 0.474,
+      "jcut": false,
+      "mouth": {
+        "onTwos": true,
+        "prefix": "shadow-mouth",
+        "shapes": [
+          "closed",
+          "mid",
+          "open"
+        ],
+        "keys": []
+      },
+      "audio": "<audio id=\"vo-s4-ultimate-techniques-1\" class=\"clip\" src=\"assets/voice/s4-ultimate-techniques/line-1.wav\" data-start=\"3.417\" data-duration=\"0.474\" data-track-index=\"9\" data-volume=\"1\"></audio>"
+    },
+    {
+      "index": 2,
+      "text": "Not this time.",
+      "speaker": "Phantom",
+      "shot": "turn",
+      "emotion": "resolve",
+      "intensity": 1,
+      "engine": "say",
+      "voice": "Rishi",
+      "tempo": 1,
+      "file": "assets/voice/s4-ultimate-techniques/line-2.wav",
+      "start": 6.417,
+      "duration": 0.941,
+      "jcut": false,
+      "mouth": {
+        "onTwos": true,
+        "prefix": "phantom-mouth",
+        "shapes": [
+          "closed",
+          "mid",
+          "open"
+        ],
+        "keys": []
+      },
+      "audio": "<audio id=\"vo-s4-ultimate-techniques-2\" class=\"clip\" src=\"assets/voice/s4-ultimate-techniques/line-2.wav\" data-start=\"6.417\" data-duration=\"0.941\" data-track-index=\"10\" data-volume=\"1\"></audio>"
+    }
+  ]
+}

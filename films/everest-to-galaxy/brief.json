@@ -1,0 +1,18 @@
+{
+  "title": "Everest to the Galaxy",
+  "slug": "everest-to-galaxy",
+  "aspect": "16:9",
+  "script": "indigo",
+  "style": "painted-world",
+  "styleReference": "Cinematic realism in three.js: physically inspired light, one continuous camera journey from Everest to the Milky Way, transitions through cloud, smoke, haze, and scale. No cuts, no text, no logos.",
+  "animation": "full",
+  "designColors": { "ocean": "#1e5aa0", "land": "#4f7d3a", "cyan": "#6fd3e6" },
+  "scenes": [
+    { "id": "s1-everest", "title": "The Roof of the World", "seconds": 20, "logline": "At sunrise a drone glides toward Everest above a sea of clouds, golden light on the summit, snow blowing off the ridges; it passes just over the peak and rises into the sky.", "props": "snow; glaciers; blowing snow; thin clouds; golden sunrise light; wind" },
+    { "id": "s2-volcano", "title": "Fire and Earth", "seconds": 20, "logline": "Through the clouds a colossal active volcano appears over black lava fields; glowing lava flows down its slopes, the crater bubbles, and the camera sweeps around it and rises through the towering plume.", "props": "lava flows; bubbling crater; smoke plume; ash particles; black lava fields; fire glow" },
+    { "id": "s3-earth", "title": "Earth From Above", "seconds": 20, "logline": "The smoke becomes cloud as the camera climbs to the edge of space; Earth's curve, oceans, continents, cloud systems and thin blue glow appear, the night side lit by cities, until the whole planet hangs in the dark.", "props": "atmosphere glow; clouds; oceans; continents; city lights; day and night" },
+    { "id": "s4-space", "title": "Leaving Earth", "seconds": 20, "logline": "Beyond the atmosphere the sky turns black; the Moon and satellites appear, stars come out, and Earth shrinks beneath the camera as it accelerates gently into space.", "props": "the Moon; satellites; stars; sunlight on Earth" },
+    { "id": "s5-solar-system", "title": "The Solar System", "seconds": 20, "logline": "The Sun blazes as the camera travels past Mercury, Venus, Mars, Jupiter's storms, Saturn's rings, and the blue giants Uranus and Neptune.", "props": "the Sun; Mercury; Venus; Mars; Jupiter; Saturn's rings; Uranus; Neptune" },
+    { "id": "s6-milky-way", "title": "The Milky Way", "seconds": 20, "logline": "The solar system becomes a speck and the Milky Way spreads out, spiral arms of stars, pink nebulae, dark dust lanes and a golden core, as the camera rises and pulls back to a gentle stop.", "props": "spiral arms; nebulae; dust lanes; the galactic core; star clusters" }
+  ]
+}

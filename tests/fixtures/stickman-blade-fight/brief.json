@@ -1,0 +1,67 @@
+{
+  "title": "Stickman Blade Fight",
+  "slug": "stickman-blade-fight",
+  "aspect": "16:9",
+  "script": "indigo",
+  "style": "ink-cel",
+  "styleReference": "Stickman silhouettes: solid ink and solid white figures, no faces, no line on the figures. Glowing blades as flat light shapes. Speed lines and impact frames.",
+  "cast": [
+    { "name": "Shadow", "reference": "A black stickman wielding a crimson energy katana. Fast, aggressive, unpredictable." },
+    { "name": "Phantom", "reference": "A white stickman wielding two electric-blue blades. Precise, defensive, and incredibly fast." }
+  ],
+  "designColors": { "volt": "#38b6ff" },
+  "voice": {
+    "mode": "line",
+    "onScreen": false,
+    "speakers": { "Shadow": { "register": "male" }, "Phantom": { "register": "male" } }
+  },
+  "scenes": [
+    {
+      "id": "s1-encounter",
+      "title": "The Encounter",
+      "seconds": 12,
+      "logline": "In an abandoned temple at night in a thunderstorm, Shadow waits on a broken stair, and Phantom appears on the opposite rooftop in a flash of blue lightning and draws both blades.",
+      "props": "crimson energy katana pointed at the ground; twin electric-blue blades; diagonal rain; lightning; cherry blossom petals",
+      "lines": [
+        { "speaker": "Shadow", "text": "You came all this way just to lose?", "emotion": "cold", "shot": "approach" },
+        { "speaker": "Phantom", "text": "I came to end this.", "emotion": "resolve", "shot": "button" }
+      ]
+    },
+    {
+      "id": "s2-first-clash",
+      "title": "First Clash",
+      "seconds": 20,
+      "logline": "Phantom dashes in a blue streak and slashes; Shadow pivots past it, spins, and his crimson katana slams into Phantom's crossed blades in a burst of red and blue sparks that shatters the roof tiles.",
+      "props": "crimson katana; twin blue blades crossed to block; sparks; shockwave; wet stone cracking; Phantom slides back; three-strike combination ends with the crimson blade splitting the courtyard"
+    },
+    {
+      "id": "s3-blades-of-the-storm",
+      "title": "Blades of the Storm",
+      "seconds": 20,
+      "logline": "Phantom rushes in a zigzag of three blue afterimages; Shadow closes his eyes, blocks the real strike, and answers with a full-body spinning slash whose crimson wave throws Phantom through a wooden pillar.",
+      "props": "twin blue blades charged with lightning; crimson katana held in both hands; rain freezing for an instant; afterimages; collapsing pillar; six midair clashes with white impact flashes",
+      "lines": [
+        { "speaker": "Phantom", "text": "Let's see if you can follow this.", "emotion": "joy", "shot": "turn" }
+      ]
+    },
+    {
+      "id": "s4-ultimate-techniques",
+      "title": "Ultimate Techniques",
+      "seconds": 20,
+      "logline": "Shadow raises his blade and a burning crimson crescent moon forms behind him; Phantom rises in a column of blue lightning, crossing his blades in an X, and the two ultimate attacks collide in a shockwave that tears the storm clouds open.",
+      "props": "crimson moon arc; levitating stones; Thunder Gate X-shaped energy trail; half a second of silence; circular shockwave; roof tiles flying; rain pushed away in a ring; white flash",
+      "lines": [
+        { "speaker": "Shadow", "text": "Enough.", "emotion": "angry", "shot": "approach" },
+        { "speaker": "Phantom", "text": "Not this time.", "emotion": "resolve", "shot": "turn" }
+      ]
+    },
+    {
+      "id": "s5-final-frame",
+      "title": "The Final Frame",
+      "seconds": 12,
+      "logline": "In the smoking courtyard Phantom rises from his knees and makes one final dash; the two silhouettes pass each other, a thin red line flashes across the screen, and one blade falls to the stone.",
+      "props": "cracked crimson katana; one blue blade embedded in the stone; a tiny blue spark; smoke; rain resumes; lightning",
+      "card": "THE BATTLE IS NOT OVER."
+    }
+  ]
+}

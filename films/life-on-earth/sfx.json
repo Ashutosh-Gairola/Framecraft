@@ -1,0 +1,83 @@
+{
+  "sounds": {
+    "underwater-20": {
+      "kind": "underwater",
+      "dur": 20
+    },
+    "bubbles": {
+      "kind": "bubbles",
+      "dur": 4.5
+    },
+    "whoosh": {
+      "kind": "whoosh"
+    },
+    "surf-20": {
+      "kind": "surf",
+      "dur": 20
+    },
+    "gulls-20": {
+      "kind": "gulls",
+      "dur": 20
+    },
+    "wind-20": {
+      "kind": "wind",
+      "dur": 20
+    },
+    "birds-20": {
+      "kind": "birds",
+      "dur": 20
+    },
+    "stream-20": {
+      "kind": "stream",
+      "dur": 20
+    },
+    "moo": {
+      "kind": "moo"
+    },
+    "moo-low": {
+      "kind": "moo",
+      "pitch": 0.85
+    },
+    "traffic-20": {
+      "kind": "traffic",
+      "dur": 20
+    },
+    "insects-20": {
+      "kind": "insects",
+      "dur": 20
+    },
+    "woodpecker": {
+      "kind": "woodpecker"
+    },
+    "score-1": {
+      "kind": "score",
+      "dur": 20,
+      "mood": "serene"
+    },
+    "score-2": {
+      "kind": "score",
+      "dur": 20,
+      "mood": "warm"
+    },
+    "score-3": {
+      "kind": "score",
+      "dur": 20,
+      "mood": "calm"
+    },
+    "score-4": {
+      "kind": "score",
+      "dur": 20,
+      "mood": "epic"
+    },
+    "score-5": {
+      "kind": "score",
+      "dur": 20,
+      "mood": "wonder"
+    },
+    "score-6": {
+      "kind": "score",
+      "dur": 20,
+      "mood": "warm"
+    }
+  }
+}

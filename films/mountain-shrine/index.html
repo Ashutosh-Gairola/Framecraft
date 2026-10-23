@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Mountain Shrine — html-anime</title>
+    <style>
+      html, body { margin: 0; background: #fff6e4; }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: #fff6e4; }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  </head>
+  <body>
+    <div id="root" data-composition-id="mountain-shrine" data-start="0" data-duration="80" data-width="1920" data-height="1080">
+      <div id="s1-above-the-clouds-host" data-composition-id="s1-above-the-clouds" data-composition-src="compositions/s1-above-the-clouds.html" data-start="0" data-duration="20" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <div id="s2-the-valley-host" data-composition-id="s2-the-valley" data-composition-src="compositions/s2-the-valley.html" data-start="20" data-duration="20" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <div id="s3-the-shrine-host" data-composition-id="s3-the-shrine" data-composition-src="compositions/s3-the-shrine.html" data-start="40" data-duration="20" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <div id="s4-the-range-host" data-composition-id="s4-the-range" data-composition-src="compositions/s4-the-range.html" data-start="60" data-duration="20" data-track-index="1" data-width="1920" data-height="1080"></div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      window.__timelines["mountain-shrine"] = gsap.timeline({ paused: true });
+    </script>
+  </body>
+</html>
