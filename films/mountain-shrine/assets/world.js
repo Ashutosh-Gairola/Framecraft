@@ -9,6 +9,7 @@
  */
 
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
+import { flock, herd, robed, swarm, loopFlight, xf, merge } from "./lib.js";
 
 const W = 1920;
 const H = 1080;
@@ -441,13 +442,21 @@ let shared = null;
  * A scene's view of the world. The world is built once per page and drawn by one WebGL
  * renderer; each scene's 2D canvas copies the frame, so four scenes cost one build.
  */
-export function createWorld(canvas, PAINT) {
+export function createWorld(canvas, sheetPaint) {
+  // The sheet carries azure and gold; the land's meadow and glacier tones are blends of them.
+  const PAINT = { ...sheetPaint };
+  const mixHex = (a, b, u) => `#${new THREE.Color(a).lerp(new THREE.Color(b), u).getHexString()}`;
+  PAINT.meadow = PAINT.meadow ?? mixHex(mixHex(PAINT.pine, PAINT.gold, 0.3), PAINT.azure, 0.08);
+  PAINT.glacier = PAINT.glacier ?? mixHex(PAINT.azure, PAINT.sclera, 0.6);
   if (!shared) shared = buildWorld(PAINT);
   const ctx = canvas.getContext("2d");
   return {
     render(t) {
       shared.render(t);
+      // One grade pass on the finished frame: true contrast, living colour.
+      ctx.filter = "contrast(1.08) saturate(1.3)";
       ctx.drawImage(shared.canvas, 0, 0, canvas.width, canvas.height);
+      ctx.filter = "none";
     },
   };
 }
@@ -465,11 +474,11 @@ function buildWorld(PAINT) {
   renderer.setSize(W, H, false);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 0.95;
+  renderer.toneMappingExposure = 1.0;
 
   const scene = new THREE.Scene();
-  const haze = blend("sky", "moon", 0.35);
-  scene.fog = new THREE.FogExp2(haze, 0.00042);
+  const haze = blend("azure", "sclera", 0.62);
+  scene.fog = new THREE.FogExp2(haze, 0.00026);
   const camera = new THREE.PerspectiveCamera(36, W / H, 1, 9000);
 
   // Sun: low in the east-south-east, rising a little over the film.
@@ -483,8 +492,8 @@ function buildWorld(PAINT) {
   // Sky dome: deep blue overhead, warm at the horizon, a glow around the sun.
   const skyGeo = new THREE.SphereGeometry(6000, 48, 24);
   const skyCol = [];
-  const zenith = blend("glacier", "ink", 0.25);
-  const horizon = blend("sky", "moon", 0.4);
+  const zenith = blend("azure", "ink", 0.28);
+  const horizon = blend("azure", "sclera", 0.48);
   const glow = blend("moon", "practical", 0.5);
   const s0 = sunAt(0).clone();
   const pos = skyGeo.attributes.position;
@@ -508,8 +517,8 @@ function buildWorld(PAINT) {
   scene.environment = pmrem.fromScene(envScene, 0.04).texture;
 
   // Light.
-  const sun = new THREE.DirectionalLight(blend("sky", "practical", 0.45), 2.6);
-  const hemi = new THREE.HemisphereLight(blend("glacier", "moon", 0.4), blend("meadow", "sky", 0.3), 1.0);
+  const sun = new THREE.DirectionalLight(blend("sky", "practical", 0.5), 3.0);
+  const hemi = new THREE.HemisphereLight(blend("azure", "sclera", 0.45), blend("meadow", "sky", 0.4), 1.5);
   scene.add(sun, hemi);
 
   // Terrain, colored by height and slope.
@@ -581,7 +590,7 @@ function buildWorld(PAINT) {
   const ripples = rippleTexture();
   const water = new THREE.Mesh(
     new THREE.PlaneGeometry(tSize, tSize),
-    new THREE.MeshStandardMaterial({ color: blend("glacier", "pine", 0.35), roughness: 0.06, metalness: 0.2, normalMap: ripples, normalScale: new THREE.Vector2(0.35, 0.35), envMapIntensity: 1.2 }),
+    new THREE.MeshStandardMaterial({ color: blend("azure", "pine", 0.45).multiplyScalar(0.8), roughness: 0.06, metalness: 0.2, normalMap: ripples, normalScale: new THREE.Vector2(0.35, 0.35), envMapIntensity: 1.2 }),
   );
   water.rotation.x = -Math.PI / 2;
   water.position.y = WATER;
@@ -693,177 +702,174 @@ function buildWorld(PAINT) {
     falls.push(tex);
   }
 
-  // The shrine on the summit: a three-tier pagoda on a railed stone plinth.
-  const stone = new THREE.MeshStandardMaterial({ color: blend("iris", "sky", 0.42), roughness: 0.3, metalness: 0.05 });
-  const stoneDark = new THREE.MeshStandardMaterial({ color: blend("iris", "hair", 0.35), roughness: 0.4 });
-  const wall = new THREE.MeshStandardMaterial({ color: blend("practical", "skin", 0.2), roughness: 0.75 });
-  const timber = new THREE.MeshStandardMaterial({ color: blend("hair", "iris", 0.45), roughness: 0.7 });
+  // The shrine on the summit, after Nyatapola (Bhaktapur): a five-level stepped brick plinth with
+  // a central stair and guardian statues, a red-brick sanctum framed in dark carved timber, five
+  // tiers of dark roofs on painted struts, and a gilded finial. See references.md.
+  const brick = new THREE.MeshStandardMaterial({ color: blend("accent", "iris", 0.62).lerp(new THREE.Color(PAINT.sky), 0.08), roughness: 0.85, map: brickTexture() });
+  const stone = new THREE.MeshStandardMaterial({ color: blend("sky", "iris", 0.55).multiplyScalar(0.85), roughness: 0.75, metalness: 0.02 });
+  const stoneDark = new THREE.MeshStandardMaterial({ color: blend("iris", "hair", 0.4), roughness: 0.5 });
+  const timber = new THREE.MeshStandardMaterial({ color: blend("iris", "hair", 0.55), roughness: 0.65 });
   const red = new THREE.MeshStandardMaterial({ color: col("accent"), roughness: 0.55 });
-  const gold = new THREE.MeshStandardMaterial({ color: blend("sky", "iris", 0.25), roughness: 0.25, metalness: 0.85 });
-  const lanternMat = new THREE.MeshStandardMaterial({ color: blend("sky", "practical", 0.5), emissive: blend("sky", "accent", 0.25), emissiveIntensity: 1.6 });
+  const green = new THREE.MeshStandardMaterial({ color: col("pine"), roughness: 0.55 });
+  const blue = new THREE.MeshStandardMaterial({ color: col("azure"), roughness: 0.5 });
+  const gold = new THREE.MeshStandardMaterial({ color: col("gold"), roughness: 0.22, metalness: 0.9, envMapIntensity: 1.3 });
+  const lanternMat = new THREE.MeshStandardMaterial({ color: blend("gold", "sclera", 0.4), emissive: blend("gold", "accent", 0.3), emissiveIntensity: 1.8 });
   const roofMats = {
-    roof: new THREE.MeshStandardMaterial({ color: blend("hair", "accent", 0.28), roughness: 0.5, side: THREE.DoubleSide }),
-    rib: new THREE.LineBasicMaterial({ color: blend("hair", "ink", 0.5) }),
+    roof: new THREE.MeshStandardMaterial({ color: blend("hair", "iris", 0.42), roughness: 0.88, side: THREE.DoubleSide }),
+    rib: new THREE.LineBasicMaterial({ color: blend("hair", "ink", 0.6) }),
     gold,
     lantern: lanternMat,
   };
+  function brickTexture() {
+    const c = document.createElement("canvas");
+    c.width = c.height = 256;
+    const g = c.getContext("2d");
+    g.fillStyle = "#ffffff";
+    g.fillRect(0, 0, 256, 256);
+    for (let y = 0; y < 256; y += 16)
+      for (let x = (y / 16) % 2 ? -16 : 0; x < 256; x += 32) {
+        const k = 0.82 + 0.18 * hash2(x, y);
+        g.fillStyle = `rgb(${255 * k},${242 * k},${235 * k})`;
+        g.fillRect(x + 1, y + 1, 30, 14);
+      }
+    const t = new THREE.CanvasTexture(c);
+    t.colorSpace = THREE.SRGBColorSpace;
+    t.wrapS = t.wrapT = THREE.RepeatWrapping;
+    t.repeat.set(4, 2);
+    return t;
+  }
   const shrine = new THREE.Group();
   const add = (geo, mat, x, y, z, ry = 0) => {
     const mesh = new THREE.Mesh(geo, mat);
     mesh.position.set(x, y, z);
     mesh.rotation.y = ry;
+    mesh.castShadow = true;
+    mesh.receiveShadow = true;
     shrine.add(mesh);
     return mesh;
   };
   const box = (w, h, d, mat, x, y, z, ry = 0) => add(new THREE.BoxGeometry(w, h, d), mat, x, y + h / 2, z, ry);
 
-  // Plinth: three stone tiers, each capped with a darker course.
+  // The plinth: five stepped levels, each capped with a stone course.
+  const LEVEL = 3.5;
+  const halves = [52, 45, 38.5, 32.5, 27];
+  halves.forEach((hs, k) => {
+    box(hs * 2, LEVEL, hs * 2, brick, 0, TOP + k * LEVEL, 0);
+    box(hs * 2 + 1, 0.6, hs * 2 + 1, stone, 0, TOP + (k + 1) * LEVEL - 0.6, 0);
+  });
+  const deck = TOP + halves.length * LEVEL;
+  // The central stair up the south face, flanked by pairs of guardians on every level.
+  for (let k = 0; k < halves.length; k += 1) {
+    const z0 = halves[k];
+    const z1 = k + 1 < halves.length ? halves[k + 1] : halves[k] - 3;
+    const steps = 7;
+    for (let s = 0; s < steps; s += 1) {
+      const u = (s + 1) / steps;
+      box(10, (k + u) * LEVEL - (k ? 0 : 0) - 0.01, (z0 - z1) / steps + 0.2, stone, 0, TOP, z0 + 2.5 - (z0 - z1 + 2.5) * u);
+    }
+    for (const sd of [-1, 1]) {
+      const gx = sd * 7.2;
+      const gz = z0 + 1.5;
+      const gy = TOP + k * LEVEL;
+      box(2.6, 1.4, 3.4, stoneDark, gx, gy, gz);
+      // A crouching guardian: a body, a raised head, forelegs.
+      const body = add(new THREE.SphereGeometry(1, 12, 9), stone, gx, gy + 2.6, gz);
+      body.scale.set(0.95, 1.05, 1.4);
+      const head = add(new THREE.SphereGeometry(0.75, 12, 9), stone, gx, gy + 4.1, gz + 0.9);
+      head.scale.set(1, 1, 1.1);
+      for (const l of [-0.45, 0.45]) add(new THREE.CylinderGeometry(0.22, 0.26, 1.4, 6), stone, gx + l, gy + 2.0, gz + 1.0);
+    }
+  }
+  // The sanctum: red brick in a frame of dark carved timber, a door on each side under a gilded torana.
+  const SAN = 15;
+  const sanH = 10;
+  box(SAN * 2, sanH, SAN * 2, brick, 0, deck, 0);
+  for (const y of [deck, deck + sanH - 1.2]) {
+    box(SAN * 2 + 1.2, 1.2, 1.2, timber, 0, y, SAN + 0.1);
+    box(SAN * 2 + 1.2, 1.2, 1.2, timber, 0, y, -SAN - 0.1);
+    box(1.2, 1.2, SAN * 2 + 1.2, timber, SAN + 0.1, y, 0);
+    box(1.2, 1.2, SAN * 2 + 1.2, timber, -SAN - 0.1, y, 0);
+  }
+  for (let r = 0; r < 4; r += 1) {
+    const ry = (r * Math.PI) / 2;
+    const fx = Math.sin(ry);
+    const fz = Math.cos(ry);
+    const at = (o, y, out) => [fx * (SAN + out) + Math.cos(ry) * o, y, fz * (SAN + out) - Math.sin(ry) * o];
+    // Three carved bays: dark timber frames with latticed panels; the middle one is the door.
+    for (const o of [-8, 0, 8]) {
+      const [x, y, z] = at(o, deck, 0.3);
+      box(o === 0 ? 5.5 : 4.2, o === 0 ? 7.2 : 4.8, 0.7, timber, x, o === 0 ? y : y + 2.6, z, ry);
+      const [x2, , z2] = at(o, deck, 0.55);
+      box(o === 0 ? 4.2 : 3.2, o === 0 ? 6.2 : 3.8, 0.5, o === 0 ? red : blend2(), x2, o === 0 ? y : y + 3.1, z2, ry);
+      for (let k = -1; k <= 1; k += 1) {
+        const [x3, , z3] = at(o + k * (o === 0 ? 1.1 : 0.9), deck, 0.7);
+        box(0.18, o === 0 ? 6.2 : 3.8, 0.2, gold, x3, o === 0 ? y : y + 3.1, z3, ry);
+      }
+    }
+    // The torana: a gilded half-wheel over the door.
+    const [tx, , tz] = at(0, deck, 0.8);
+    const torana = add(new THREE.CircleGeometry(3.1, 24, 0, Math.PI), gold, tx, deck + 7.4, tz, ry);
+    torana.material = gold;
+  }
+  function blend2() {
+    return new THREE.MeshStandardMaterial({ color: blend("iris", "hair", 0.3), roughness: 0.6 });
+  }
+  // Five tiers of roofs, each over a smaller brick drum, every eave held by a ring of painted struts.
   const tiers = [
-    [104, 0],
-    [88, 4],
-    [72, 8],
+    { w: 46, h: 7.5, drum: 0, dh: 0, over: 7, curl: 1.6 },
+    { w: 37, h: 6.4, drum: 26, dh: 5.6, over: 6, curl: 1.3 },
+    { w: 30, h: 5.6, drum: 21, dh: 5, over: 5, curl: 1.1 },
+    { w: 24, h: 4.8, drum: 16.5, dh: 4.4, over: 4.2, curl: 0.9 },
+    { w: 18, h: 4.2, drum: 12.5, dh: 4, over: 3.4, curl: 0.8 },
   ];
-  for (const [size, y0] of tiers) {
-    box(size, 4, size, stone, 0, TOP + y0, 0);
-    box(size + 1.2, 0.8, size + 1.2, stoneDark, 0, TOP + y0 + 3.6, 0);
-  }
-  const deck = TOP + 12;
-  // A red railing around the top tier.
-  for (let i = -7; i <= 7; i += 1) {
-    for (const [x, z] of [
-      [i * 5, 35],
-      [i * 5, -35],
-      [35, i * 5],
-      [-35, i * 5],
-    ]) {
-      if (Math.abs(x) < 8 && z > 30) continue;
-      box(0.7, 3.2, 0.7, red, x, deck, z);
+  let y = deck + sanH;
+  const strutCols = [red, green, gold, blue];
+  tiers.forEach((tr, k) => {
+    if (tr.drum) {
+      box(tr.drum, tr.dh, tr.drum, brick, 0, y, 0);
+      box(tr.drum + 0.8, 0.8, tr.drum + 0.8, timber, 0, y + tr.dh - 0.8, 0);
+      y += tr.dh;
     }
-  }
-  for (const [w, d, x, z] of [
-    [27, 0.6, -21.5, 35],
-    [27, 0.6, 21.5, 35],
-    [70, 0.6, 0, -35],
-    [0.6, 70, 35, 0],
-    [0.6, 70, -35, 0],
-  ])
-    box(w, 0.6, d, red, x, deck + 3, z);
-  // Stairs up the plinth on the south side.
-  for (let i = 0; i < 6; i += 1) box(14, 2, 4, stone, 0, TOP + i * 2, 52 - i * 3.2);
-
-  // The hall: whitewashed walls in a timber frame, lattice windows, a carved red-and-gold door.
-  const hallW = 40;
-  const hallD = 30;
-  const hallH = 15;
-  box(hallW, hallH, hallD, wall, 0, deck, 0);
-  for (const y of [deck, deck + 6.5, deck + hallH - 1.2]) {
-    box(hallW + 1, 1.2, 1.2, timber, 0, y, hallD / 2 + 0.2);
-    box(hallW + 1, 1.2, 1.2, timber, 0, y, -hallD / 2 - 0.2);
-    box(1.2, 1.2, hallD + 1, timber, hallW / 2 + 0.2, y, 0);
-    box(1.2, 1.2, hallD + 1, timber, -hallW / 2 - 0.2, y, 0);
-  }
-  for (const x of [-20, -10, 10, 20]) {
-    box(1.2, hallH, 1.2, timber, x, deck, hallD / 2 + 0.2);
-    box(1.2, hallH, 1.2, timber, x, deck, -hallD / 2 - 0.2);
-  }
-  const lattice = (x, z, ry) => {
-    const win = new THREE.Group();
-    const part = (w, h, mat, px, py, pz) => {
-      const m2 = new THREE.Mesh(new THREE.BoxGeometry(w, h, 0.5), mat);
-      m2.position.set(px, py, pz);
-      win.add(m2);
-    };
-    part(6.2, 5.4, red, 0, 0, 0);
-    part(6.8, 0.7, timber, 0, 2.9, 0.2);
-    part(6.8, 0.7, timber, 0, -2.9, 0.2);
-    for (const bx of [-2.6, -1.3, 0, 1.3, 2.6]) part(0.35, 5.4, timber, bx, 0, 0.3);
-    for (const by of [-1.4, 0, 1.4]) part(6.2, 0.35, timber, 0, by, 0.3);
-    win.position.set(x, deck + 9.5, z);
-    win.rotation.y = ry;
-    shrine.add(win);
-  };
-  for (const x of [-15, 15]) lattice(x, hallD / 2 + 0.3, 0);
-  for (const x of [-12, 0, 12]) lattice(x, -hallD / 2 - 0.3, Math.PI);
-  for (const z of [-7, 7]) {
-    lattice(hallW / 2 + 0.3, z, Math.PI / 2);
-    lattice(-hallW / 2 - 0.3, z, -Math.PI / 2);
-  }
-  box(10, 12.5, 0.8, red, 0, deck, hallD / 2 + 0.3);
-  box(7.6, 10.5, 0.9, gold, 0, deck, hallD / 2 + 0.4);
-  box(0.4, 10.5, 1, timber, 0, deck, hallD / 2 + 0.7);
-  box(13, 1.6, 1.4, gold, 0, deck + 12.5, hallD / 2 + 0.5);
-  // The porch: red columns with gold capitals.
-  box(hallW + 6, 0.8, 8, stone, 0, deck, hallD / 2 + 4);
-  for (const x of [-21, -13, -5, 5, 13, 21]) {
-    add(new THREE.CylinderGeometry(0.8, 0.95, 15, 12), red, x, deck + 7.5, hallD / 2 + 7);
-    box(2.2, 1, 2.2, gold, x, deck + 14.8, hallD / 2 + 7);
-  }
-  // Carved struts under the eaves.
-  for (let i = -5; i <= 5; i += 1) {
-    for (const [x, z, ry] of [
-      [i * 4, hallD / 2 + 8.5, 0],
-      [i * 4, -hallD / 2 - 1.5, Math.PI],
-    ]) {
-      const strut = box(0.8, 5, 0.8, timber, x, deck + 11, z, ry);
-      strut.rotation.x = ry === 0 ? -0.6 : 0.6;
+    // Struts: angled, painted, round the eave line.
+    const inner = (tr.drum || SAN * 2) / 2;
+    const count = Math.round(inner * 1.2);
+    for (let r = 0; r < 4; r += 1) {
+      const ry = (r * Math.PI) / 2;
+      for (let s = 0; s < count; s += 1) {
+        const o = mix(-inner + 1, inner - 1, s / Math.max(1, count - 1));
+        const x = Math.sin(ry) * (inner + 1.6) + Math.cos(ry) * o;
+        const z = Math.cos(ry) * (inner + 1.6) - Math.sin(ry) * o;
+        const strut = add(new THREE.BoxGeometry(0.7, 4.2, 0.7), strutCols[(s + k) % 4], x, y - 2.0, z, ry);
+        strut.rotateX(-0.55);
+      }
     }
-  }
-  // The bell under the porch eave.
-  const bell = add(new THREE.LatheGeometry([[0, 0], [3, 0.3], [2.6, 2], [1.8, 4], [0.5, 4.6], [0, 4.7]].map(([x, y]) => new THREE.Vector2(x, y)), 18), gold, 0, deck + 15.5, hallD / 2 + 7);
-  bell.rotation.x = Math.PI;
-
-  // Three tiers of roofs, each over a smaller whitewashed drum.
-  const roof1 = pagodaRoof(hallW + 6, hallD + 16, 9, 9, 6, roofMats);
-  roof1.position.set(0, deck + hallH, 4);
-  shrine.add(roof1);
-  box(24, 8, 18, wall, 0, deck + hallH + 7, 0);
-  box(25, 1, 19, timber, 0, deck + hallH + 7, 0);
-  box(25, 1, 19, red, 0, deck + hallH + 14, 0);
-  const roof2 = pagodaRoof(24, 18, 7.5, 7, 4.5, roofMats);
-  roof2.position.set(0, deck + hallH + 15, 0);
-  shrine.add(roof2);
-  box(13, 6, 10, wall, 0, deck + hallH + 20, 0);
-  box(14, 1, 11, red, 0, deck + hallH + 25, 0);
-  const roof3 = pagodaRoof(13, 10, 6, 5, 3.2, roofMats);
-  roof3.position.set(0, deck + hallH + 26, 0);
-  shrine.add(roof3);
-  // The gold spire: rings, a parasol, a mast, a jewel.
-  const spireBase = deck + hallH + 32;
-  add(new THREE.CylinderGeometry(2.2, 2.8, 2.5, 16), gold, 0, spireBase + 1.2, 0);
-  for (let i = 0; i < 5; i += 1) add(new THREE.TorusGeometry(1.8 - i * 0.25, 0.45, 8, 20), gold, 0, spireBase + 3.2 + i * 1.3, 0).rotation.x = Math.PI / 2;
-  add(new THREE.ConeGeometry(4, 2.2, 16, 1, true), gold, 0, spireBase + 10.5, 0);
-  add(new THREE.CylinderGeometry(0.35, 0.45, 6, 8), gold, 0, spireBase + 13.5, 0);
-  add(new THREE.SphereGeometry(1.5, 16, 12), gold, 0, spireBase + 17, 0);
-
-  // A chorten beside the hall, prayer wheels along the walls, two banners at the stairs.
-  const chorten = new THREE.LatheGeometry(
-    [
-      [0, 0],
-      [9, 0],
-      [9, 4],
-      [7, 5],
-      [7, 8],
-      [6.5, 9],
-      [7.5, 13],
-      [5, 17],
-      [2, 18],
-      [1.5, 24],
-      [0.8, 30],
-      [0, 31],
-    ].map(([x, y]) => new THREE.Vector2(x, y)),
-    24,
-  );
-  add(chorten, wall, 28, deck, -26);
-  add(new THREE.SphereGeometry(1.4, 10, 8), gold, 28, deck + 31.5, -26);
-  for (let i = 0; i < 8; i += 1) {
-    for (const x of [hallW / 2 + 2.5, -hallW / 2 - 2.5]) {
-      add(new THREE.CylinderGeometry(1, 1, 2.6, 12), i % 2 ? gold : red, x, deck + 1.6, -11 + i * 3.1);
-    }
-  }
-  for (const x of [-10, 10]) {
-    add(new THREE.CylinderGeometry(0.3, 0.3, 22, 6), timber, x, TOP + 11, 56);
-    add(new THREE.CylinderGeometry(1.6, 1.6, 7, 12, 1, true), red, x, TOP + 17, 56);
-    add(new THREE.CylinderGeometry(1.65, 1.65, 1.4, 12, 1, true), gold, x, TOP + 13.5, 56);
+    const roof = pagodaRoof(tr.w, tr.w, tr.h, tr.over, tr.curl, roofMats);
+    roof.position.set(0, y, 0);
+    roof.traverse((o) => (o.castShadow = true));
+    shrine.add(roof);
+    // A fringe of small bells along the lowest eave.
+    if (k === 0)
+      for (let r = 0; r < 4; r += 1)
+        for (let s = -6; s <= 6; s += 1) {
+          const ry = (r * Math.PI) / 2;
+          const reach = tr.w / 2 + tr.over - 0.6;
+          add(new THREE.ConeGeometry(0.35, 0.8, 8), gold, Math.sin(ry) * reach + Math.cos(ry) * s * 4, y - 0.4, Math.cos(ry) * reach - Math.sin(ry) * s * 4);
+        }
+    y += tr.h;
+  });
+  // The gilded finial: a stack of rings, a parasol, a pinnacle.
+  const spireBase = y;
+  add(new THREE.CylinderGeometry(1.6, 2.2, 1.6, 16), gold, 0, spireBase + 0.8, 0);
+  for (let i = 0; i < 4; i += 1) add(new THREE.SphereGeometry(1.4 - i * 0.25, 16, 10), gold, 0, spireBase + 2.4 + i * 1.6, 0).scale.set(1, 0.6, 1);
+  add(new THREE.ConeGeometry(2.6, 1.4, 16, 1, true), gold, 0, spireBase + 8.4, 0);
+  add(new THREE.ConeGeometry(0.6, 3.4, 12), gold, 0, spireBase + 10.6, 0);
+  // A white chorten beside the temple, a row of brass prayer wheels on the top level, banners at the stair.
+  const chorten = new THREE.LatheGeometry([[0, 0], [7, 0], [7, 3], [5.5, 4], [5.5, 6], [5, 7], [6, 10], [4, 13], [1.6, 14], [1.2, 19], [0.6, 24], [0, 25]].map(([a, b]) => new THREE.Vector2(a, b)), 24);
+  add(chorten, new THREE.MeshStandardMaterial({ color: col("sclera"), roughness: 0.8 }), 21, deck, -21);
+  add(new THREE.SphereGeometry(1.1, 12, 8), gold, 21, deck + 25.5, -21);
+  for (let i = 0; i < 12; i += 1) {
+    add(new THREE.CylinderGeometry(0.9, 0.9, 2.2, 14), i % 2 ? gold : red, -SAN - 4.5, deck + 1.3, -12 + i * 2.2);
+    add(new THREE.CylinderGeometry(0.9, 0.9, 2.2, 14), i % 2 ? red : gold, SAN + 4.5, deck + 1.3, -12 + i * 2.2);
   }
 
   // Stone steps down the south slope, lanterns beside them.
@@ -891,17 +897,17 @@ function buildWorld(PAINT) {
   }
   // Flag poles at the platform corners; strings of prayer flags from the finial.
   const pole = new THREE.MeshStandardMaterial({ color: blend("iris", "hair", 0.4), roughness: 0.8 });
-  const flagColors = ["glacier", "practical", "accent", "meadow", "sky"].map((k) => new THREE.MeshStandardMaterial({ color: col(k), roughness: 0.8, side: THREE.DoubleSide }));
+  const flagColors = [col("azure"), col("sclera"), col("accent"), blend("pine", "gold", 0.25), col("gold")].map((c) => new THREE.MeshStandardMaterial({ color: c, roughness: 0.8, side: THREE.DoubleSide }));
   const flags = [];
-  const finial = new THREE.Vector3(0, spireBase + 12, 0);
+  const finial = new THREE.Vector3(0, spireBase + 5, 0);
   for (const [cx, cz] of [
     [48, 48],
     [-48, 48],
     [48, -48],
     [-48, -48],
   ]) {
-    const p = add(new THREE.CylinderGeometry(0.5, 0.6, 28, 8), pole, cx, TOP + 18, cz);
-    const top = new THREE.Vector3(cx, TOP + 32, cz);
+    const p = add(new THREE.CylinderGeometry(0.5, 0.6, 28, 8), pole, cx, TOP + 14, cz);
+    const top = new THREE.Vector3(cx, TOP + 28, cz);
     for (let i = 1; i < 26; i += 1) {
       const u = i / 26;
       const at = new THREE.Vector3().lerpVectors(finial, top, u);
@@ -913,6 +919,7 @@ function buildWorld(PAINT) {
       flag.rotateY(Math.PI / 2);
       shrine.add(flag);
       flags.push({ flag, phase: i * 0.7 + cx * 0.01, base: flag.rotation.x });
+      void i;
     }
     void p;
   }
@@ -972,7 +979,7 @@ function buildWorld(PAINT) {
   veil.renderOrder = 999;
   camera.add(veil);
   scene.add(camera);
-  const veilAt = (t) => smoothstep(37.9, 38.6, t) * (1 - smoothstep(39.2, 40.2, t));
+  const veilAt = (t) => smoothstep(37.9, 38.6, t) * (1 - smoothstep(39.2, 41.0, t));
 
   // Light shafts through the clouds, from the sun.
   const rays = [];
@@ -983,140 +990,205 @@ function buildWorld(PAINT) {
     scene.add(ray);
   }
 
-  // Birds: a flock over the valley, a flock circling the summit, eagles soaring high.
-  const birdMat = new THREE.MeshBasicMaterial({ color: col("ink"), side: THREE.DoubleSide });
-  const wingGeo = new THREE.BufferGeometry();
-  wingGeo.setAttribute("position", new THREE.Float32BufferAttribute([0, 0, -0.6, 0, 0, 0.6, 3.6, 0.3, 0], 3));
-  const birds = [];
-  const bird = (spec) => {
-    const g = new THREE.Group();
-    const l = new THREE.Mesh(wingGeo, birdMat);
-    const r = new THREE.Mesh(wingGeo, birdMat);
-    r.scale.x = -1;
-    g.add(l, r);
-    g.scale.setScalar(spec.size ?? 1);
-    scene.add(g);
-    birds.push({ g, l, r, ...spec });
-  };
-  for (let i = 0; i < 12; i += 1) bird({ phase: i * 0.9, radius: 160 + i * 18, cx: riverX(620 + (i % 3) * 120), cz: 620 + (i % 3) * 120, h: 95 + (i % 4) * 14, speed: 0.11 + (i % 3) * 0.02, flap: 9 });
-  for (let i = 0; i < 16; i += 1) bird({ phase: i * 0.45, radius: 95 + (i % 5) * 16, cx: 0, cz: 0, h: 345 + (i % 4) * 12, speed: 0.16 + (i % 4) * 0.015, flap: 10, size: 0.8 });
-  for (let i = 0; i < 3; i += 1) bird({ phase: i * 2.1, radius: 420 + i * 90, cx: 60, cz: 700, h: 470 + i * 30, speed: 0.045, flap: 0, glide: true, size: 2.6 });
-
-  // Animals: yaks grazing and wandering by the river, goats on the rocky slopes.
-  const hide = new THREE.MeshStandardMaterial({ color: blend("hair", "iris", 0.25), roughness: 0.95 });
-  const hideLight = new THREE.MeshStandardMaterial({ color: blend("practical", "skin", 0.35), roughness: 0.95 });
-  const horn = new THREE.MeshStandardMaterial({ color: blend("practical", "sky", 0.4), roughness: 0.5 });
-  const animals = [];
-  const animal = (kind, spec) => {
-    const goat = kind === "goat";
-    const s = goat ? 0.55 : 1;
-    const mat = goat ? hideLight : hide;
-    const g = new THREE.Group();
-    const body = new THREE.Mesh(new THREE.SphereGeometry(1, 12, 8), mat);
-    body.scale.set(1.3 * s, 1.05 * s, 2.3 * s);
-    body.position.y = 2.7 * s;
-    g.add(body);
-    if (!goat) {
-      const hump = new THREE.Mesh(new THREE.SphereGeometry(0.9, 10, 8), mat);
-      hump.position.set(0, 3.5, 0.9);
-      g.add(hump);
-      const skirt = new THREE.Mesh(new THREE.CylinderGeometry(1.25, 1.55, 1.3, 12, 1, true), mat);
-      skirt.scale.z = 1.9;
-      skirt.position.y = 1.9;
-      g.add(skirt);
-    }
-    const neck = new THREE.Group();
-    neck.position.set(0, 3 * s, 2.1 * s);
-    const head = new THREE.Mesh(new THREE.SphereGeometry(0.62 * s, 10, 8), mat);
-    head.scale.set(0.9, 0.95, 1.35);
-    head.position.set(0, -0.3 * s, 0.7 * s);
-    neck.add(head);
-    for (const side of [-1, 1]) {
-      const h = new THREE.Mesh(new THREE.ConeGeometry(0.16 * s, 1.3 * s, 6), horn);
-      h.position.set(side * 0.55 * s, 0.25 * s, 0.6 * s);
-      h.rotation.z = -side * (goat ? 0.3 : 1.1);
-      h.rotation.x = goat ? -0.6 : 0.2;
-      neck.add(h);
-    }
-    g.add(neck);
-    const legs = [];
-    for (const [lx, lz] of [
-      [-0.7, 1.4],
-      [0.7, 1.4],
-      [-0.7, -1.4],
-      [0.7, -1.4],
-    ]) {
-      const leg = new THREE.Group();
-      leg.position.set(lx * s, 2 * s, lz * s);
-      const m2 = new THREE.Mesh(new THREE.CylinderGeometry(0.22 * s, 0.17 * s, 2 * s, 6), mat);
-      m2.position.y = -1 * s;
-      leg.add(m2);
-      g.add(leg);
-      legs.push(leg);
-    }
-    g.scale.setScalar(spec.scale ?? 1.4);
-    scene.add(g);
-    animals.push({ g, neck, legs, ...spec });
-  };
-  const herdRand = mulberry32(41);
+  // Life, from the references: choughs and griffon vultures; shaggy yaks by the river and a pack
+  // train on the valley trail; long-haired goats on the slopes; pilgrims in chubas climbing the
+  // stair and walking the kora clockwise round the temple; monks in maroon at the door.
+  const updates = [];
+  const lr = mulberry32(61);
+  const birdSpecs = [];
+  for (let i = 0; i < 22; i += 1) birdSpecs.push({ size: 0.35, color: col("hair"), beat: 8, phase: lr() * 6.28, pose: loopFlight(riverX(600 + (i % 4) * 90), 90 + (i % 5) * 12, 600 + (i % 4) * 90, 120 + lr() * 90, 80 + lr() * 60, (0.12 + lr() * 0.05) * (i % 2 ? 1 : -1), lr() * 6.28, 6) });
+  for (let i = 0; i < 16; i += 1) birdSpecs.push({ size: 0.3, color: col("hair"), beat: 9, phase: lr() * 6.28, pose: loopFlight(0, deck + 60 + (i % 4) * 10, 0, 90 + (i % 5) * 14, 80 + (i % 5) * 12, 0.15 + (i % 4) * 0.015, i * 0.45, 5) });
+  for (let i = 0; i < 4; i += 1) {
+    const f = loopFlight(60, 470 + i * 30, 700, 420 + i * 90, 300 + i * 60, 0.045, i * 1.9, 10);
+    birdSpecs.push({ size: 1.45, color: blend("sky", "iris", 0.35), wingColor: blend("iris", "hair", 0.55), beat: 2, phase: i, pose: (t) => ({ ...f(t), flap: 0.06, bank: 0.28 }) });
+  }
+  updates.push(flock(scene, birdSpecs));
+  const hides = [blend("hair", "iris", 0.25), col("hair"), blend("iris", "sky", 0.25), blend("hair", "iris", 0.45), col("sclera")];
+  const beasts = [];
   for (let i = 0; i < 16; i += 1) {
-    const z = 400 + herdRand() * 480;
+    const z0 = 400 + lr() * 480;
     const side = i % 2 ? -1 : 1;
-    animal("yak", { x: riverX(z) + side * (24 + herdRand() * 30), z, heading: herdRand() * 6.28, walk: i % 3 === 0 ? 1.3 : 0, phase: herdRand() * 6.28, scale: 1.9 });
+    const x0 = riverX(z0) + side * (24 + lr() * 30);
+    const hd = lr() * 6.28;
+    const ph = lr() * 6.28;
+    const c = hides[i % hides.length];
+    beasts.push({ kind: "yak", scale: 2.0, color: c, headColor: i % 3 === 0 ? col("sclera") : c, legColor: c, tailColor: c, hornColor: blend("sclera", "sky", 0.4), phase: ph, cadence: 0.8, pose: (t) => {
+      const cyc = (t * 0.06 + ph) % 1;
+      const walking = cyc > 0.8;
+      const along = (Math.floor(t * 0.06 + ph) + smoothstep(0.8, 1, cyc)) * 3;
+      const x = x0 + Math.sin(hd) * along;
+      const z = z0 + Math.cos(hd) * along;
+      return { x, y: height(x, z), z, heading: hd, gait: walking ? 0.6 : 0, graze: walking ? 0 : 1 };
+    } });
   }
-  for (let i = 0; i < 8; i += 1) {
-    const a = 0.2 + herdRand() * 1.2;
-    const r = 120 + herdRand() * 80;
-    animal("goat", { x: Math.sin(a) * r, z: Math.cos(a) * r + 30, heading: herdRand() * 6.28, walk: i % 2 ? 0.9 : 0, phase: herdRand() * 6.28 });
-  }
-
-  // People: pilgrims in maroon and saffron climbing the stairs, monks on the platform.
-  const robes = [col("accent"), blend("sky", "accent", 0.35), blend("accent", "hair", 0.35)].map((c) => new THREE.MeshStandardMaterial({ color: c, roughness: 0.85 }));
-  const skinMat = new THREE.MeshStandardMaterial({ color: col("skin"), roughness: 0.7 });
-  const hairMat = new THREE.MeshStandardMaterial({ color: col("hair"), roughness: 0.8 });
-  const people = [];
-  const person = (spec) => {
-    const robe = robes[spec.robe % robes.length];
-    const g = new THREE.Group();
-    const body = new THREE.Mesh(new THREE.CylinderGeometry(0.55, 0.85, 2.6, 10), robe);
-    body.position.y = 2.6;
-    g.add(body);
-    const sash = new THREE.Mesh(new THREE.CylinderGeometry(0.58, 0.62, 0.35, 10), robes[(spec.robe + 1) % robes.length]);
-    sash.position.y = 2.6;
-    g.add(sash);
-    const head = new THREE.Mesh(new THREE.SphereGeometry(0.42, 12, 10), skinMat);
-    head.position.y = 4.25;
-    g.add(head);
-    const cap = new THREE.Mesh(new THREE.SphereGeometry(0.44, 12, 6, 0, Math.PI * 2, 0, Math.PI * 0.45), hairMat);
-    cap.position.y = 4.3;
-    g.add(cap);
-    const limb = (x, y, len, mat) => {
-      const pivot = new THREE.Group();
-      pivot.position.set(x, y, 0);
-      const m2 = new THREE.Mesh(new THREE.CylinderGeometry(0.17, 0.14, len, 6), mat);
-      m2.position.y = -len / 2;
-      pivot.add(m2);
-      g.add(pivot);
-      return pivot;
-    };
-    const legL = limb(-0.3, 1.4, 1.4, hairMat);
-    const legR = limb(0.3, 1.4, 1.4, hairMat);
-    const armL = limb(-0.75, 3.6, 1.5, robe);
-    const armR = limb(0.75, 3.6, 1.5, robe);
-    if (spec.staff) {
-      const staff = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 4.4, 5), new THREE.MeshStandardMaterial({ color: blend("iris", "sky", 0.3) }));
-      staff.position.set(0, -1.2, 0.3);
-      armR.add(staff);
-    }
-    scene.add(g);
-    people.push({ g, legL, legR, armL, armR, ...spec });
+  // The pack train: five yaks with saddle loads and their herder, down the trail by the river.
+  const trail = (s) => {
+    const z = 980 - s;
+    const x = riverX(z) - 46 + Math.sin(z / 60) * 4;
+    return [x, z];
   };
-  // The climbers start spread down the stairs and walk up at their own pace.
-  const stairTop = 58;
-  const stairBottom = 58 + 43 * 4.2;
-  for (let i = 0; i < 9; i += 1) person({ climb: true, z0: stairBottom - i * 19, speed: 0.9 + (i % 3) * 0.25, x: (i % 2 ? 2.6 : -2.6) + (i % 3) * 0.6, robe: i, phase: i * 1.7, staff: i % 3 === 0 });
-  for (let i = 0; i < 3; i += 1) person({ climb: false, x: -12 + i * 12, z: hallD / 2 + 11, y: deck, robe: 0, phase: i * 2.2, facing: Math.PI });
+  const trainAt = (t, lag) => {
+    const s = (t - lag) * 1.0 + 40;
+    const [x, z] = trail(s);
+    const [x2, z2] = trail(s + 1);
+    return { x, z, heading: Math.atan2(x2 - x, z2 - z) };
+  };
+  for (let i = 0; i < 5; i += 1)
+    beasts.push({ kind: "yak", scale: 2.0, color: hides[(i + 2) % hides.length], hornColor: blend("sclera", "sky", 0.4), phase: i * 1.3, cadence: 0.8, pose: (t) => {
+      const p = trainAt(t, i * 6.5);
+      return { x: p.x, y: height(p.x, p.z), z: p.z, heading: p.heading, gait: 0.75 };
+    } });
+  for (let i = 0; i < 9; i += 1) {
+    const a = 0.2 + lr() * 1.3;
+    const r = 120 + lr() * 90;
+    const x0 = Math.sin(a) * r;
+    const z0 = Math.cos(a) * r + 30;
+    const hd = lr() * 6.28;
+    beasts.push({ kind: "longgoat", scale: 1.4, color: i % 3 ? col("sclera") : col("hair"), hornColor: blend("iris", "sky", 0.3), phase: lr() * 6.28, pose: (t) => ({ x: x0, y: height(x0, z0), z: z0, heading: hd + Math.sin(t * 0.1 + i) * 0.5, graze: 0.6 + 0.4 * Math.sin(t * 0.4 + i) }) });
+  }
+  updates.push(herd(scene, beasts));
+  const loads = [];
+  for (let i = 0; i < 5; i += 1)
+    loads.push({ size: 2.0, color: [col("azure"), col("accent"), col("gold"), blend("pine", "sky", 0.2), col("accent")][i], pose: (t) => {
+      const p = trainAt(t, i * 6.5);
+      return { x: p.x, y: height(p.x, p.z) + 1.25 * 2.0, z: p.z, heading: p.heading, roll: Math.sin(t * 3 + i) * 0.03 };
+    } });
+  updates.push(swarm(scene, merge([xf(new THREE.BoxGeometry(0.34, 0.38, 0.62), [0.46, 0, 0]), xf(new THREE.BoxGeometry(0.34, 0.38, 0.62), [-0.46, 0, 0]), xf(new THREE.BoxGeometry(0.7, 0.12, 0.7), [0, 0.2, 0])]), new THREE.MeshStandardMaterial({ roughness: 0.9 }), loads, true));
+  // People.
+  const chubas = [col("accent"), blend("hair", "iris", 0.3), blend("azure", "hair", 0.35), blend("iris", "sky", 0.25), blend("pine", "hair", 0.3), blend("accent", "hair", 0.4)];
+  const sashes = [col("gold"), col("accent"), col("azure"), col("pine"), blend("gold", "accent", 0.4)];
+  const skins = [blend("skin", "iris", 0.45), blend("skin", "iris", 0.3), blend("iris", "skin", 0.4)];
+  const pilgrim = (o) => ({ robe: chubas[Math.floor(lr() * chubas.length)], shirt: col("sclera"), sash: sashes[Math.floor(lr() * sashes.length)], skin: skins[Math.floor(lr() * skins.length)], hat: lr() < 0.5 ? col("hair") : blend("sky", "iris", 0.4), boots: blend("hair", "iris", 0.3), phase: lr() * 6.28, ...o });
+  const monk = (o) => ({ robe: blend("accent", "hair", 0.42), shirt: col("gold"), sash: blend("accent", "hair", 0.42), shawl: blend("accent", "hair", 0.35), sleeve: col("gold"), skin: skins[Math.floor(lr() * skins.length)], hat: blend("skin", "iris", 0.5), boots: blend("hair", "iris", 0.3), phase: lr() * 6.28, ...o });
   const stairY = (z) => Math.max(height(0, z), height(-6, z), height(6, z)) + 1.1;
+  const climbY = (z) => (z > halves[0] + 2.5 ? stairY(z) : TOP + Math.min(halves.length * LEVEL, ((halves[0] + 2.5 - z) / (halves[0] + 2.5 - halves[4] + 3)) * halves.length * LEVEL));
+  const people = [];
+  for (let i = 0; i < 11; i += 1) {
+    const z0 = 238 - i * 17;
+    const v = 0.8 + (i % 3) * 0.18;
+    const x = (i % 2 ? 2.4 : -2.4) + (i % 3) * 0.5;
+    people.push(pilgrim({ staff: i % 3 === 0, wheel: i % 3 === 1, stoop: 0.08, pose: (t) => {
+      const z = Math.max(halves[4] - 2, z0 - v * t);
+      const walking = z > halves[4] - 2;
+      return { x, y: climbY(z), z, heading: Math.PI, gait: walking ? 1 : 0, mode: walking ? "walk" : "pray", cycle: (z0 - z) * 3.4 + i };
+    } }));
+  }
+  // The kora: clockwise round the temple on the top level, the temple always on the right hand.
+  const kora = (s) => {
+    const R = SAN + 7.5;
+    const per = 8 * R;
+    const u = ((s % per) + per) % per;
+    const side = Math.floor(u / (2 * R));
+    const f = (u % (2 * R)) - R;
+    const pts = [
+      [-f, R],
+      [-R, -f],
+      [f, -R],
+      [R, f],
+    ][side];
+    const dir = [
+      [-1, 0],
+      [0, -1],
+      [1, 0],
+      [0, 1],
+    ][side];
+    return { x: pts[0], z: pts[1], heading: Math.atan2(dir[0], dir[1]) };
+  };
+  for (let i = 0; i < 9; i += 1) {
+    const s0 = i * 19;
+    const v = 0.9 + (i % 3) * 0.1;
+    people.push(pilgrim({ wheel: i % 2 === 0, pose: (t) => {
+      const p = kora(s0 + v * t);
+      return { x: p.x, y: deck, z: p.z, heading: p.heading, gait: 1, cycle: (s0 + v * t) * 3.4 };
+    } }));
+  }
+  for (let i = 0; i < 4; i += 1) people.push(monk({ pose: (t) => ({ x: -6 + i * 4, y: deck, z: SAN + 3.5, heading: 0, gait: 0, mode: i % 2 ? "pray" : "stand" }) }));
+  // The herder walking behind the pack train.
+  people.push(pilgrim({ staff: true, pose: (t) => {
+    const p = trainAt(t, 5 * 6.5 + 2);
+    return { x: p.x, y: height(p.x, p.z), z: p.z, heading: p.heading, gait: 1, cycle: t * 5.2 };
+  } }));
+  updates.push(robed(scene, people));
+
+  // Rhododendrons in flower on the valley slopes, Nepal's national flower.
+  {
+    const crown = new THREE.IcosahedronGeometry(1, 2);
+    const p = crown.attributes.position;
+    const c = new Float32Array(p.count * 3);
+    const leaf = blend("pine", "ink", 0.25);
+    const bloom = col("accent");
+    for (let i = 0; i < p.count; i += 1) {
+      const n = fbm(p.getX(i) * 4 + 3, p.getZ(i) * 4 + p.getY(i) * 3, 2);
+      const k = new THREE.Color().lerpColors(leaf, bloom, smoothstep(0.45, 0.6, n));
+      c.set([k.r, k.g, k.b], i * 3);
+      const s = 1 + (n - 0.5) * 0.4;
+      p.setXYZ(i, p.getX(i) * s, p.getY(i) * s * 0.8, p.getZ(i) * s);
+    }
+    crown.setAttribute("color", new THREE.BufferAttribute(c, 3));
+    crown.computeVertexNormals();
+    const list = [];
+    for (let tries = 0; tries < 20000 && list.length < 900; tries += 1) {
+      const z = 250 + lr() * 1100;
+      const x = riverX(z) + (lr() < 0.5 ? -1 : 1) * (70 + lr() * 260);
+      const yy = height(x, z);
+      if (yy < WATER + 6 || yy > 200) continue;
+      list.push([x, yy, z]);
+    }
+    const m = new THREE.InstancedMesh(crown, new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.85 }), list.length);
+    const mm = new THREE.Matrix4();
+    list.forEach(([x, yy, z], i) => {
+      const s = 2.2 + lr() * 2.5;
+      m.setMatrixAt(i, mm.compose(new THREE.Vector3(x, yy + s * 0.7, z), new THREE.Quaternion().setFromEuler(new THREE.Euler(0, lr() * 6, 0)), new THREE.Vector3(s, s * 0.85, s)));
+    });
+    m.castShadow = true;
+    scene.add(m);
+  }
+  // A mani wall of carved stones along the stair, and tall white pole flags (darchor) beside it.
+  {
+    const maniTex = (() => {
+      const c = document.createElement("canvas");
+      c.width = 256;
+      c.height = 64;
+      const g = c.getContext("2d");
+      g.fillStyle = "#8a8378";
+      g.fillRect(0, 0, 256, 64);
+      for (let x = 0; x < 256; x += 32) {
+        g.fillStyle = `rgb(${110 + (x % 3) * 12},${104 + (x % 3) * 10},${96})`;
+        g.fillRect(x + 2, 4, 28, 56);
+        g.fillStyle = "rgba(245,240,230,0.8)";
+        for (let k = 0; k < 4; k += 1) g.fillRect(x + 6, 12 + k * 11, 20, 3);
+      }
+      const t = new THREE.CanvasTexture(c);
+      t.colorSpace = THREE.SRGBColorSpace;
+      t.wrapS = THREE.RepeatWrapping;
+      t.repeat.set(3, 1);
+      return t;
+    })();
+    const maniMat = new THREE.MeshStandardMaterial({ map: maniTex, roughness: 0.9 });
+    for (let i = 0; i < 40; i += 1) {
+      const z = 62 + i * 4.2;
+      const y0 = Math.max(height(-11, z), height(-11, z + 4));
+      const w = new THREE.Mesh(new THREE.BoxGeometry(1.6, 1.6, 4.3), maniMat);
+      w.position.set(-11.5, y0 + 0.5, z + 2.1);
+      w.castShadow = w.receiveShadow = true;
+      scene.add(w);
+    }
+    const bannerMat = new THREE.MeshStandardMaterial({ color: col("sclera"), roughness: 0.9, side: THREE.DoubleSide });
+    for (let i = 0; i < 6; i += 1) {
+      const z = 80 + i * 28;
+      const x = i % 2 ? 13 : -15;
+      const y0 = height(x, z);
+      const polem = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.3, 16, 6), new THREE.MeshStandardMaterial({ color: blend("iris", "hair", 0.4) }));
+      polem.position.set(x, y0 + 8, z);
+      scene.add(polem);
+      const g = new THREE.PlaneGeometry(1.6, 11, 1, 8);
+      g.translate(0.85, -5.5, 0);
+      const banner = new THREE.Mesh(g, bannerMat);
+      banner.position.set(x + 0.2, y0 + 15.5, z);
+      scene.add(banner);
+      flags.push({ flag: banner, phase: i * 1.3, base: 0, banner: true });
+    }
+  }
 
   const look = new THREE.Vector3();
 
@@ -1138,6 +1210,10 @@ function buildWorld(PAINT) {
     ripples.offset.set(t * 0.004, t * 0.0025);
     for (const tex of falls) tex.offset.y = t * 0.9;
     for (const f of flags) {
+      if (f.banner) {
+        f.flag.rotation.y = 0.4 + Math.sin(t * 1.7 + f.phase) * 0.35;
+        continue;
+      }
       f.flag.rotation.x = f.base + Math.sin(t * 4.2 + f.phase) * 0.35;
       f.flag.rotation.z = Math.sin(t * 3.1 + f.phase * 1.3) * 0.18;
     }
@@ -1161,46 +1237,7 @@ function buildWorld(PAINT) {
       r.ray.rotateX(Math.PI / 2);
       r.ray.material.opacity = 0.012 * (1 - smoothstep(16, 24, t)) + 0.003;
     }
-    for (const b of birds) {
-      const a = t * b.speed + b.phase;
-      b.g.position.set(b.cx + Math.sin(a) * b.radius, b.h + Math.sin(t * 0.7 + b.phase) * 6, b.cz + Math.cos(a) * b.radius * 0.6);
-      b.g.rotation.y = a + Math.PI / 2;
-      // Eagles hold their wings and tilt into the turn; small birds flap.
-      const flap = b.glide ? 0.12 + Math.sin(t * 0.8 + b.phase) * 0.05 : Math.sin(t * b.flap + b.phase * 3) * 0.55;
-      b.l.rotation.z = flap;
-      b.r.rotation.z = -flap;
-      b.g.rotation.z = b.glide ? 0.25 : 0;
-    }
-    for (const an of animals) {
-      // Walkers drift slowly along their heading; grazers stay and lower their heads.
-      const along = an.walk * t * 0.9;
-      const x = an.x + Math.sin(an.heading) * along;
-      const z = an.z + Math.cos(an.heading) * along;
-      an.g.position.set(x, height(x, z), z);
-      an.g.rotation.y = an.heading;
-      const stride = an.walk ? Math.sin(t * 4.5 + an.phase) * 0.45 : 0;
-      an.legs.forEach((leg, k) => (leg.rotation.x = (k === 0 || k === 3 ? 1 : -1) * stride));
-      an.neck.rotation.x = an.walk ? 0.1 : 0.55 + Math.sin(t * 0.9 + an.phase) * 0.25;
-    }
-    for (const p of people) {
-      let x = p.x;
-      let z = p.z;
-      let y = p.y;
-      let walking = false;
-      if (p.climb) {
-        z = Math.max(stairTop + 2, p.z0 - p.speed * t);
-        walking = z > stairTop + 2;
-        y = stairY(z);
-      }
-      p.g.position.set(x, y, z);
-      p.g.rotation.y = p.climb ? Math.PI : p.facing;
-      const w = walking ? Math.sin(t * 6 + p.phase) : 0;
-      p.legL.rotation.x = w * 0.5;
-      p.legR.rotation.x = -w * 0.5;
-      p.armL.rotation.x = -w * 0.4;
-      p.armR.rotation.x = w * 0.4 + (p.climb ? 0 : Math.sin(t * 0.8 + p.phase) * 0.08);
-      p.g.position.y += walking ? Math.abs(Math.sin(t * 6 + p.phase)) * 0.15 : 0;
-    }
+    for (const u of updates) u(t);
     renderer.render(scene, camera);
   }
 

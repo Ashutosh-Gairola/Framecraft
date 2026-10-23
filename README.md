@@ -34,7 +34,7 @@ Click a still to watch (720p, with sound).
   </tr>
   <tr>
     <td><b><a href="media/life-on-earth.mp4">Life on Earth</a></b> · 2:00 · three.js, one continuous shot<br><sub>A coral reef, up through the surface to the coast, the countryside, a city with live traffic, a forest, and golden hour — farmers, cattle, deer, birds, fish, commuters, all on one map.</sub></td>
-    <td><b><a href="media/mountain-shrine.mp4">Mountain Shrine</a></b> · 1:20 · three.js, one continuous shot<br><sub>Above the clouds, down a river valley, through a cloud bank to a Himalayan pagoda, with pilgrims on the stairs, yaks, goats, and birds.</sub></td>
+    <td><b><a href="media/mountain-shrine.mp4">Mountain Shrine</a></b> · 1:20 · three.js, one continuous shot<br><sub>Above the clouds, down a river valley, through a cloud bank to a five-tiered temple after Nyatapola; pilgrims walking the kora, monks in maroon, a yak pack train, prayer flags in their true order.</sub></td>
   </tr>
   <tr>
     <td width="50%"><a href="media/everest-to-galaxy.mp4"><img src="media/everest-to-galaxy.jpg" alt="Everest to the Galaxy: the Milky Way's spiral arms"></a></td>
@@ -43,6 +43,14 @@ Click a still to watch (720p, with sound).
   <tr>
     <td><b><a href="media/everest-to-galaxy.mp4">Everest to the Galaxy</a></b> · 2:00 · three.js, one continuous shot<br><sub>From Everest at sunrise through a volcano's plume to Earth, the planets, and the Milky Way.</sub></td>
     <td><b><a href="media/sky-city-duel.mp4">Sky City Duel</a></b> · 1:44 · 2D, six scenes<br><sub>An aerial duel over a floating city: actor specs with cloth and hair physics, a dragon and a phoenix, synthesized sound.</sub></td>
+  </tr>
+  <tr>
+    <td width="50%"><a href="media/living-light-ocean.mp4"><img src="media/living-light-ocean.jpg" alt="The Living Light of the Ocean: a sardine school lit by bioluminescent plankton at night"></a></td>
+    <td width="50%"></td>
+  </tr>
+  <tr>
+    <td><b><a href="media/living-light-ocean.mp4">The Living Light of the Ocean</a></b> · 0:40 · three.js, one continuous shot<br><sub>A night beach where only the breaking waves glow, a macro look into the surf, a dive under a wave, plankton that flashes in the wake of a sardine school and a green sea turtle, and the deep.</sub></td>
+    <td></td>
   </tr>
 </table>
 
@@ -186,7 +194,7 @@ node harness/sequence.js brief.json      # films/<slug>/sequence.md and one shee
 - `harness/templates/three-scene.html` — a working three.js scene for HyperFrames
 - `harness/templates/` — the bible and model sheet the designer starts from
 - `vendor/hyperframes/` — the HyperFrames engine skills (Apache-2.0), pinned
-- `films/` — the films: `life-on-earth/`, `mountain-shrine/`, `everest-to-galaxy/` (three.js), `sky-city-duel/`, `stickman-blade-fight/` (2D sequences), `roof/` (the reference). Each has its brief, sheets, bible, build script, and its synthesized sound in `assets/sfx/` (rebuild it with `harness/sfx.js`)
+- `films/` — the films: `life-on-earth/`, `mountain-shrine/`, `everest-to-galaxy/`, `living-light-ocean/` (three.js), `sky-city-duel/`, `stickman-blade-fight/` (2D sequences), `roof/` (the reference). Each has its brief, sheets, bible, build script, and its synthesized sound in `assets/sfx/` (rebuild it with `harness/sfx.js`)
 - `media/*.mp4`, `media/*.jpg` — 720p cuts of the films above, and their stills
 - `media/film.mp4` — Kokuyō, the original film
 - `media/city.jpg`, `media/moon.jpg`, `media/fight.jpg`, `media/helm.jpg`, `media/ren.jpg` — stills from it

@@ -1,20 +1,38 @@
 <template>
-  <style>#root{position:absolute;inset:0;overflow:hidden;background:#101628}.ocean-cv{position:absolute;inset:0;width:1920px;height:1080px;display:block}</style>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; background: #101628; }
+    .descent-cv { position: absolute; inset: 0; width: 1920px; height: 1080px; display: block; }
+  </style>
   <div id="root" data-composition-id="descent" data-start="0" data-duration="8" data-width="1920" data-height="1080">
-    <canvas id="descent-cv" class="clip ocean-cv" data-start="0" data-duration="8" data-track-index="1" width="1920" height="1080"></canvas>
-    <audio id="descent-ambience" class="clip" src="assets/sfx/water-8.wav" data-start="0" data-duration="8" data-track-index="20" data-volume="0.42"></audio>
-    <audio id="descent-score" class="clip" src="assets/sfx/wonder-8.wav" data-start="0" data-duration="8" data-track-index="21" data-volume="0.31"></audio>
-    <audio id="descent-bubbles" class="clip" src="assets/sfx/bubbles.wav" data-start="2.5" data-hf-media-start-basis="local" data-duration="4" data-track-index="22" data-volume="0.25"></audio>
+    <canvas id="descent-cv" class="clip descent-cv" data-start="0" data-duration="8" data-track-index="1" width="1920" height="1080"></canvas>
   </div>
   <script>
-    (function(){
-      const id="descent";
-      window.__hf=window.__hf||{}; window.__hf.buildReady=window.__hf.buildReady||{};
-      let resolve; const built=new Promise(r=>resolve=r); window.__hf.buildReady[id]=built;
-      let render=null,pending=0;
-      window.addEventListener('hf-seek',(e)=>{pending=e.detail.time;if(render)render(pending);else if(e.detail.waitUntil)e.detail.waitUntil(built.then(()=>render&&render(pending)));});
-      import('./assets/world.js').then(m=>{render=m.createWorld(document.getElementById(id+'-cv')).render;render(pending);}).catch(e=>console.error(id+': world failed',e)).finally(()=>resolve());
-      window.__timelines=window.__timelines||{};window.__timelines["descent"]=gsap.timeline({paused:true});
+    (function () {
+      // The sheet's paints: the world derives every colour from these.
+      const PAINT = {"sky":"#1b2d6b","ink":"#101628","moon":"#d5e2ff","accent":"#e23b4a","practical":"#f0c36a","iris":"#e7a04a","skin":"#f0c2ae","hair":"#16141c","sclera":"#f6f3ee","line":"#e7eefc","plankton":"#42dff5","shell":"#526b4a","oceanlight":"#2857a4"};
+      window.__hf = window.__hf || {};
+      window.__hf.buildReady = window.__hf.buildReady || {};
+      let ready;
+      const built = new Promise((resolve) => (ready = resolve));
+      window.__hf.buildReady["descent"] = built;
+      let render = null;
+      let pending = 8;
+      // HyperFrames sends film time; the world is one continuous path across every scene.
+      window.addEventListener("hf-seek", (e) => {
+        pending = e.detail.time;
+        if (render) render(pending);
+        else if (e.detail.waitUntil) e.detail.waitUntil(built.then(() => render && render(pending)));
+      });
+      // "./": a dynamic import without it is a bare package name and never loads.
+      import("./assets/world.js")
+        .then((world) => {
+          render = world.createWorld(document.getElementById("descent-cv"), PAINT).render;
+          render(pending);
+        })
+        .catch((error) => console.error("descent: the world failed to load", error))
+        .finally(() => ready());
+      window.__timelines = window.__timelines || {};
+      window.__timelines["descent"] = gsap.timeline({ paused: true });
     })();
   </script>
 </template>

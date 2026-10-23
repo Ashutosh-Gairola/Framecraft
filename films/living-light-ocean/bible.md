@@ -1,30 +1,39 @@
-# The Living Light of the Ocean — production bible
+# The Living Light of the Ocean — bible
 
-## Cast and props
-- **Green sea turtle**: green sea turtle model sheet at `design/green-sea-turtle.html`. Adult *Chelonia mydas*, broad oval shell, small head, long paddle foreflippers, shorter steering hind flippers, muted olive shell and pale underside. This is an animal, not a mascot.
-- **School of fish**: small, consistent silver fish silhouettes with tapered bodies and forked tails; one coordinated school.
-- **Plankton**: microscopic points; cyan flashes only briefly near movement, then fade.
-- **Water**: a single ocean stage. Wet black sand at the coast becomes a continuous surface descent, open water, and deep darkness.
+A 3D film (`skills/html-anime-3d-actor/SKILL.md`): one continuous 40-second shot, drawn by `assets/world.js` at film time. Research is in `references.md`.
 
-## Art
-This film interprets the requested nature documentary in the repo's code-drawn anime medium. Painted-world backgrounds have layered navy washes without outlines; marine life uses restrained cel shapes with a hard ink shadow. Keep the near field sharp and dark, the distance hazy navy, and reserve `plankton` for tiny short-lived light. `shell` is limited to the turtle; `oceanlight` is a broad, restrained midwater wash; `moon` supplies surface glints and fish highlights. No red accent is used. Particles remain sparse at shore and denser only in the final wide reveal. No titles, captions, logos, or fantasy structures.
+## Beats
 
-Paint roles: `sky` is ocean midground; `ink` is the black-point and deep water; `moon` is surface reflection and tiny highlights; `plankton` is the only cyan emission; `shell` marks the turtle carapace. Exposure holds true black; cyan highlights do not wash the frame. Shadows stay dark and localized; no full-frame glow or blur.
+| Time | Beat | Camera |
+| --- | --- | --- |
+| 0–6 | The glowing shoreline: a moonless navy sky, stars, black wet sand; light only on the breaking lip of each wave, the whitewater, and the advancing wash; sparkles left on the sand as the water drains | Low over the sand at the waterline, gliding parallel to the waves |
+| 6–12 | Microscopic light: single sparks in the moving water, flaring as each wave passes | Macro (22°), shallow depth of field on the plankton |
+| 12–18 | The dive: over the whitewater, under a passing wave; a refracting waterline sweeps the lens, droplets run off, bubbles rise; the surface becomes a wavering ceiling | One continuous move, widening to 70° |
+| 18–25 | The living constellation: a sardine school crosses; every fish leaves a short-lived trail of flashing plankton; the school turns as one | Side-tracking, then a slow orbit round the school |
+| 25–32 | A gentle giant: a green sea turtle swims out of the dark; its flippers stir sparks; it passes close to the lens | Low-angle tracking beside it, close at 29s, then a wide reveal |
+| 32–40 | The infinite blue: deep water, a sky of points of light all round, distant fish silhouettes, two far pulses of light; the turtle a speck with its luminous wake | Pull back and down into an ultra-wide, tilting up toward the distant surface |
+
+## How the light works
+
+Bioluminescence answers disturbance. On the surface it is computed from the waves themselves (the lip band, the foam behind it, the wash front where the water is rising, a constant flicker in shallow surf), always as single sparks up close. Underwater, 170,000 plankton points drift on the current round the camera; each frame passes up to 64 "disturbers" (sample fish, the turtle's flippers and head, the camera during the dive) at their current and recent positions, so the water flashes where they are and fades where they were. Point lights follow the school and the turtle, so the glow lights the animals that make it. Depth of field on the plankton: a focus distance and blur per beat.
+
+## The animals
+
+- **Turtle**: carapace from the references — teardrop outline widest at the front third, five vertebral and four pairs of costal scutes with marginals, golden streaks radiating across each scute, pale seams; pale plastron; head and flippers in dark scales outlined cream. Fore flippers ~0.7 of the shell, lifting high and sweeping down and back together on a 4.8 s stroke (downstroke 45%), hind flippers steering.
+- **Sardines**: fusiform, laterally compressed, forked tail, dorsal fin; dark blue-green back, silver sides, white belly; a body wave down to the tail; one ellipsoid school that breathes and banks.
 
 ## Motion
-A single camera path carries the five scene beats: low coastal tracking at 0–6s; skim and macro approach at 6–9s; pass through the waterline at 9–14s; drift among fish at 14–23s; follow the turtle at 23–32s; pull back and rise to the deep reveal at 32–40s. Each composition uses the corresponding segment of the same deterministic path, so adjacent endpoints match.
 
-- Shore water rolls in slowly; foam and plankton travel with the wave. Water disturbance produces short cyan strokes that fade within about half a second.
-- Plankton has individually seeded drift paths, subtle parallax, and disturbance-triggered pulses. No `Math.random()` or permanent glow trails.
-- Fish hold a coherent group and bank through one shared arc; each tail oscillates subtly with a phase offset.
-- Turtle swim cycle: 48 frames at 24fps. Broad foreflipper power stroke, eased recovery, smaller hind flippers steering. The shell and head remain stable; the turtle glides forward and does not flap like a bird.
-- Bubbles rise during the water entry and descent, bending slightly with current.
+Cards: `locomotion.md` (the turtle's stroke, fish swimming), `effects.md` (water, bubbles, light). The turtle's fore flippers sweep down and back together on a 4.8 s stroke and recover slower; fish swim with a body wave at ~5 Hz; waves run at a 7 s period; everything moves from film time.
 
-## Layout and camera
-16:9, 1920×1080. A continuous wide-lens journey with strong near/mid/far parallax. Shoreline begins at sand level with horizon in upper third. The waterline passes over the lens around 10s; maintain a recognizable wavering surface overhead during descent. Fish move screen-left to right; turtle crosses toward screen-right. The final move pulls backward and tilts toward the distant surface; turtle ends as a small silhouette below center. The luminous points are not the brightest shape in every frame; keep a clear dark silhouette.
+## Paints
+
+The `indigo` script plus `plankton`, `shell`, `oceanlight`. Deep navy and near-black dominate; cyan-blue is reserved for the light itself.
+
+## Grade
+
+True blacks, saturated blue highlights, a bloom only on the brightest light, a soft vignette, fine film grain.
 
 ## Sound
-No voice or captions. Start with soft surf and faint night air. Introduce a calm wonder score quietly. At the waterline, crossfade surf into muffled underwater ambience with a few delicate bubbles. Keep a low ocean bed under the fish and turtle. Let the score open slightly for the final reveal and end on a quiet, peaceful tail.
 
-## Timing and delivery
-40 seconds, 24fps, 960 frames, 16:9. Five 8-second sheets establish the beats. They compress the detailed 6/6/6/7/7/8-second outline into five equal scene units; shoreline and macro share the opening unit, and the fish/turtle/deep beats each have their own unit. The camera continuity in the render joins those units into one journey.
+Surf and night air on the beach; at the dive a whoosh and bubbles, then the muffled sea; a serene score bed across the whole film, joined underwater by a second voice that builds, and a low drone in the deep. The beds run across the scene seams as single long clips on the root.

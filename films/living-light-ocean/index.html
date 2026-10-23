@@ -1,8 +1,35 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><title>The Living Light of the Ocean — html-anime</title><style>html,body{margin:0;background:#101628}#root{position:relative;width:1920px;height:1080px;overflow:hidden;background:#101628}</style><script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script></head><body>
-<div id="root" data-composition-id="living-light-ocean" data-start="0" data-duration="40" data-width="1920" data-height="1080">
-  <div id="shoreline-host" data-composition-id="shoreline" data-composition-src="compositions/shoreline.html" data-start="0" data-duration="8" data-track-index="1" data-width="1920" data-height="1080"></div>
-  <div id="descent-host" data-composition-id="descent" data-composition-src="compositions/descent.html" data-start="8" data-duration="8" data-track-index="1" data-width="1920" data-height="1080"></div>
-  <div id="school-host" data-composition-id="school" data-composition-src="compositions/school.html" data-start="16" data-duration="8" data-track-index="1" data-width="1920" data-height="1080"></div>
-  <div id="turtle-host" data-composition-id="turtle" data-composition-src="compositions/turtle.html" data-start="24" data-duration="8" data-track-index="1" data-width="1920" data-height="1080"></div>
-  <div id="deep-host" data-composition-id="deep" data-composition-src="compositions/deep.html" data-start="32" data-duration="8" data-track-index="1" data-width="1920" data-height="1080"></div>
-</div><script>window.__timelines=window.__timelines||{};window.__timelines['living-light-ocean']=gsap.timeline({paused:true});</script></body></html>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>The Living Light of the Ocean — html-anime</title>
+    <style>
+      html, body { margin: 0; background: #101628; }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: #101628; }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  </head>
+  <body>
+    <div id="root" data-composition-id="living-light-ocean" data-start="0" data-duration="40" data-width="1920" data-height="1080">
+      <div id="shoreline-host" data-composition-id="shoreline" data-composition-src="compositions/shoreline.html" data-start="0" data-duration="8" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <div id="descent-host" data-composition-id="descent" data-composition-src="compositions/descent.html" data-start="8" data-duration="8" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <div id="school-host" data-composition-id="school" data-composition-src="compositions/school.html" data-start="16" data-duration="8" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <div id="turtle-host" data-composition-id="turtle" data-composition-src="compositions/turtle.html" data-start="24" data-duration="8" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <div id="deep-host" data-composition-id="deep" data-composition-src="compositions/deep.html" data-start="32" data-duration="8" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <audio id="sfx-0" class="clip" src="assets/sfx/surf-15.wav" data-start="0" data-duration="15" data-track-index="20" data-volume="0.75"></audio>
+      <audio id="sfx-1" class="clip" src="assets/sfx/wind-14.wav" data-start="0" data-duration="14" data-track-index="21" data-volume="0.22"></audio>
+      <audio id="sfx-2" class="clip" src="assets/sfx/score-serene-40.wav" data-start="0" data-duration="40" data-track-index="22" data-volume="0.28"></audio>
+      <audio id="sfx-3" class="clip" src="assets/sfx/whoosh.wav" data-start="14" data-duration="0.6" data-track-index="21" data-volume="0.35"></audio>
+      <audio id="sfx-4" class="clip" src="assets/sfx/bubbles.wav" data-start="14.2" data-duration="4" data-track-index="23" data-volume="0.55"></audio>
+      <audio id="sfx-5" class="clip" src="assets/sfx/underwater-26.wav" data-start="14" data-duration="26" data-track-index="24" data-volume="0.75"></audio>
+      <audio id="sfx-6" class="clip" src="assets/sfx/score-wonder-26.wav" data-start="14" data-duration="26" data-track-index="25" data-volume="0.3"></audio>
+      <audio id="sfx-7" class="clip" src="assets/sfx/bubbles.wav" data-start="21.5" data-duration="4" data-track-index="20" data-volume="0.2"></audio>
+      <audio id="sfx-8" class="clip" src="assets/sfx/bubbles.wav" data-start="27.8" data-duration="4" data-track-index="20" data-volume="0.2"></audio>
+      <audio id="sfx-9" class="clip" src="assets/sfx/drone-10.wav" data-start="30" data-duration="10" data-track-index="21" data-volume="0.32"></audio>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      window.__timelines["living-light-ocean"] = gsap.timeline({ paused: true });
+    </script>
+  </body>
+</html>

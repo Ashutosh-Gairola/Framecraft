@@ -23,11 +23,11 @@
   },
   "designColors": {
     "pine": "#2e5b3c",
-    "meadow": "#7fa255",
-    "glacier": "#9fc1d6"
+    "azure": "#2c68b2",
+    "gold": "#e2a623"
   },
   "style": "painted-world",
-  "styleReference": "Cinematic realism in three.js: golden-hour light, atmospheric perspective, volumetric fog and cloud, smooth drone moves. No cuts, no shake, no text, no logos.",
+  "styleReference": "Cinematic realism in three.js after references (Nyatapola, Tengboche, Khumbu yaks): crisp Himalayan morning light, a deep blue sky, true shadows, saturated colour; atmospheric perspective only in the ",
   "animation": "full",
   "lines": [],
   "card": "",

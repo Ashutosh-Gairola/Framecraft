@@ -5,12 +5,13 @@ A 3D film (`skills/html-anime-3d-actor/SKILL.md`). One world, `assets/world.js`,
 ## World
 
 - Terrain: seeded value noise and ridges; a central peak with a flat summit at y 262; a valley carved south of it with a winding river (`riverX(z)`) and a lake at z 560; a far snow range in a ring 1050–1650 out.
-- Paints: the `noon` script plus `pine`, `meadow`, `glacier`. Every color in the world is a paint or a blend of two.
+- Paints: the `noon` script plus `pine`, `azure`, `gold` (the first version's `meadow` and `glacier` are now blends of these, so the sky can be truly blue and the flags truly yellow). Every colour is a paint or a blend of two. Research: `references.md`.
 - Shrine: two stone platforms, a white hall with a red band and red pillars, two hip roofs, a gold finial and sphere, a chorten, a bell, 46 stone steps down the south slope with lanterns every fifth step, four strings of prayer flags (blue, white, red, green, yellow).
 - Valley: 7,000 instanced pines in clustered stands, wildflowers on the floor, a wooden bridge at z 380, three waterfalls on the walls, birds circling.
 - Land detail: fine relief, a grain normal map, rock strata, grass patches, ambient occlusion, 1,600 boulders.
-- Shrine: a three-tier pagoda (`pagodaRoof()`: curved hip roofs with upturned corners, tile ribs, gold fascia, corner lanterns) on a three-tier railed plinth; timber-framed hall, lattice windows, red-and-gold door, porch columns, eave struts, gold spire, prayer wheels, banners.
-- Life: 31 birds (a valley flock, a summit flock, three eagles), 16 yaks along the river, 8 goats on the high slopes, 9 pilgrims climbing the stairs (some with staffs), 3 monks at the door.
+- Shrine (rebuilt after Nyatapola): a five-level stepped brick plinth with a central stair and pairs of guardian statues on every level; a red-brick sanctum framed in dark carved timber with latticed bays and a door under a gilded torana on each side; five tiers of dark roofs over brick drums, every eave held by a ring of painted struts (red, green, gold, blue), bells along the lowest eave; a gilded finial; a white chorten; rows of brass prayer wheels; a mani wall along the stair and tall white pole banners.
+- Life: choughs over the valley and the summit, four Himalayan griffon vultures soaring; 16 shaggy yaks (hump, hair skirt, sweeping horns, four-beat walk) by the river and a pack train of five loaded yaks with their herder on the valley trail; long-haired goats on the slopes; 11 pilgrims in chubas climbing the stair (staffs, prayer wheels), 9 walking the kora clockwise round the temple, 4 monks in maroon and saffron at the door. People have knees and elbows, counter-rotating hips and shoulders, robes that swing with the stride. Red rhododendrons in flower on the valley slopes.
+- Grade: a deep azure zenith, fog only in the distance, sun against blue skylight fill, one contrast/saturation pass on the finished frame.
 - Air: a sky dome from deep blue to a warm horizon, a low golden sun in the east-south-east rising slowly, exponential fog, a sea of clouds kept out of the valley corridor, wisps circling the summit, light shafts in the first scene.
 
 ## Motion

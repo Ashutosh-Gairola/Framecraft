@@ -18,8 +18,8 @@ Color script: Paper noon
 - line #241c16
 Design colors (added by the designer for a reference; use them only where the bible says):
 - pine #2e5b3c
-- meadow #7fa255
-- glacier #9fc1d6
+- azure #2c68b2
+- gold #e2a623
 
 Compose the wide frame. Put the eyes on a third, with room in front of the gaze.
 
@@ -30,7 +30,7 @@ Painted world — Cel characters in front of painted backgrounds built from stac
 - Proportion: 6.5 heads tall.
 - Eyes: Round eyes, iris about two thirds of the eye height, one soft-shaped catchlight drawn as a flat shape.
 - Background: Big cloud and foliage masses as layered flat shapes. Light comes from one side and every wash agrees with it.
-Style reference: Cinematic realism in three.js: golden-hour light, atmospheric perspective, volumetric fog and cloud, smooth drone moves. No cuts, no shake, no text, no logos.. Follow it. The style above fills in what the reference doesn't show.
+Style reference: Cinematic realism in three.js after references (Nyatapola, Tengboche, Khumbu yaks): crisp Himalayan morning light, a deep blue sky, true shadows, saturated colour; atmospheric perspective only in the . Follow it. The style above fills in what the reference doesn't show.
 
 ## Cast
 No named cast. If a figure is on screen, the designer names it, treats it as an original,

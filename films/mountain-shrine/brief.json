@@ -4,13 +4,41 @@
   "aspect": "16:9",
   "script": "noon",
   "style": "painted-world",
-  "styleReference": "Cinematic realism in three.js: golden-hour light, atmospheric perspective, volumetric fog and cloud, smooth drone moves. No cuts, no shake, no text, no logos.",
+  "styleReference": "Cinematic realism in three.js after references (Nyatapola, Tengboche, Khumbu yaks): crisp Himalayan morning light, a deep blue sky, true shadows, saturated colour; atmospheric perspective only in the distance; smooth drone moves. No cuts, no shake, no text, no logos.",
   "animation": "full",
-  "designColors": { "pine": "#2e5b3c", "meadow": "#7fa255", "glacier": "#9fc1d6" },
+  "designColors": {
+    "pine": "#2e5b3c",
+    "azure": "#2c68b2",
+    "gold": "#e2a623"
+  },
   "scenes": [
-    { "id": "s1-above-the-clouds", "title": "Above the Clouds", "seconds": 20, "logline": "A drone glides slowly above a sea of white clouds at sunrise until a lush mountain peak rises through them with an ancient shrine on its summit, prayer flags lit gold.", "props": "sea of clouds; golden light rays; the shrine on the peak; prayer flags in the wind" },
-    { "id": "s2-the-valley", "title": "The Valley", "seconds": 20, "logline": "The camera flies forward low through the valley over pine forests, a winding river, a wooden bridge and a lake reflecting the peaks, with waterfalls in the mist and birds gliding past.", "props": "pine forest; river; wooden bridge; lake reflections; waterfalls; birds; wildflowers in the wind" },
-    { "id": "s3-the-shrine", "title": "The Shrine", "seconds": 20, "logline": "The camera rises to the summit and slowly orbits the shrine, its carved roofs, glowing lanterns and wet stone steps against a panorama of misty Himalayan ranges.", "props": "tiered roofs; lanterns glowing; wet stone steps; prayer flags fluttering; a bell; fog drifting on the slopes" },
-    { "id": "s4-the-range", "title": "The Range", "seconds": 20, "logline": "The camera pulls slowly up and back until the whole range is revealed, the shrine small above the clouds and snow peaks glowing under the morning sun.", "props": "snow-capped peaks; golden horizon; clouds moving between the peaks; the shrine above the clouds" }
+    {
+      "id": "s1-above-the-clouds",
+      "title": "Above the Clouds",
+      "seconds": 20,
+      "logline": "A drone glides slowly above a sea of white clouds at sunrise until a lush mountain peak rises through them with an ancient shrine on its summit, prayer flags lit gold.",
+      "props": "sea of clouds; golden light rays; the shrine on the peak; prayer flags in the wind"
+    },
+    {
+      "id": "s2-the-valley",
+      "title": "The Valley",
+      "seconds": 20,
+      "logline": "The camera flies forward low through the valley over pine forests, a winding river, a wooden bridge and a lake reflecting the peaks, with waterfalls in the mist and birds gliding past.",
+      "props": "pine forest; river; wooden bridge; lake reflections; waterfalls; birds; wildflowers in the wind"
+    },
+    {
+      "id": "s3-the-shrine",
+      "title": "The Shrine",
+      "seconds": 20,
+      "logline": "The camera rises to the summit and slowly orbits the shrine, its carved roofs, glowing lanterns and wet stone steps against a panorama of misty Himalayan ranges.",
+      "props": "tiered roofs; lanterns glowing; wet stone steps; prayer flags fluttering; a bell; fog drifting on the slopes"
+    },
+    {
+      "id": "s4-the-range",
+      "title": "The Range",
+      "seconds": 20,
+      "logline": "The camera pulls slowly up and back until the whole range is revealed, the shrine small above the clouds and snow peaks glowing under the morning sun.",
+      "props": "snow-capped peaks; golden horizon; clouds moving between the peaks; the shrine above the clouds"
+    }
   ]
 }

@@ -1,9 +1,37 @@
 {
   "sounds": {
-    "surf-8": { "kind": "surf", "dur": 8 },
-    "water-8": { "kind": "underwater", "dur": 8 },
-    "bubbles": { "kind": "bubbles", "dur": 4 },
-    "wonder-8": { "kind": "score", "dur": 8, "mood": "wonder" },
-    "serene-8": { "kind": "score", "dur": 8, "mood": "serene" }
+    "surf-15": {
+      "kind": "surf",
+      "dur": 15
+    },
+    "wind-14": {
+      "kind": "wind",
+      "dur": 14
+    },
+    "underwater-26": {
+      "kind": "underwater",
+      "dur": 26
+    },
+    "drone-10": {
+      "kind": "drone",
+      "dur": 10
+    },
+    "bubbles": {
+      "kind": "bubbles",
+      "dur": 4
+    },
+    "whoosh": {
+      "kind": "whoosh"
+    },
+    "score-serene-40": {
+      "kind": "score",
+      "dur": 40,
+      "mood": "serene"
+    },
+    "score-wonder-26": {
+      "kind": "score",
+      "dur": 26,
+      "mood": "wonder"
+    }
   }
 }
