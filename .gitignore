@@ -4,7 +4,7 @@ node_modules/
 .hyperframes/
 renders/
 *.mp4
-!media/film.mp4
+!media/*.mp4
 
 # Built by films/<slug>/build/build.mjs; rebuild instead of committing.
 films/stickman-blade-fight/compositions/
@@ -14,3 +14,6 @@ films/sky-city-duel/compositions/
 
 # Reference images are for study only (harness/refs.js); never commit or ship them.
 films/*/references/
+
+# Draft renders made inside a film folder.
+films/*/renders/

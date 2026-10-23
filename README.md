@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/blixvip/html-anime/stargazers"><img src="https://img.shields.io/github/stars/blixvip/html-anime?style=flat-square&color=e8434b" alt="GitHub stars"></a>
+  <a href="https://github.com/Ashutosh-Gairola/html-anime-rework/stargazers"><img src="https://img.shields.io/github/stars/Ashutosh-Gairola/html-anime-rework?style=flat-square&color=e8434b" alt="GitHub stars"></a>
   <a href="https://blixvip.github.io/html-anime/"><img src="https://img.shields.io/badge/site-blixvip.github.io%2Fhtml--anime-111?style=flat-square" alt="Site"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-111?style=flat-square" alt="MIT license"></a>
   <img src="https://img.shields.io/badge/render-HyperFrames-111?style=flat-square" alt="HyperFrames">
@@ -21,7 +21,34 @@
   <sub>A still from <i>Kokuyō</i>, drawn entirely in HTML. <a href="https://blixvip.github.io/html-anime/">Watch it on the site</a> · <a href="media/film.mp4">media/film.mp4</a></sub>
 </p>
 
-An anime, written as HTML. You write a scene. [The site](https://blixvip.github.io/html-anime/) turns it into a shot sheet: holds, one expensive shot, a closed color script, an art style, the cast, and the voice. Paste that sheet into Claude, Codex, Cursor, or Grok. A crew of agent skills draws it: a director, a designer, art, motion, a cameraman, the animation staff, voice, and render.
+> **This is the studio rework of [html-anime](https://github.com/blixvip/html-anime).** One sheet-and-render loop became a full crew of agent skills — research, director, designer, actor, art, motion, cameraman, staff, voice, sound, render, editor, and a three.js 3D actor — with a drawing kit, procedural sound, an editor's review, and multi-scene sequences up to two minutes. The films below were made with it.
+
+## Films made with the crew
+
+Click a still to watch (720p, with sound).
+
+<table>
+  <tr>
+    <td width="50%"><a href="media/life-on-earth.mp4"><img src="media/life-on-earth.jpg" alt="Life on Earth: an aerial sweep along a tropical coast"></a></td>
+    <td width="50%"><a href="media/mountain-shrine.mp4"><img src="media/mountain-shrine.jpg" alt="Mountain Shrine: a pagoda on a peak rising out of the clouds"></a></td>
+  </tr>
+  <tr>
+    <td><b><a href="media/life-on-earth.mp4">Life on Earth</a></b> · 2:00 · three.js, one continuous shot<br><sub>A coral reef, up through the surface to the coast, the countryside, a city with live traffic, a forest, and golden hour — farmers, cattle, deer, birds, fish, commuters, all on one map.</sub></td>
+    <td><b><a href="media/mountain-shrine.mp4">Mountain Shrine</a></b> · 1:20 · three.js, one continuous shot<br><sub>Above the clouds, down a river valley, through a cloud bank to a Himalayan pagoda, with pilgrims on the stairs, yaks, goats, and birds.</sub></td>
+  </tr>
+  <tr>
+    <td width="50%"><a href="media/everest-to-galaxy.mp4"><img src="media/everest-to-galaxy.jpg" alt="Everest to the Galaxy: the Milky Way's spiral arms"></a></td>
+    <td width="50%"><a href="media/sky-city-duel.mp4"><img src="media/sky-city-duel.jpg" alt="Sky City Duel: a white-haired warrior raising a blade under the stars"></a></td>
+  </tr>
+  <tr>
+    <td><b><a href="media/everest-to-galaxy.mp4">Everest to the Galaxy</a></b> · 2:00 · three.js, one continuous shot<br><sub>From Everest at sunrise through a volcano's plume to Earth, the planets, and the Milky Way.</sub></td>
+    <td><b><a href="media/sky-city-duel.mp4">Sky City Duel</a></b> · 1:44 · 2D, six scenes<br><sub>An aerial duel over a floating city: actor specs with cloth and hair physics, a dragon and a phoenix, synthesized sound.</sub></td>
+  </tr>
+</table>
+
+## How it works
+
+An anime, written as HTML. You write a scene. [The site](https://blixvip.github.io/html-anime/) turns it into a shot sheet: holds, one expensive shot, a closed color script, an art style, the cast, and the voice. Paste that sheet into Claude, Codex, Cursor, or Grok. A crew of agent skills draws it: research, a director, a designer, an actor, art, motion, a cameraman, the animation staff, voice, sound, render, and an editor — or a 3D actor in three.js when the camera must fly.
 
 The pictures are HTML, timed for [HyperFrames](https://github.com/heygen-com/hyperframes). Nothing here calls a video model.
 
@@ -43,8 +70,8 @@ Kokuyō. Watch it on [the site](https://blixvip.github.io/html-anime/) or open [
 ## Start
 
 ```
-git clone https://github.com/blixvip/html-anime.git
-cd html-anime
+git clone https://github.com/Ashutosh-Gairola/html-anime-rework.git
+cd html-anime-rework
 ```
 
 Open the folder in the agent you already use and paste a sheet as the first message. The site builds the sheet in the browser. `harness/compile.js` builds the same sheet in Node.
@@ -93,18 +120,19 @@ node harness/sheet.js brief.json        # films/<slug>/sheet.md and sheet.json
 
 | Role | Skill | Job |
 | --- | --- | --- |
+| Research | `skills/html-anime-actor/` (step 0), `harness/refs.js` | Before anything is drawn: web references for every character, extra, animal, and place; sampled colours mapped to the paints; gait timings |
 | Director | `skills/html-anime-director/` | Refines the brief, builds the sheet (or a sequence), holds the gates, signs off |
 | Designer | `skills/html-anime-designer/` | An original character gets a model sheet example to approve first; a reference is followed exactly |
 | Actor | `skills/html-anime-actor/` | Each character as a spec: appearance, every garment with its own cloth physics, a movement profile, a pose library |
-| Art | `skills/html-anime-art/` | Which style to follow, color roles, value, backgrounds, shape language |
+| Art | `skills/html-anime-art/` | Which style to follow, color roles, value, the colour grade (true darks, no haze), backgrounds, shape language |
 | Motion | `skills/html-anime-motion/` | Key poses, grips, pivots, and frame counts: blades, strikes, locomotion, handling tools, bows, cloth and hair, effects |
 | Cameraman | `skills/html-anime-cameraman/` | Size, angle, lens feel, placement, the one move per shot |
 | Staff | `skills/html-anime-staff/` | Layout, keys, inbetweens, correction against the model sheet, finishing (with `cel` and `timing`) |
 | Voice | `skills/html-anime-voice/` | A voice per character, any language, with emotion; generates the audio and the mouth track |
 | Sound | `skills/html-anime-sound/` | Sword clangs, impacts, whooshes, thunder, wind, charges, taiko, and a score bed, synthesized and cued to the picture |
 | Render | `skills/html-anime-render/` | The HyperFrames file and the gates, at 24 fps |
-| Editor | `skills/html-anime-editor/` | Reviews every render (stutter, frozen runs, cuts, flashes, loudness), rhythm and continuity, mastering |
-| 3D Actor | `skills/html-anime-3d-actor/` | three.js characters, buildings, and environments with real camera moves, deterministic for HyperFrames |
+| Editor | `skills/html-anime-editor/` | Reviews every render (stutter, frozen runs, cuts, flashes, colour, loudness), rhythm and continuity, mastering |
+| 3D Actor | `skills/html-anime-3d-actor/` | three.js characters, buildings, terrain, clouds, water, crowds, animals, and traffic with real camera moves, deterministic for HyperFrames; multi-stage journeys and one-map worlds |
 
 Claude Code also finds them in `.claude/skills/`, so `/html-anime-director` works.
 
@@ -117,6 +145,21 @@ node harness/voice.js --list --lang ja                 # emotions, languages, in
 ```
 
 Engines, tried in order: Kokoro through `npx hyperframes tts` (local, no key), macOS `say`, espeak-ng. Or pass your own recording with `--source`. ffmpeg shapes the emotion: pitch, tone, tremolo, loudness. The line is placed after the cut into its shot (or as a J-cut), and a mouth track on twos comes out of the real audio.
+
+## Sound, review, and research
+
+```
+node harness/sfx.js films/<slug>                  # synthesize every sound in the film's sfx.json (ffmpeg)
+node harness/sfx.js --list                        # clangs, impacts, wind, surf, gulls, traffic, birds, a score bed…
+node harness/edit.js review renders/<slug>.mp4    # stutter, frozen runs, cuts, flashes, colour grade, loudness, contact sheet
+node harness/edit.js master renders/<slug>.mp4    # -14 LUFS, H.264, faststart
+node harness/refs.js init films/<slug>            # the research sheet for every figure, animal, and place
+node harness/refs.js palette photo.jpg --film films/<slug>   # a reference photo's colours, mapped to the paints
+```
+
+## 3D films
+
+When the camera must really move — a drone over a valley, a flight from a mountain to the galaxy — the 3D actor builds the world in three.js as a pure function of film time: `films/<slug>/assets/world.js` is imported by each scene composition, built once, and seeked frame by frame by HyperFrames. Seams between places are hidden the way the script asks (cloud and smoke veils, a surface break, dissolves through scale), so a two-minute film is one shot. See `skills/html-anime-3d-actor/SKILL.md` and the three films above.
 
 ## Sequences
 
@@ -143,7 +186,9 @@ node harness/sequence.js brief.json      # films/<slug>/sequence.md and one shee
 - `harness/templates/three-scene.html` — a working three.js scene for HyperFrames
 - `harness/templates/` — the bible and model sheet the designer starts from
 - `vendor/hyperframes/` — the HyperFrames engine skills (Apache-2.0), pinned
-- `media/film.mp4` — Kokuyō, the film
+- `films/` — the films: `life-on-earth/`, `mountain-shrine/`, `everest-to-galaxy/` (three.js), `sky-city-duel/`, `stickman-blade-fight/` (2D sequences), `roof/` (the reference). Each has its brief, sheets, bible, build script, and its synthesized sound in `assets/sfx/` (rebuild it with `harness/sfx.js`)
+- `media/*.mp4`, `media/*.jpg` — 720p cuts of the films above, and their stills
+- `media/film.mp4` — Kokuyō, the original film
 - `media/city.jpg`, `media/moon.jpg`, `media/fight.jpg`, `media/helm.jpg`, `media/ren.jpg` — stills from it
 - `films/roof/` — an 8 second reference: file shape, the color-dip cut, a bible, a model sheet, a voiced line. Not a film to remix
 - `tests/fixtures/` — scripts used as end-to-end tests
@@ -155,7 +200,7 @@ node harness/sequence.js brief.json      # films/<slug>/sequence.md and one shee
 npm test
 ```
 
-Checks that every runtime sums exactly and has one sakuga shot; that the sheet carries the size, frame count, cast, motion cards, style, lines, and voice; the voice helpers (placement, mouth track, emotion filters); `check.js` against the reference film and a broken copy of it; and the stickman fight fixture as a full sequence.
+Checks that every runtime sums exactly and has one sakuga shot; that the sheet carries the size, frame count, cast, motion cards, style, lines, and voice; the voice helpers (placement, mouth track, emotion filters); `check.js` against the reference film and a broken copy of it; the stickman fight fixture as a full sequence; the sound kinds; the editor's analysis (cuts, stutter, frozen runs, flashes, colour); and the reference palette sampler.
 
 ## Render the reference
 
@@ -193,4 +238,4 @@ npx hyperframes render --fps 24 --quality delivery --output renders/<slug>.mp4
 
 ## License
 
-[MIT](LICENSE). The reference film's font keeps its own license: see [films/roof/fonts/NOTICE.txt](films/roof/fonts/NOTICE.txt).
+[MIT](LICENSE). Built on [html-anime](https://github.com/blixvip/html-anime) by blixvip. The reference film's font keeps its own license: see [films/roof/fonts/NOTICE.txt](films/roof/fonts/NOTICE.txt).
