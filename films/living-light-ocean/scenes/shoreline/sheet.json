@@ -1,0 +1,92 @@
+{
+  "version": 3,
+  "logline": "An extremely low glide follows a glowing wave over black sand, then closes on tiny cyan plankton flashing in the ripples and bubbles.",
+  "slug": "living-light-ocean-shoreline",
+  "seconds": 8,
+  "fps": 24,
+  "frames": 192,
+  "aspect": "16:9",
+  "width": 1920,
+  "height": 1080,
+  "script": "indigo",
+  "colors": {
+    "sky": "#1b2d6b",
+    "ink": "#101628",
+    "moon": "#d5e2ff",
+    "accent": "#e23b4a",
+    "practical": "#f0c36a",
+    "iris": "#e7a04a",
+    "skin": "#f0c2ae",
+    "hair": "#16141c",
+    "sclera": "#f6f3ee",
+    "line": "#e7eefc"
+  },
+  "designColors": {
+    "plankton": "#42dff5",
+    "shell": "#526b4a",
+    "oceanlight": "#2857a4"
+  },
+  "style": "painted-world",
+  "styleReference": "A restrained, hand-drawn anime nature-documentary interpretation of realistic nighttime ocean cinematography: layered painterly darkness, subtle textured water, tiny cyan bioluminescence, anatomically",
+  "animation": "full",
+  "lines": [],
+  "card": "",
+  "props": "moonless star field; black wet sand; gently advancing electric-cyan wave; sparse short-lived plankton sparks and delicate fading trails; tiny bubbles; faint star reflections",
+  "voice": {
+    "mode": "off"
+  },
+  "cast": [
+    {
+      "name": "Green sea turtle",
+      "slug": "green-sea-turtle",
+      "kind": "notes",
+      "reference": "A scientifically recognizable adult green sea turtle: broad oval olive shell with subtle scute pattern, pale underside, small dark eyes, four broad paddle-shaped flippers, realistic proportions and calm marine movement. No markings, accessories, or anthropomorphism."
+    }
+  ],
+  "motion": [
+    "effects"
+  ],
+  "sequence": {
+    "slug": "living-light-ocean",
+    "scene": "shoreline",
+    "index": 0,
+    "start": 0,
+    "title": "The Glowing Shoreline",
+    "root": "../.."
+  },
+  "shots": [
+    {
+      "id": "establish",
+      "label": "Establish",
+      "start": 0,
+      "end": 2.4,
+      "dur": 2.4,
+      "sakuga": false,
+      "size": "wide",
+      "camera": "push",
+      "drawings": 3
+    },
+    {
+      "id": "sakuga",
+      "label": "Sakuga",
+      "start": 2.4,
+      "end": 6,
+      "dur": 3.6,
+      "sakuga": true,
+      "size": "medium",
+      "camera": "shake",
+      "drawings": 8
+    },
+    {
+      "id": "button",
+      "label": "Button",
+      "start": 6,
+      "end": 8,
+      "dur": 2,
+      "sakuga": false,
+      "size": "close",
+      "camera": "locked",
+      "drawings": 3
+    }
+  ]
+}

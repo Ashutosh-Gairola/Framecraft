@@ -1,0 +1,97 @@
+{
+  "version": 1,
+  "kind": "sequence",
+  "title": "The Living Light of the Ocean",
+  "slug": "living-light-ocean",
+  "fps": 24,
+  "frames": 960,
+  "seconds": 40,
+  "aspect": "16:9",
+  "width": 1920,
+  "height": 1080,
+  "script": "indigo",
+  "colors": {
+    "sky": "#1b2d6b",
+    "ink": "#101628",
+    "moon": "#d5e2ff",
+    "accent": "#e23b4a",
+    "practical": "#f0c36a",
+    "iris": "#e7a04a",
+    "skin": "#f0c2ae",
+    "hair": "#16141c",
+    "sclera": "#f6f3ee",
+    "line": "#e7eefc"
+  },
+  "designColors": {
+    "plankton": "#42dff5",
+    "shell": "#526b4a",
+    "oceanlight": "#2857a4"
+  },
+  "style": "painted-world",
+  "styleReference": "A restrained, hand-drawn anime nature-documentary interpretation of realistic nighttime ocean cinematography: layered painterly darkness, subtle textured water, tiny cyan bioluminescence, anatomically",
+  "cast": [
+    {
+      "name": "Green sea turtle",
+      "slug": "green-sea-turtle",
+      "kind": "notes",
+      "reference": "A scientifically recognizable adult green sea turtle: broad oval olive shell with subtle scute pattern, pale underside, small dark eyes, four broad paddle-shaped flippers, realistic proportions and calm marine movement. No markings, accessories, or anthropomorphism."
+    }
+  ],
+  "motion": [
+    "effects",
+    "handling",
+    "locomotion"
+  ],
+  "scenes": [
+    {
+      "id": "shoreline",
+      "title": "The Glowing Shoreline",
+      "index": 0,
+      "start": 0,
+      "seconds": 8,
+      "dir": "scenes/shoreline",
+      "composition": "compositions/shoreline.html",
+      "lines": 0
+    },
+    {
+      "id": "descent",
+      "title": "Beneath the Surface",
+      "index": 1,
+      "start": 8,
+      "seconds": 8,
+      "dir": "scenes/descent",
+      "composition": "compositions/descent.html",
+      "lines": 0
+    },
+    {
+      "id": "school",
+      "title": "The Living Constellation",
+      "index": 2,
+      "start": 16,
+      "seconds": 8,
+      "dir": "scenes/school",
+      "composition": "compositions/school.html",
+      "lines": 0
+    },
+    {
+      "id": "turtle",
+      "title": "A Gentle Giant",
+      "index": 3,
+      "start": 24,
+      "seconds": 8,
+      "dir": "scenes/turtle",
+      "composition": "compositions/turtle.html",
+      "lines": 0
+    },
+    {
+      "id": "deep",
+      "title": "The Infinite Blue",
+      "index": 4,
+      "start": 32,
+      "seconds": 8,
+      "dir": "scenes/deep",
+      "composition": "compositions/deep.html",
+      "lines": 0
+    }
+  ]
+}
