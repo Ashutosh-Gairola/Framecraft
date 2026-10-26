@@ -578,13 +578,20 @@ function headDesign(S, J, hs) {
     prims.push(ell(P(0, 0.03, -0.01), r3(0.079, 0.088, 0.093), { k: k(0.02) }));
     prims.push(ell(P(0, -0.018, 0.03), r3(0.063, 0.065, 0.066), { k: k(0.035) }));
     prims.push(ell(P(0, -0.064, 0.034), r3(0.04 + 0.01 * jaw, 0.032, 0.045), { k: k(0.04) }));
-    prims.push(ell(P(0, -0.09, 0.054), r3(0.016, 0.014, 0.014), { k: k(0.025) }));
+    prims.push(ell(P(0, -0.09, 0.054), r3(0.016 + 0.012 * Math.max(0, jaw - 0.5), 0.014, 0.014), { k: k(0.025) }));
+    // A squarer, shonen jaw (face.jaw > 0.5): angles at the back of the jaw and a broad chin.
+    if (jaw > 0.55) {
+      // Angular: the jaw line runs straight from below the ear to a broad chin, no jowls.
+      for (const sd of [1, -1]) prims.push(cone(P(sd * 0.045, -0.035, -0.005), P(sd * 0.018, -0.088, 0.05), k(0.012), k(0.012), { k: k(0.025) }));
+    }
     for (const sd of [1, -1]) {
       prims.push(ell(P(sd * 0.075, 0.0, -0.008), r3(0.008, 0.026, 0.016), { k: k(0.006), rot: [0, sd * 0.3, sd * 0.1] }));
       // Shallow wide sockets for the big eyes.
-      prims.push(ell(P(sd * 0.034, -0.006, 0.083), r3(0.024, 0.024, 0.012), { k: k(0.012), sub: true }));
+      // (shallow: a deep socket's rim catches the ink outline and draws a ring round the eye).
+      prims.push(ell(P(sd * 0.034, -0.006, 0.086), r3(0.024, 0.024, 0.007), { k: k(0.016), sub: true }));
     }
-    prims.push(cone(P(0, -0.01, 0.087), P(0, -0.03, 0.097), k(0.003), k(0.0045), { k: k(0.006) })); // a small nose
+    // A small nose; face.nose lengthens it into the defined, angular nose of a Toriyama face.
+    prims.push(cone(P(0, -0.008, 0.087), P(0, -0.03 - 0.008 * (F.nose - 0.5), 0.097 + 0.008 * Math.max(0, F.nose - 0.5)), k(0.003), k(0.0045 + 0.002 * Math.max(0, F.nose - 0.5)), { k: k(0.006) }));
     prims.push(ell(P(0, -0.058, 0.082), r3(0.012, 0.0014, 0.01), { k: k(0.0015), sub: true })); // mouth line
   }
   // Neck stub into the body.
@@ -1020,8 +1027,9 @@ function clothFields(D, S, bodyF) {
   if (T === "gi") {
     // A martial-arts gi: a fitted undershirt, then the loose crossed top over it with short sleeves.
     const hem = L.yHip - 0.08 * sc;
-    items.push({ name: "under", f: topField({ thick: 0.0045 * sc, sleeve: 0.62, hem: L.yWaist, hang: false }), min: box()[0], max: box()[1], mat: "under", h: 0.0035, allow: topAllow(0.62) });
-    items.push({ name: "top", f: topField({ thick: 0.011 * sc, sleeve: 0.55, hem, neck: "v", vDepth: 0.16 * sc, loose: 0.012 * sc }), min: box()[0], max: box()[1], mat: "top", h: 0.0035, allow: topAllow(0.55) });
+    // The orange top is cut away at the shoulder; the short sleeves are the blue undershirt's.
+    items.push({ name: "under", f: topField({ thick: 0.0045 * sc, sleeve: 0.48, hem: L.yWaist, hang: false }), min: box()[0], max: box()[1], mat: "under", h: 0.0035, allow: topAllow(0.48) });
+    items.push({ name: "top", f: topField({ thick: 0.011 * sc, sleeve: 0.14, hem, neck: "v", vDepth: 0.16 * sc, loose: 0.012 * sc }), min: box()[0], max: box()[1], mat: "top", h: 0.0035, allow: topAllow(0.14) });
     coverTop(L.yWaist, 0.62);
   }
   // Belt or sash at the waist, with a knot for a gi.
@@ -1186,8 +1194,10 @@ function hairField(D, S) {
       [[0.35, 0.4, -0.85], [0.4, 0.2, -1], 0.11, 0.032],
       [[-0.35, 0.4, -0.85], [-0.4, 0.2, -1], 0.11, 0.032],
       // Sides: swept out and down past the ears.
-      [[0.92, 0.35, -0.15], [1, -0.15, -0.2], 0.11, 0.03],
-      [[-0.92, 0.35, -0.15], [-1, -0.15, -0.2], 0.11, 0.03],
+      [[0.92, 0.35, -0.15], [1, 0.1, -0.15], 0.13, 0.032],
+      [[-0.92, 0.35, -0.15], [-1, 0.1, -0.15], 0.13, 0.032],
+      [[0.8, 0.6, 0.05], [1, 0.45, 0.05], 0.12, 0.03],
+      [[-0.8, 0.6, 0.05], [-1, 0.45, 0.05], 0.12, 0.03],
       [[0.85, 0.05, -0.45], [0.8, -0.45, -0.45], 0.09, 0.026],
       [[-0.85, 0.05, -0.45], [-0.8, -0.45, -0.45], 0.09, 0.026],
       // Bangs over the forehead, and the tuft that stands up at the front.
@@ -1272,7 +1282,8 @@ function browField(D, S) {
   };
   for (const sd of [1, -1]) {
     const tilt = S.face.browTilt ?? 0;
-    const pts = anime ? [P(sd * 0.014, 0.03 - 0.012 * tilt, 0.087), P(sd * 0.034, 0.036, 0.085), P(sd * 0.054, 0.034 + 0.006 * tilt, 0.073)] : [P(sd * 0.012, 0.03 - 0.004 * tilt, 0.09), P(sd * 0.03, 0.036, 0.089), P(sd * 0.05, 0.033, 0.08)];
+    const by = S.face.browY ?? 0;
+    const pts = anime ? [P(sd * 0.014, 0.03 - 0.012 * tilt + by, 0.087), P(sd * 0.034, 0.036 + by, 0.085), P(sd * 0.054, 0.034 + 0.006 * tilt + by, 0.073)] : [P(sd * 0.012, 0.03 - 0.004 * tilt, 0.09), P(sd * 0.03, 0.036, 0.089), P(sd * 0.05, 0.033, 0.08)];
     const bw = S.face.browWeight ?? 1;
     const r = (anime ? [0.0018, 0.0022, 0.0012] : [0.0024, 0.0022, 0.0012]).map((v) => v * bw);
     const q = pts.map(onSkin);
@@ -1741,53 +1752,45 @@ function eyeTexture(THREE, S, anime) {
   const cv = typeof document !== "undefined" ? document.createElement("canvas") : null;
   if (!cv) return null;
   if (!anime) return realEyeTexture(THREE, S);
+  // Anime eyes. The sphere map spans 360° across and 180° down, so a round iris is drawn half as
+  // wide as it is tall (drawn as a plain circle, it wraps the whole front and the eye reads black).
+  // face.iris: the iris's angular radius in degrees (40 a soft lead, ~30 a sharp fighter like Goku,
+  // whose eyes show white all round a black iris).
   cv.width = cv.height = N;
   const g = cv.getContext("2d");
-  g.fillStyle = anime ? "#ffffff" : "#e3d9d2";
+  g.fillStyle = "#ffffff";
   g.fillRect(0, 0, N, N);
-  const ir = N * (anime ? 0.34 : 0.245);
-  const col = S.eyes;
-  const grad = g.createRadialGradient(N / 2, N / 2 - (anime ? ir * 0.2 : 0), ir * 0.2, N / 2, N / 2, ir);
-  grad.addColorStop(0, anime ? "#ffffff" : col);
-  grad.addColorStop(anime ? 0.35 : 0.5, col);
-  grad.addColorStop(0.9, anime ? "#10131a" : col);
-  grad.addColorStop(1, "#14161a");
+  const deg = S.face.iris ?? 40;
+  const ry = (deg / 180) * N;
+  g.save();
+  g.translate(N / 2, N / 2);
+  g.scale(0.5, 1);
+  const col = new THREE.Color(S.eyes);
+  const css2 = (k) => `rgb(${(col.r * 255 * k) | 0},${(col.g * 255 * k) | 0},${(col.b * 255 * k) | 0})`;
+  const grad = g.createLinearGradient(0, -ry, 0, ry);
+  grad.addColorStop(0, css2(0.35));
+  grad.addColorStop(0.45, css2(0.85));
+  grad.addColorStop(1, css2(1.15));
   g.fillStyle = grad;
   g.beginPath();
-  g.arc(N / 2, N / 2, ir, 0, Math.PI * 2);
+  g.arc(0, 0, ry, 0, Math.PI * 2);
   g.fill();
-  if (!anime) {
-    g.globalAlpha = 0.18;
-    g.strokeStyle = "#ffffff";
-    for (let i = 0; i < 90; i += 1) {
-      const a = (i / 90) * Math.PI * 2;
-      g.beginPath();
-      g.moveTo(N / 2 + Math.cos(a) * ir * 0.4, N / 2 + Math.sin(a) * ir * 0.4);
-      g.lineTo(N / 2 + Math.cos(a + 0.05) * ir * 0.95, N / 2 + Math.sin(a + 0.05) * ir * 0.95);
-      g.stroke();
-    }
-    g.globalAlpha = 1;
-  }
-  // Anime: a dark upper band in the iris.
-  if (anime) {
-    g.fillStyle = "rgba(10,10,20,0.55)";
-    g.beginPath();
-    g.arc(N / 2, N / 2, ir, Math.PI * 1.1, Math.PI * 1.9);
-    g.fill();
-  }
+  g.lineWidth = ry * 0.08;
+  g.strokeStyle = "#0b0c10";
+  g.stroke();
   g.fillStyle = "#050506";
   g.beginPath();
-  g.ellipse(N / 2, N / 2, ir * (anime ? 0.32 : 0.36), ir * (anime ? 0.42 : 0.36), 0, 0, Math.PI * 2);
+  g.ellipse(0, 0, ry * 0.42, ry * 0.5, 0, 0, Math.PI * 2);
   g.fill();
-  if (anime) {
-    g.fillStyle = "#ffffff";
-    g.beginPath();
-    g.ellipse(N / 2 + ir * 0.35, N / 2 - ir * 0.4, ir * 0.22, ir * 0.16, -0.5, 0, Math.PI * 2);
-    g.fill();
-    g.beginPath();
-    g.arc(N / 2 - ir * 0.35, N / 2 + ir * 0.42, ir * 0.08, 0, Math.PI * 2);
-    g.fill();
-  }
+  // Highlights: a large one upper-right, a small one lower-left.
+  g.fillStyle = "#ffffff";
+  g.beginPath();
+  g.ellipse(ry * 0.32, -ry * 0.38, ry * 0.26, ry * 0.2, -0.5, 0, Math.PI * 2);
+  g.fill();
+  g.beginPath();
+  g.arc(-ry * 0.34, ry * 0.4, ry * 0.09, 0, Math.PI * 2);
+  g.fill();
+  g.restore();
   const t = new THREE.CanvasTexture(cv);
   t.colorSpace = THREE.SRGBColorSpace;
   return t;
@@ -1805,7 +1808,7 @@ function buildEyes(THREE, D, S, headBone, mats) {
     const g = new THREE.Group();
     const ex = sd * (anime ? 0.034 : 0.032) * s;
     const ey = (anime ? -0.006 : 0.012) * s;
-    const ez = (anime ? 0.07 : 0.073) * s;
+    const ez = (anime ? 0.0765 : 0.073) * s;
     g.position.set(c[0] + ex - hj[0], c[1] + ey - hj[1], c[2] + ez - hj[2]);
     headBone.add(g);
     const geo = new THREE.SphereGeometry(r, 32, 24);

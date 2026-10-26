@@ -34,11 +34,11 @@ export const GOKU = {
   fat: 0.1,
   skin: "#f3c9a6",
   eyes: "#141414",
-  face: { eyeSize: 0.2, eyeTall: 0.74, browTilt: 1, browWeight: 1.7, jaw: 0.7 },
+  face: { eyeSize: 0.5, eyeTall: 0.88, iris: 26, browTilt: 1, browWeight: 1.8, browY: -0.006, jaw: 0.8, nose: 0.9 },
   hair: { style: "goku", color: "#151518" },
   top: { type: "gi", color: "#f2851e", under: "#1f3f94" },
   belt: "#1f3f94",
   bands: "#1f3f94",
   bottom: { type: "gi", color: "#f2851e" },
-  shoes: { type: "boot", color: "#2c4f9e", sole: "#c8302a", tie: "#f2f2f2" },
+  shoes: { type: "boot", color: "#2c4f9e", sole: "#1d2f66", tie: "#c8302a" },
 };

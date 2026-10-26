@@ -151,10 +151,35 @@ Points to check:
 
 The scan is a single fixed identity, and its face doesn't take the expression morphs.
 
-**Anime face**
-- **Smooth planes.** No cheek lumps: they shade as blotches under cel light.
-- **A soft, small chin.**
-- **Eyes that fit the character.** Round and large for a youthful lead. Narrower and sharper for a fighter, via `face.eyeTall` (Goku about 0.75), with a thick upper lash and angled brows.
+**Anime face.** Study a reference of the character's face first (an official image for study only, kept in `references/` and never shipped). Then set the face to match its *style*, because anime styles differ more than people do.
+
+1. **Read the reference.** Note:
+   - eye shape and how much white shows;
+   - iris size and colour;
+   - brow angle and thickness;
+   - jaw: soft and pointed (shōjo, moe) or square and broad (shōnen, Toriyama);
+   - nose: a dot, or an angled line;
+   - mouth size;
+   - the hair silhouette.
+2. **Eyes** (`face.iris`, `eyeSize`, `eyeTall`).
+   - The sphere map spans 360° by 180°, so the iris is drawn half as wide as it is tall. Drawn as a plain circle it wraps the whole front, and the eye reads as solid black or blue.
+   - `iris` is the iris's angular radius: about 40° for a soft lead with a big coloured iris, about 26° for a Toriyama face, where white shows all round a small black iris.
+   - Set `eyeTall` below 1 for narrower, sharper eyes.
+   - Keep the sockets shallow and the eyeballs forward (`ez` about 0.0765). A deep socket's rim catches the ink outline as a ring round the eye; a shallow socket over a sunken ball hides the white.
+3. **Brows** (`browTilt`, `browWeight`, `browY`). Fighters get thick brows angled down toward the nose, sitting low and close over the eyes.
+4. **Jaw and nose** (`face.jaw`, `face.nose`).
+   - Above about 0.55, the jaw becomes angular: a straight line from below the ear to a broad chin, with no jowls.
+   - `nose` above 0.5 lengthens the dot into the defined nose of a Toriyama face.
+5. **Smooth planes.** No cheek lumps; they shade as blotches under cel light. Use a two-step toon ramp and ink outlines.
+6. **Compare.** Render the face front, three-quarter and profile beside the reference, and iterate until the silhouette, the eyes and the jaw read as that character at thumbnail size.
+
+Goku, worked example (`films/character-test/assets/cast.js`):
+
+```js
+face: { eyeSize: 0.5, eyeTall: 0.88, iris: 26, browTilt: 1, browWeight: 1.8, browY: -0.006, jaw: 0.8, nose: 0.9 }
+```
+
+Plus `hair.style: "goku"` (crown spikes up and back, sides out, bangs and a front tuft). His orange gi top is cut away at the shoulder, so the short sleeves are the blue undershirt's.
 
 **Lower body and garments**
 - **Proportions.** Hips no wider than the shoulders on a male build. Glutes modest in profile, no saddlebags at the top of the thigh.

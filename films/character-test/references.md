@@ -17,3 +17,10 @@
   - blue wristbands.
 
 - **The realistic head** (`assets/scan/`): the Lee Perry-Smith head scan that ships with three.js. Credit: Lee Perry-Smith / Infinite Realities, based on a work at triplegangers.com, licensed CC BY 3.0. It comes with a colour map and a normal map. It is fitted to the skeleton with its closed eyes opened into almond lids, and given grown hair, lashes and corneas. It is a different person from the reference photo: the design matches type, build and palette, not identity.
+
+- **Goku's face** (`references/goku-manga.png`, git-ignored, study only): Akira Toriyama's colour art of adult Goku, as used on Wikipedia's Goku article (non-free; not shipped). What it shows:
+  - large white eyes with small black irises;
+  - thick brows angled down;
+  - an angular jaw and a defined nose;
+  - spikes up, back and out at the sides, with bangs;
+  - the blue undershirt's sleeves showing below the orange top, which is cut at the shoulder.
