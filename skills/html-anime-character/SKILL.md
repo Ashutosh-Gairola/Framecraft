@@ -96,6 +96,30 @@ Check every point below. A character that fails one isn't animated.
 - Lighting: a key, a rim and a fill. Skin keeps its colour; no grey or orange cast.
 - A comparison sheet: the reference beside the build (photo or official look), then real and anime if both are needed. `renders/character-test-comparison.png` is the example.
 
+### 2b. What to check on the face and the lower body
+
+These are the faults earlier builds had. Look for each one in the turnaround.
+
+**Realistic face**
+- **No hollows.** Don't carve the temples. Fill the side of the face from cheekbone to jaw (zygomatic arch, maxilla, buccal fill). A three-quarter view with a dark dent under the cheekbone reads as a skull.
+- **Planes in profile.** The lips sit behind the nose tip and the chin behind the lips. The face is as full beside the mouth as the mouth is forward; otherwise it reads as a muzzle.
+- **Eyes.** The opening is an almond: the upper lid covers the top of the iris, and the lower lid touches its bottom edge. Keep the sockets shallow, since deep sockets read as tired or skeletal. The iris is about half the visible eye.
+- **Brows and hair.** Brows are thin, tapered strokes, not sausages. Hair is short at the sides and fuller on top, with tufts and an irregular hairline, never a ribbed helmet.
+
+**Anime face**
+- **Smooth planes.** No cheek lumps: they shade as blotches under cel light.
+- **A soft, small chin.**
+- **Eyes that fit the character.** Round and large for a youthful lead. Narrower and sharper for a fighter, via `face.eyeTall` (Goku about 0.75), with a thick upper lash and angled brows.
+
+**Lower body and garments**
+- **Proportions.** Hips no wider than the shoulders on a male build. Glutes modest in profile, no saddlebags at the top of the thigh.
+- **Tops hang.** Below the chest, cloth falls straight from the chest's cross-section to the hem (`topField({ hang: true })`), so a shirt or gi hangs over the hips instead of wrapping them. An undershirt is the exception (`hang: false`).
+- **Trousers are tubes.** Each leg is a straight tube from mid-thigh to the hem, so it doesn't cling to the knee and calf. Jeans are about 0.054 m at the hem; gi trousers are wide, with a puff above the boot. Start the tubes below the top's hem, or they poke out above it as a V.
+- **Shoes have a sole.** A sole with a rounded edge and a little toe spring, a foxing stripe, laces across the instep, and a collar at the ankle. Boots add a shaft to mid-calf with a tie.
+- **Field cuts stay at the surface.** A groove (a placket, a seam) must only cut within a millimetre of the surface, as `max(groove, -d - 1 mm)`. A plane cut through the whole field splits the garment.
+
+To check, probe a garment's field at the hem in node: `_internal.clothFields`, with the front surface `z` at several heights. A top that hangs keeps the same front `z` from the chest to the hem.
+
 ### 3. Pose and act
 
 `poseHuman` follows the figure conventions:

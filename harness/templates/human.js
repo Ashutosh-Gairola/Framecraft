@@ -385,8 +385,7 @@ function design(S) {
     const P = [
       ell([0, yChest + mm(0.01), -mm(0.005)], [chestW, mm(0.15), chestD], { k: mm(0.04) }), // ribcage
       ell([0, yWaist, mm(0.005) + mm(0.02) * fa], [waistW, mm(0.1), mm(0.1) + mm(0.03) * fa], { k: mm(0.06) }), // abdomen
-      ell([0, yHip + mm(0.035), -mm(0.01)], [hipW, mm(0.09), mm(0.11) + mm(0.01) * fem], { k: mm(0.05) }), // pelvis
-      ell([0, yHip + mm(0.01), -mm(0.065)], [hipW * 0.82, mm(0.08), mm(0.075)], { k: mm(0.04) }), // glutes mass
+      ell([0, yHip + mm(0.035), -mm(0.012)], [hipW, mm(0.09), mm(0.095) + mm(0.012) * fem], { k: mm(0.05) }), // pelvis
       ell([0, yShoulder - mm(0.04), -mm(0.03)], [sw * 0.92, mm(0.06), mm(0.075)], { k: mm(0.05) }), // upper back / shoulder girdle
       cone([0, yNeck - mm(0.02), -mm(0.02)], [0, yChin + mm(0.02), -mm(0.012)], mm(0.06 + 0.008 * b - 0.008 * fem), mm(0.052 - 0.006 * fem), { k: mm(0.05) }), // neck
     ];
@@ -399,9 +398,9 @@ function design(S) {
       // Lats and obliques.
       P.push(ell([s * mm(0.11), yChest - mm(0.06), -mm(0.02)], [mm(0.045 + 0.01 * mu), mm(0.12), mm(0.07)], { k: mm(0.05) }));
       // Glutes.
-      P.push(ell([s * mm(0.072), yHip - mm(0.01), -mm(0.085)], [mm(0.08 + 0.012 * fem), mm(0.085), mm(0.065 + 0.01 * fem)], { k: mm(0.04) }));
+      P.push(ell([s * mm(0.066), yHip - mm(0.005), -mm(0.062)], [mm(0.068 + 0.012 * fem), mm(0.078), mm(0.052 + 0.012 * fem)], { k: mm(0.045) }));
       // The top of the thigh into the hip.
-      P.push(ell([s * hw * 1.75, yHip - mm(0.05), mm(0.005)], [mm(0.085 + 0.012 * fem), mm(0.1), mm(0.09)], { k: mm(0.05) }));
+      P.push(ell([s * hw * 1.45, yHip - mm(0.05), mm(0.0)], [mm(0.07 + 0.012 * fem), mm(0.09), mm(0.075)], { k: mm(0.05) }));
       // Clavicle ridge.
       P.push(cone([s * mm(0.02), yNeck - mm(0.025), mm(0.05)], [s * sw * 0.9, yShoulder + mm(0.005), mm(0.02)], mm(0.012), mm(0.014), { k: mm(0.02) }));
     }
@@ -525,8 +524,8 @@ function headDesign(S, J, hs) {
   const jaw = F.jaw - 0.25 * fem;
   if (!anime) {
     prims.push(ell(P(0, 0.028, -0.012), r3(0.074, 0.09, 0.1), { k: k(0.02) })); // cranium
-    prims.push(ell(P(0, 0.004, 0.03), r3(0.054, 0.072, 0.068), { k: k(0.025) })); // face mass
-    prims.push(ell(P(0, -0.064, 0.024), r3(0.036 + 0.012 * jaw, 0.034, 0.058), { k: k(0.025) })); // jaw body
+    prims.push(ell(P(0, 0.004, 0.03), r3(0.058, 0.072, 0.068), { k: k(0.025) })); // face mass
+    prims.push(ell(P(0, -0.064, 0.024), r3(0.033 + 0.012 * jaw, 0.034, 0.058), { k: k(0.025) })); // jaw body
     for (const sd of [1, -1]) {
       prims.push(ell(P(sd * (0.043 + 0.006 * jaw), -0.048, -0.02), r3(0.012, 0.024, 0.024), { k: k(0.025) })); // jaw angle
       prims.push(ell(P(sd * 0.046, -0.002, 0.055), r3(0.018, 0.012 + 0.004 * F.cheek, 0.018), { k: k(0.02) })); // cheekbone
@@ -534,18 +533,22 @@ function headDesign(S, J, hs) {
       prims.push(ell(P(sd * 0.071, 0.004, -0.012), r3(0.009, 0.03, 0.019), { k: k(0.006), rot: [0, sd * 0.35, sd * 0.12] })); // ear
       prims.push(ell(P(sd * 0.077, 0.004, -0.008), r3(0.005, 0.018, 0.011), { k: k(0.005), sub: true, rot: [0, sd * 0.35, 0] })); // concha
       // Eye socket, then the lids wrapping the ball (an almond opening, slightly tilted up at the outer corner).
-      prims.push(ell(P(sd * 0.032, 0.012, 0.09), r3(0.02, 0.014, 0.016), { k: k(0.009), sub: true }));
+      prims.push(ell(P(sd * 0.032, 0.011, 0.092), r3(0.019, 0.013, 0.012), { k: k(0.01), sub: true }));
       const ec = P(sd * 0.032, 0.012, 0.073);
       const er = 0.0122 * s;
-      prims.push({ type: "lid", c: ec, r: er, t: 0.0011 * s, sd, up: 0.5, lo: -0.56, k: k(0.004), sub: false, box: [ec[0] - er * 1.4, ec[1] - er * 1.4, ec[2] - er * 1.4, ec[0] + er * 1.4, ec[1] + er * 1.4, ec[2] + er * 1.4] });
+      prims.push({ type: "lid", c: ec, r: er, t: 0.0016 * s, sd, up: 0.4, lo: -0.36, k: k(0.004), sub: false, box: [ec[0] - er * 1.4, ec[1] - er * 1.4, ec[2] - er * 1.4, ec[0] + er * 1.4, ec[1] + er * 1.4, ec[2] + er * 1.4] });
       // The crease above the upper lid.
       prims.push(cone(P(sd * 0.022, 0.0215, 0.0835), P(sd * 0.043, 0.02, 0.078), k(0.0012), k(0.0009), { k: k(0.002), sub: true }));
       // Nose alae.
       prims.push(ell(P(sd * (0.0085 + 0.003 * F.noseWidth), -0.033, 0.0915), r3(0.0055, 0.0055, 0.0065), { k: k(0.007) }));
       // Nostril.
       prims.push(ell(P(sd * 0.007, -0.0395, 0.096), r3(0.0036, 0.0022, 0.005), { k: k(0.002), sub: true }));
-      // Temple.
-      prims.push(ell(P(sd * 0.072, 0.03, 0.035), r3(0.012, 0.02, 0.02), { k: k(0.02), sub: true }));
+      // The zygomatic arch back to the ear, and the soft fill of the cheek over the maxilla, so the
+      // face is full beside the nose and mouth rather than a muzzle.
+      prims.push(cone(P(sd * 0.046, -0.004, 0.05), P(sd * 0.064, 0.0, 0.006), k(0.006), k(0.005), { k: k(0.014) }));
+      prims.push(ell(P(sd * 0.03, -0.034, 0.058), r3(0.013, 0.016, 0.011 + 0.006 * fem), { k: k(0.022) }));
+      // The buccal fill between cheekbone and jaw: no hollow under the cheekbone in three-quarter view.
+      prims.push(ell(P(sd * 0.044, -0.038, 0.028), r3(0.014, 0.022, 0.026), { k: k(0.026) }));
     }
     // Brow ridge.
     prims.push(cone(P(-0.042, 0.03, 0.079), P(0.042, 0.03, 0.079), k(0.011 + 0.004 * F.brow - 0.004 * fem), k(0.011 + 0.004 * F.brow - 0.004 * fem), { k: k(0.012) }));
@@ -556,11 +559,11 @@ function headDesign(S, J, hs) {
     prims.push(ell(P(0, -0.029 * nl, 0.1 + 0.004 * F.nose), r3(0.0068 + 0.0018 * F.noseWidth, 0.0068, 0.0072), { k: k(0.005) }));
     // Lips: arcs of small round cones; a crease between.
     const lf = 0.42 + 0.25 * F.lips + 0.15 * fem;
-    const up = [P(-0.021, -0.0615, 0.083), P(-0.009, -0.0585, 0.0915), P(0, -0.059, 0.094), P(0.009, -0.0585, 0.0915), P(0.021, -0.0615, 0.083)];
-    const lo = [P(-0.017, -0.066, 0.084), P(-0.007, -0.0688, 0.0895), P(0.007, -0.0688, 0.0895), P(0.017, -0.066, 0.084)];
+    const up = [P(-0.021, -0.0615, 0.081), P(-0.009, -0.0585, 0.089), P(0, -0.059, 0.0915), P(0.009, -0.0585, 0.089), P(0.021, -0.0615, 0.081)];
+    const lo = [P(-0.017, -0.066, 0.082), P(-0.007, -0.0688, 0.087), P(0.007, -0.0688, 0.087), P(0.017, -0.066, 0.082)];
     for (let i = 0; i < up.length - 1; i += 1) prims.push(cone(up[i], up[i + 1], k(0.0042 * lf * (i === 0 || i === 3 ? 0.75 : 1)), k(0.0042 * lf * (i === 0 || i === 3 ? 0.75 : 1)), { k: k(0.006) }));
     for (let i = 0; i < lo.length - 1; i += 1) prims.push(cone(lo[i], lo[i + 1], k(0.0052 * lf * (i === 1 ? 1 : 0.8)), k(0.0052 * lf * (i === 1 ? 1 : 0.8)), { k: k(0.007) }));
-    prims.push(ell(P(0, -0.0628, 0.091), r3(0.022, 0.0022, 0.016), { k: k(0.002), sub: true })); // the crease
+    prims.push(ell(P(0, -0.0628, 0.089), r3(0.022, 0.0022, 0.016), { k: k(0.002), sub: true })); // the crease
     prims.push(ell(P(0, -0.049, 0.096), r3(0.004, 0.008, 0.003), { k: k(0.003), sub: true })); // philtrum
     // Chin.
     prims.push(ell(P(0, -0.093, 0.064), r3(0.017 + 0.006 * F.chin, 0.015, 0.016), { k: k(0.014) }));
@@ -569,10 +572,9 @@ function headDesign(S, J, hs) {
     // Anime: a round skull, a narrow small jaw coming to a soft point, a flat face.
     prims.push(ell(P(0, 0.03, -0.01), r3(0.079, 0.088, 0.093), { k: k(0.02) }));
     prims.push(ell(P(0, -0.018, 0.03), r3(0.063, 0.065, 0.066), { k: k(0.035) }));
-    prims.push(ell(P(0, -0.066, 0.036), r3(0.034, 0.032, 0.045), { k: k(0.035) }));
-    prims.push(ell(P(0, -0.093, 0.058), r3(0.012, 0.012, 0.012), { k: k(0.02) }));
+    prims.push(ell(P(0, -0.064, 0.034), r3(0.04 + 0.01 * jaw, 0.032, 0.045), { k: k(0.04) }));
+    prims.push(ell(P(0, -0.09, 0.054), r3(0.016, 0.014, 0.014), { k: k(0.025) }));
     for (const sd of [1, -1]) {
-      prims.push(ell(P(sd * 0.04, -0.04, 0.052), r3(0.028, 0.03, 0.024), { k: k(0.03) })); // soft cheeks
       prims.push(ell(P(sd * 0.075, 0.0, -0.008), r3(0.008, 0.026, 0.016), { k: k(0.006), rot: [0, sd * 0.3, sd * 0.1] }));
       // Shallow wide sockets for the big eyes.
       prims.push(ell(P(sd * 0.034, -0.006, 0.083), r3(0.024, 0.024, 0.012), { k: k(0.012), sub: true }));
@@ -907,8 +909,17 @@ function clothFields(D, S, bodyF) {
   };
   // A top over the torso and arms: thickness, sleeve length (0..1 down the upper arm, past 1 into
   // the forearm), hem height, neckline (round or a V), looseness.
-  const topField = ({ thick, sleeve, hem, neck = "round", vDepth = 0, loose = 0, cuffPuff = 0 }) => (x, y, z) => {
+  const ySec = L.yChest - 0.05 * sc;
+  const topField = ({ thick, sleeve, hem, neck = "round", vDepth = 0, loose = 0, cuffPuff = 0, hang = true }) => (x, y, z) => {
     let d = dPart(torso, x, y, z) - thick - loose * ss(L.yChest, L.yHip, y);
+    // Below the chest, cloth falls straight: the chest's own cross-section carried down to the hem,
+    // narrowing a little, so the hem hangs over the hips instead of wrapping them.
+    if (hang) {
+      let col = dPart(torso, x, Math.max(y, ySec), z) - thick;
+      // Fade the column in over the ribs, so there is no crease where the drop begins.
+      col = smax(col, y - ySec, 0.05 * sc);
+      d = smin(d, col, 0.02 * sc);
+    }
     for (const [up, fo, n] of [[upperL, foreL, "L"], [upperR, foreR, "R"]]) {
       const tA = along(J["arm" + n], J["fore" + n], x, y, z);
       let da = dPart(up, x, y, z) - thick - 0.002 * sc - loose * 0.6;
@@ -919,7 +930,7 @@ function clothFields(D, S, bodyF) {
         const df = dPart(fo, x, y, z) - thick - 0.006 * sc - roll;
         da = smin(da, Math.max(df, (tF - (sleeve - 1)) * 0.1), 0.01 * sc);
       } else da = Math.max(da, (tA - sleeve) * 0.3);
-      d = smin(d, da, 0.03 * sc);
+      d = smin(d, da, 0.016 * sc);
     }
     d += 0.0007 * sc * Math.sin(y * 110 + Math.sin(x * 40) * 2) * ss(L.yChest, L.yHip, y);
     if (neck === "v") {
@@ -967,7 +978,8 @@ function clothFields(D, S, bodyF) {
     const f = (x, y, z) => {
       let d = base(x, y, z);
       // Placket: a fine groove just off the centre line, front only.
-      if (z > J.neck[2] && y < L.yNeck) d = smax(d, -(Math.abs(x - 0.006 * sc) - 0.0007 * sc), 0.0008 * sc);
+      // (only within a millimetre of the surface, or it would split the whole shirt).
+      if (z > J.neck[2] && y < L.yNeck) d = smax(d, -Math.max(Math.abs(x - 0.006 * sc) - 0.0007 * sc, -d - 0.0012 * sc), 0.0006 * sc);
       // Collar: a band round the neck base, open at the front.
       const rx = x - J.neck[0], rz = z - (J.neck[2] + 0.005 * sc);
       const rad = Math.hypot(rx / 1.0, rz / 0.9);
@@ -983,7 +995,7 @@ function clothFields(D, S, bodyF) {
   if (T === "gi") {
     // A martial-arts gi: a fitted undershirt, then the loose crossed top over it with short sleeves.
     const hem = L.yHip - 0.08 * sc;
-    items.push({ name: "under", f: topField({ thick: 0.0045 * sc, sleeve: 0.62, hem: L.yWaist }), min: box()[0], max: box()[1], mat: "under", h: 0.0035, allow: topAllow(0.62) });
+    items.push({ name: "under", f: topField({ thick: 0.0045 * sc, sleeve: 0.62, hem: L.yWaist, hang: false }), min: box()[0], max: box()[1], mat: "under", h: 0.0035, allow: topAllow(0.62) });
     items.push({ name: "top", f: topField({ thick: 0.011 * sc, sleeve: 0.55, hem, neck: "v", vDepth: 0.16 * sc, loose: 0.012 * sc }), min: box()[0], max: box()[1], mat: "top", h: 0.0035, allow: topAllow(0.55) });
     coverTop(L.yWaist, 0.62);
   }
@@ -1026,16 +1038,26 @@ function clothFields(D, S, bodyF) {
     const thick = 0.006 * sc;
     const top = L.yHip + 0.07 * sc;
     const boots = S.shoes.type === "boot";
-    const cuff = shorts ? J.shinL[1] + 0.12 * sc : boots ? J.shinL[1] - 0.18 * sc : 0.06 * sc;
+    const cuff = shorts ? J.shinL[1] + 0.12 * sc : boots ? J.shinL[1] - 0.2 * sc : 0.045 * sc;
     const f = (x, y, z) => {
       let d = dPart(torso, x, y, z) - thick - (gi ? 0.015 * sc : 0);
       d = Math.max(d, y - top);
-      for (const P of legs) {
-        // Gi trousers: baggy at the thigh and knee, gathered into the boot.
-        const bag = gi ? 0.02 * sc * ss(cuff, J.shinL[1] + 0.05 * sc, y) * ss(top + 0.05 * sc, J.shinL[1] + 0.25 * sc, y) : 0.012 * sc * ss(J.shinL[1] + 0.1 * sc, 0.1 * sc, y);
-        d = smin(d, dPart(P, x, y, z) - thick - bag, 0.015 * sc);
+      for (const P of legs) d = smin(d, dPart(P, x, y, z) - thick, 0.015 * sc);
+      // Each trouser leg hangs as a straight tube from the hip to the hem (gi: wider, gathered into
+      // the boot with a puff above it), so the cloth doesn't cling to the knee and calf.
+      for (const n of ["L", "R"]) {
+        const hp = J["thigh" + n], an = J["foot" + n];
+        // From mid-thigh down (above that the hips shape the cloth), so the tubes stay under a top.
+        const t0 = [hp[0] + (an[0] - hp[0]) * 0.25, hp[1] - 0.14 * sc, hp[2]];
+        const t1 = [an[0] + (hp[0] - an[0]) * 0.02, cuff, an[2] + 0.01 * sc];
+        const r0 = (gi ? 0.105 : 0.078) * sc;
+        const r1 = (gi ? 0.085 : 0.054) * sc;
+        let tube = dPrim({ type: "cone", a: t0, b: t1, ra: r0, rb: r1 }, x, y, z);
+        if (gi) tube -= 0.012 * sc * Math.exp(-(((y - cuff - 0.06 * sc) / (0.05 * sc)) ** 2));
+        d = smin(d, tube, 0.02 * sc);
       }
-      d += (gi ? 0.0018 : 0.0006) * sc * Math.sin(y * 70 + x * 40 + Math.sin(z * 50)) * (gi ? 1 : ss(J.shinL[1] + 0.12 * sc, J.shinL[1], y) * ss(J.shinL[1] - 0.12 * sc, J.shinL[1], y) + ss(0.2 * sc, 0.06 * sc, y));
+      // Folds: soft diagonal creases, more behind the knee and stacked at the hem.
+      d += (gi ? 0.0022 : 0.0009) * sc * Math.sin(y * (gi ? 55 : 80) + x * 40 + 2 * Math.sin(z * 60)) * (gi ? 1 : 0.5 + ss(J.shinL[1] + 0.1 * sc, J.shinL[1], y) * ss(J.shinL[1] - 0.1 * sc, J.shinL[1], y) + ss(0.16 * sc, cuff, y));
       d = smax(d, cuff - y, 0.004 * sc);
       d = smax(d, y - top, 0.004 * sc);
       return d;
@@ -1052,17 +1074,30 @@ function clothFields(D, S, bodyF) {
     const boot = S.shoes.type === "boot";
     const shins = ["shinL", "shinR"].map((n) => D.parts.find((p) => p.name === n));
     const shaftTop = J.shinL[1] - 0.14 * sc;
+    const soleTop = 0.028 * sc;
     const f = (x, y, z) => {
       let d = 1e9;
-      for (const P of feet) d = Math.min(d, dPart(P, x, y, z) - (boot ? 0.01 : 0.007) * sc);
-      if (boot) {
-        for (const P of shins) d = smin(d, smax(dPart(P, x, y, z) - 0.014 * sc, y - shaftTop, 0.006 * sc), 0.01 * sc);
-      } else d = smax(d, y - (J.footL[1] + 0.02 * sc), 0.01 * sc);
-      d = Math.max(d, -0.003 - y);
-      let sole = 1e9;
-      for (const P of feet) sole = Math.min(sole, dPart(P, x, y, z) - 0.011 * sc);
-      sole = Math.max(sole, y - 0.018 * sc, -y);
-      return smin(d, sole, 0.004 * sc);
+      for (const [P, n] of [[feet[0], "L"], [feet[1], "R"]]) {
+        const an = J["foot" + n], to = J["toe" + n];
+        // The upper: the foot, a little roomier, rising to a padded collar round the ankle.
+        let u = dPart(P, x, y, z) - (boot ? 0.011 : 0.009) * sc;
+        const collar = dPrim({ type: "cone", a: [an[0], an[1] - 0.045 * sc, an[2] - 0.004 * sc], b: [an[0], an[1] + (boot ? 0.0 : 0.012) * sc, an[2] - 0.01 * sc], ra: 0.047 * sc, rb: 0.044 * sc }, x, y, z);
+        u = smin(u, collar, 0.02 * sc);
+        if (boot) for (const sh of shins) if (sh.name.endsWith(n)) u = smin(u, smax(dPart(sh, x, y, z) - 0.016 * sc - 0.008 * sc * ss(shaftTop - 0.08 * sc, shaftTop, y), y - shaftTop, 0.006 * sc), 0.012 * sc);
+        if (!boot) {
+          u = smax(u, y - (an[1] + 0.014 * sc), 0.008 * sc);
+          // Laces: small ridges across the instep.
+          const instep = ss(an[2] + 0.01 * sc, an[2] + 0.04 * sc, z) * ss(to[2] - 0.03 * sc, to[2] - 0.08 * sc, z) * ss(0.03 * sc, 0.0, Math.abs(x - an[0]));
+          u -= 0.0018 * sc * instep * (0.5 + 0.5 * Math.sin((z - an[2]) / sc * 260));
+        }
+        // The sole: a slab under the foot with a rounded edge, the toe sprung up a little.
+        const spring = 0.012 * sc * ss(to[2] - 0.05 * sc, to[2] + 0.04 * sc, z);
+        let so = dPart(P, x, y - spring * 0.0, z) - 0.014 * sc;
+        so = smax(so, y - soleTop - spring, 0.004 * sc);
+        so = smax(so, spring - y, 0.004 * sc);
+        d = Math.min(d, smin(u, so, 0.004 * sc));
+      }
+      return d;
     };
     const up = hex(S.shoes.color);
     const so = hex(S.shoes.sole ?? S.shoes.color);
@@ -1071,7 +1106,8 @@ function clothFields(D, S, bodyF) {
       const out = new Float32Array(pos.length);
       for (let i = 0; i < pos.length; i += 3) {
         const y = pos[i + 1];
-        const c = y < 0.02 * sc ? so : boot && y > shaftTop - 0.03 * sc ? tie : up;
+        // The sole, a thin foxing stripe above it on sneakers, the tie at the top of a boot.
+        const c = y < soleTop * 0.9 ? so : !boot && y < soleTop + 0.006 * sc ? so : boot && y > shaftTop - 0.03 * sc ? tie : up;
         out.set(c, i);
       }
       return out;
@@ -1107,24 +1143,26 @@ function hairField(D, S) {
   // Spiked styles (Goku): cones from the skull, pointed at the tips.
   const SPIKES = {
     goku: [
-      [[0.12, 1, -0.2], [0.15, 1, -0.25], 0.15, 0.04],
-      [[-0.35, 0.95, -0.12], [-0.45, 0.95, -0.15], 0.14, 0.036],
-      [[0.45, 0.85, -0.25], [0.6, 0.85, -0.3], 0.13, 0.034],
-      [[0, 0.6, -0.8], [0, 0.55, -1], 0.13, 0.036],
-      [[0.55, 0.5, -0.65], [0.7, 0.45, -0.7], 0.12, 0.032],
-      [[-0.55, 0.55, -0.6], [-0.7, 0.5, -0.65], 0.12, 0.032],
-      [[0.3, 0.1, -0.95], [0.35, -0.1, -1], 0.1, 0.028],
-      [[-0.3, 0.1, -0.95], [-0.35, -0.1, -1], 0.1, 0.028],
-      [[0.95, 0.45, -0.1], [1, 0.35, -0.1], 0.11, 0.03],
-      [[-0.95, 0.45, -0.1], [-1, 0.35, -0.1], 0.11, 0.03],
-      [[0.9, 0.05, -0.35], [0.95, -0.25, -0.3], 0.08, 0.024],
-      [[-0.9, 0.05, -0.35], [-0.95, -0.25, -0.3], 0.08, 0.024],
+      // The crown: tall spikes standing up and back.
+      [[0.05, 1, -0.15], [0.12, 1, -0.45], 0.17, 0.042],
+      [[-0.3, 0.95, -0.15], [-0.35, 1, -0.4], 0.16, 0.04],
+      [[0.38, 0.88, -0.2], [0.5, 0.95, -0.45], 0.15, 0.038],
+      [[-0.55, 0.75, -0.3], [-0.75, 0.7, -0.45], 0.14, 0.036],
+      [[0.6, 0.7, -0.35], [0.8, 0.6, -0.5], 0.13, 0.034],
+      [[0, 0.65, -0.75], [0.05, 0.55, -1], 0.14, 0.038],
+      [[0.35, 0.4, -0.85], [0.4, 0.2, -1], 0.11, 0.032],
+      [[-0.35, 0.4, -0.85], [-0.4, 0.2, -1], 0.11, 0.032],
+      // Sides: swept out and down past the ears.
+      [[0.92, 0.35, -0.15], [1, -0.15, -0.2], 0.11, 0.03],
+      [[-0.92, 0.35, -0.15], [-1, -0.15, -0.2], 0.11, 0.03],
+      [[0.85, 0.05, -0.45], [0.8, -0.45, -0.45], 0.09, 0.026],
+      [[-0.85, 0.05, -0.45], [-0.8, -0.45, -0.45], 0.09, 0.026],
       // Bangs over the forehead, and the tuft that stands up at the front.
       [[0.12, 0.62, 0.78], [0.22, -0.7, 0.68], 0.1, 0.026],
       [[-0.25, 0.64, 0.72], [-0.38, -0.72, 0.58], 0.095, 0.024],
       [[0.4, 0.6, 0.66], [0.55, -0.75, 0.38], 0.08, 0.02],
       [[-0.48, 0.58, 0.6], [-0.65, -0.7, 0.3], 0.07, 0.018],
-      [[-0.02, 0.8, 0.6], [0.05, 0.6, 0.8], 0.075, 0.024],
+      [[-0.02, 0.8, 0.6], [0.05, 0.75, 0.6], 0.08, 0.026],
     ],
   };
   const spikes = (SPIKES[st] ?? null)?.map(([dir, out, L, r]) => {
@@ -1137,10 +1175,13 @@ function hairField(D, S) {
   const f = (x, y, z) => {
     const [hx, hy, hz] = L(x, y, z);
     // A shell over the skull, above the hairline and the ears.
-    const line = hz > 0.02 ? (anime ? 0.05 : 0.064) - 0.12 * Math.max(0, Math.abs(hx) - 0.035) : hz > -0.04 ? 0.03 - 0.25 * (0.02 - hz) : -0.075;
+    const line = (hz > 0.02 ? (anime ? 0.05 : 0.062) - 0.12 * Math.max(0, Math.abs(hx) - 0.035) : hz > -0.04 ? 0.03 - 0.25 * (0.02 - hz) : -0.075) + (anime ? 0 : 0.006 * (vnoise(hx * 90, 3.1, hz * 90) - 0.5));
     // Thickness grows from nothing at the hairline, so the hair blends into the scalp.
     const grow = anime ? 1 : ss(line - 0.004, line + 0.035, hy);
-    let d = dPart(sk, x, y, z) - (thick * (anime ? 1 : 0.2 + 0.8 * ss(0.03, 0.08, hy)) + (anime ? 0.006 : 0.008) * s * ss(0.04, 0.1, hy) + (anime ? 0 : 0.007 * s * ss(-0.01, 0.05, hz) * ss(0.05, 0.09, hy) + 0.004 * s * (vnoise(hx * 45, hy * 45, hz * 45) - 0.5) * ss(0.05, 0.1, hy))) * grow + 0.0025 * s * (1 - grow);
+    const tuft = anime ? 0 : (vnoise(hx * 38 + 7, hy * 38, hz * 38) - 0.5) * 0.009 * s + (vnoise(hx * 90, hy * 90, hz * 90) - 0.5) * 0.003 * s;
+    // Short on the sides and back (a fade), fuller on top and swept up at the front.
+    const sideFade = anime ? 1 : 0.25 + 0.75 * ss(0.035, 0.075, hy);
+    let d = dPart(sk, x, y, z) - (thick * sideFade + (anime ? 0.006 : 0.007) * s * ss(0.04, 0.1, hy) + (anime ? 0 : 0.008 * s * ss(-0.01, 0.06, hz) * ss(0.045, 0.085, hy)) + tuft * ss(0.04, 0.08, hy)) * grow + 0.0025 * s * (1 - grow);
     d = smax(d, (line - 0.006 - hy) * s * 0.5, 0.004 * s);
     d = smax(d, (-0.085 - hy) * s, 0.006 * s);
     if (st === "long") {
@@ -1161,7 +1202,7 @@ function hairField(D, S) {
     d = smax(d, -(len3(hx / 0.06, (hy + 0.03) / 0.065, (hz - 0.09) / 0.05) - 1) * 0.03 * s, 0.003 * s);
     // Strand grooves along the flow (front to back on top, downward at the sides).
     const ang = Math.atan2(hx, -hz);
-    d += (anime ? 0.0012 * s * Math.sin(ang * 30 + hy * 8) : 0.0003 * s * (Math.sin(ang * 46 + hy * 12 + 6 * vnoise(hx * 30, hy * 30, hz * 30)) + 1.6 * (vnoise(hx * 140, hy * 50, hz * 140) - 0.5)) - 0.003 * s * (vnoise(hx * 22 + 3, hy * 22, hz * 22) - 0.5) * ss(0.04, 0.09, hy));
+    d += (anime ? 0.0012 * s * Math.sin(ang * 30 + hy * 8) : 0.00022 * s * (Math.sin(ang * 60 + hy * 14 + 8 * vnoise(hx * 30, hy * 30, hz * 30)) + 2 * (vnoise(hx * 160, hy * 60, hz * 160) - 0.5)));
     if (st === "bun") d = smin(d, len3(hx, hy - 0.07, hz + 0.075) * s - 0.03 * s, 0.01 * s);
     if (spikes) for (const sp of spikes) d = smin(d, dPrim(sp, x, y, z), 0.01 * s);
     return d;
@@ -1200,7 +1241,7 @@ function browField(D, S) {
     const tilt = S.face.browTilt ?? 0;
     const pts = anime ? [P(sd * 0.014, 0.03 - 0.012 * tilt, 0.087), P(sd * 0.034, 0.036, 0.085), P(sd * 0.054, 0.034 + 0.006 * tilt, 0.073)] : [P(sd * 0.012, 0.03 - 0.004 * tilt, 0.09), P(sd * 0.03, 0.036, 0.089), P(sd * 0.05, 0.033, 0.08)];
     const bw = S.face.browWeight ?? 1;
-    const r = (anime ? [0.0018, 0.0022, 0.0012] : [0.0032, 0.003, 0.0018]).map((v) => v * bw);
+    const r = (anime ? [0.0018, 0.0022, 0.0012] : [0.0024, 0.0022, 0.0012]).map((v) => v * bw);
     const q = pts.map(onSkin);
     for (let i = 0; i < 2; i += 1) prims.push(cone(q[i], q[i + 1], r[i] * s, r[i + 1] * s, { k: 0.002 * s }));
   }
@@ -1218,7 +1259,7 @@ function eyeTexture(THREE, S, anime) {
   const g = cv.getContext("2d");
   g.fillStyle = anime ? "#ffffff" : "#ece6df";
   g.fillRect(0, 0, N, N);
-  const ir = N * (anime ? 0.34 : 0.21);
+  const ir = N * (anime ? 0.34 : 0.245);
   const col = S.eyes;
   const grad = g.createRadialGradient(N / 2, N / 2 - (anime ? ir * 0.2 : 0), ir * 0.2, N / 2, N / 2, ir);
   grad.addColorStop(0, anime ? "#ffffff" : col);
@@ -1285,7 +1326,8 @@ function buildEyes(THREE, D, S, headBone, mats) {
     geo.rotateY(-Math.PI / 2);
     const ballMat = anime ? new THREE.MeshBasicMaterial({ map: tex }) : new THREE.MeshPhysicalMaterial({ map: tex, roughness: 0.2, clearcoat: 1, clearcoatRoughness: 0.03 });
     const ball = new THREE.Mesh(geo, ballMat);
-    if (anime) ball.scale.set(0.95, 1.25, 0.6);
+    const tall = anime ? 1.25 * (S.face.eyeTall ?? 1) : 1;
+    if (anime) ball.scale.set(0.95, tall, 0.6);
     g.add(ball);
     eyes.push(g);
     // Lids: shells over the ball with a thick rounded margin and a lash line.
@@ -1293,10 +1335,10 @@ function buildEyes(THREE, D, S, headBone, mats) {
       const lg = new THREE.Group();
       const shell = new THREE.Mesh(new THREE.SphereGeometry(r * 1.1, 32, 10, 0, Math.PI * 2, top ? 0 : Math.PI / 2, Math.PI / 2), mats.lid);
       lg.add(shell);
-      const margin = new THREE.Mesh(new THREE.TorusGeometry(r * 1.1, r * (anime ? 0.09 : 0.12), 8, 40, Math.PI), anime || top ? mats.lash : mats.lid);
+      const margin = new THREE.Mesh(new THREE.TorusGeometry(r * 1.1, r * (anime ? (top ? 0.14 : 0.06) : 0.12), 8, 40, Math.PI), anime || top ? mats.lash : mats.lid);
       margin.rotation.set(Math.PI / 2, 0, top ? 0 : Math.PI);
       lg.add(margin);
-      if (anime) lg.scale.set(0.95, 1.25, 0.6);
+      if (anime) lg.scale.set(0.95, tall, 0.6);
       g.add(lg);
       return lg;
     };
@@ -1492,4 +1534,4 @@ export function poseHuman(h, p = {}) {
   }
   h.setFace(p.face ?? {});
 }
-export const _internal = { design, clothFields, merge, DEFAULTS };
+export const _internal = { design, clothFields, merge, DEFAULTS, dPart, part };
