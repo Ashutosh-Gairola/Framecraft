@@ -64,7 +64,7 @@ Click a still to watch (720p, with sound), or watch them all in the player on **
 
 ## How it works
 
-An anime, written as HTML. You write a scene. [The site](https://ashutosh-gairola.github.io/html-anime-rework/#sheet) turns it into a shot sheet: holds, one expensive shot, a closed color script, an art style, the cast, and the voice. Paste that sheet into Claude, Codex, Cursor, or Grok. A crew of agent skills draws it: research, a director, a designer, an actor, art, motion, a cameraman, the animation staff, voice, sound, render, and an editor — or a 3D actor in three.js when the camera must fly.
+An anime, written as HTML. You write a scene. [The studio](https://ashutosh-gairola.github.io/html-anime-rework/studio.html) turns it into a shot sheet: holds, one expensive shot, a closed color script, an art style, the cast, and the voice. Paste that sheet into Claude, Codex, Cursor, or Grok. A crew of agent skills draws it: research, a director, a designer, an actor, art, motion, a cameraman, the animation staff, voice, sound, render, and an editor — or a 3D actor in three.js when the camera must fly.
 
 The pictures are HTML, timed for [HyperFrames](https://github.com/heygen-com/hyperframes). Nothing here calls a video model.
 
@@ -83,7 +83,7 @@ Serve the site from this folder, then open the address it prints:
 python -m http.server
 ```
 
-Opening `index.html` as a file shows that same instruction. The sheet will not run until the folder is served.
+Opening `studio.html` as a file shows that same instruction. The sheet will not run until the folder is served.
 
 Or build a sheet in Node (no dependencies):
 
@@ -175,7 +175,8 @@ node harness/sequence.js brief.json      # films/<slug>/sequence.md and one shee
 
 ## What is in the repo
 
-- `index.html`, `site.css`, `site.js`, `tokens.css` — the site: the films player and the sheet builder, published at https://ashutosh-gairola.github.io/html-anime-rework/
+- `index.html`, `home.css`, `home.js` — the site's landing page (showreel, films, the crew), published at https://ashutosh-gairola.github.io/html-anime-rework/
+- `studio.html`, `site.css`, `site.js`, `tokens.css` — the studio: the sheet builder
 - `skills/` — the crew, above
 - `harness/compile.js` — scene to sheet (with `palettes.js`, `plans.js`, `styles.js`, `cast.js`, `motion.js`, `voice-profiles.js`)
 - `harness/sheet.js`, `harness/sequence.js` — write sheets to `films/`
