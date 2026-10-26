@@ -32,7 +32,7 @@
     <script type="module">
       import * as THREE from "three";
       import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
-      import { buildHuman, poseHuman } from "./assets/human.js";
+      import { buildHuman, poseHuman, loadHeadScan } from "./assets/human.js";
       import { MAN, GOKU } from "./assets/cast.js";
 
       const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById("stage"), antialias: true, preserveDrawingBuffer: true });
@@ -63,8 +63,10 @@
       floor.receiveShadow = true;
       scene.add(floor);
 
+      // The realistic build wears a scanned head (assets/scan, CC BY 3.0 — see references.md).
+      const scan = await loadHeadScan(THREE, "./assets/scan/");
       const cast = [
-        { h: buildHuman(THREE, { ...MAN, style: "real" }), x: -1.15 },
+        { h: buildHuman(THREE, { ...MAN, skin: scan.skin, style: "real" }, { scan }), x: -1.15 },
         { h: buildHuman(THREE, { ...MAN, style: "anime" }), x: 0 },
         { h: buildHuman(THREE, GOKU), x: 1.15 },
       ];

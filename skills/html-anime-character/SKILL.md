@@ -135,7 +135,21 @@ These are the faults earlier builds had. Look for each one in the turnaround.
 
    Light a realistic face low-key, with a key, a rim and a warm fill. Flat light shows that it's code.
 
-**The limit.** Even with all six steps, a face built from primitives reads as a game character, not a photograph. For a truly photoreal close-up, use a scanned head: a licensed head scan with its own diffuse and normal maps, rigged to the same skeleton. Note the scan's licence in `references.md`.
+**Photoreal: a scanned head.** For a truly photoreal close-up, the sculpted face isn't enough. Use `loadHeadScan` and pass `{ scan }` to `buildHuman`. The template ships the three.js head scan (CC BY 3.0; credit it in `references.md`). `attachHeadScan` then:
+- fits the scan to the head's height, with a width factor from the build;
+- puts the eyes where the scan's are;
+- cuts almond openings into the closed lids, subdividing them first so the cut is clean;
+- trims the neck so it sits inside the collar, and hides the body's neck above it;
+- grows hair from the scan's own scalp: a shell thickening gradually from an irregular hairline, short at the sides, clear of the ears, plus strands scattered evenly over it, lashes on the lid margins, and corneas;
+- matches the body's skin to the scan's sampled tone.
+
+Points to check:
+- **Iris shape:** the eye texture spans 360° across and 180° down, so a round iris is drawn half as wide as it is tall. Drawn as a circle, it reads as a bug eye.
+- **Relaxed lids:** the upper lid covers the top of the iris.
+- **Hairline:** no ledge at the front.
+- **The comparison:** next to the reference, the result should match its type (build, hair, palette), never a private person's identity.
+
+The scan is a single fixed identity, and its face doesn't take the expression morphs.
 
 **Anime face**
 - **Smooth planes.** No cheek lumps: they shade as blotches under cel light.

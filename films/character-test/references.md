@@ -15,3 +15,5 @@
   - a wide wrapped blue sash with long tails;
   - blue boots with red trim at the sole and a white tie at the top;
   - blue wristbands.
+
+- **The realistic head** (`assets/scan/`): the Lee Perry-Smith head scan that ships with three.js. Credit: Lee Perry-Smith / Infinite Realities, based on a work at triplegangers.com, licensed CC BY 3.0. It comes with a colour map and a normal map. It is fitted to the skeleton with its closed eyes opened into almond lids, and given grown hair, lashes and corneas. It is a different person from the reference photo: the design matches type, build and palette, not identity.
