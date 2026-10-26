@@ -100,11 +100,42 @@ Check every point below. A character that fails one isn't animated.
 
 These are the faults earlier builds had. Look for each one in the turnaround.
 
-**Realistic face**
-- **No hollows.** Don't carve the temples. Fill the side of the face from cheekbone to jaw (zygomatic arch, maxilla, buccal fill). A three-quarter view with a dark dent under the cheekbone reads as a skull.
-- **Planes in profile.** The lips sit behind the nose tip and the chin behind the lips. The face is as full beside the mouth as the mouth is forward; otherwise it reads as a muzzle.
-- **Eyes.** The opening is an almond: the upper lid covers the top of the iris, and the lower lid touches its bottom edge. Keep the sockets shallow, since deep sockets read as tired or skeletal. The iris is about half the visible eye.
-- **Brows and hair.** Brows are thin, tapered strokes, not sausages. Hair is short at the sides and fuller on top, with tufts and an irregular hairline, never a ribbed helmet.
+**Realistic face.** Build it in this order and check each step on a front, three-quarter and profile render.
+
+1. **Proportions: the thirds.** Hairline to brow equals brow to nose base equals nose base to chin.
+   - The eyes sit at half the head's height, one eye-width apart.
+   - The mouth is a third of the way from the nose base to the chin.
+   - The ears span brow to nose base.
+   - A low hairline shrinks the forehead and reads as wrong at once.
+2. **Masses, with no hollows.**
+   - cranium and face mass;
+   - jaw, with jaw angles set back;
+   - cheekbones and the zygomatic arch;
+   - the maxilla fill beside the nose;
+   - the buccal fill between cheekbone and jaw.
+
+   Don't carve the temples. A dark dent under the cheekbone in three-quarter view reads as a skull.
+3. **The dental arch.** A curved mass under the mouth for the lips to lie on. Without it the lips are tubes on a hollow, and the profile becomes a muzzle. In profile, the lips sit behind the nose tip and the chin behind the lips.
+4. **Eyes.**
+   - An almond opening sculpted as lids round the ball: the upper lid covers the top of the iris and the lower lid touches its bottom edge.
+   - Shallow sockets.
+   - The iris about half the visible eye.
+   - An off-white sclera (`#e3d9d2`), not pure white.
+   - A clear cornea dome for the highlight, and the pink caruncle in the inner corner.
+5. **Hair as hair, not shapes.** Brows, lashes and the hair surface are drawn as strands: one-pixel lines rooted on the skin or the hair mass, generated in `realFaceDetail`.
+   - **Brows:** about 400 strands each, growing up and out at the head, out along the arch, down at the tail.
+   - **Lashes:** about 70 upper and 35 lower, curling away from the lid, longest at the outer corner.
+   - **Hair:** about 14,000 strands along the flow, over a shell that is short at the sides and fuller on top, with tufts and an irregular hairline.
+   - Sculpted capsule brows read as plastic.
+6. **Skin.** `skinMaterial` provides:
+   - light that wraps past the terminator and reddens there (a cheap subsurface scattering);
+   - procedural pores and creases as a bump from the rest-pose position (no UVs needed);
+   - roughness that varies with them;
+   - regional colour from the vertices: flush on cheeks, nose and ears, darker under the brows, a faint beard shadow on a male face, the lips.
+
+   Light a realistic face low-key, with a key, a rim and a warm fill. Flat light shows that it's code.
+
+**The limit.** Even with all six steps, a face built from primitives reads as a game character, not a photograph. For a truly photoreal close-up, use a scanned head: a licensed head scan with its own diffuse and normal maps, rigged to the same skeleton. Note the scan's licence in `references.md`.
 
 **Anime face**
 - **Smooth planes.** No cheek lumps: they shade as blotches under cel light.

@@ -559,13 +559,16 @@ function headDesign(S, J, hs) {
     const nl = 0.82 + 0.2 * F.nose;
     prims.push(cone(P(0, 0.014, 0.086), P(0, -0.025 * nl, 0.103 + 0.004 * F.nose), k(0.005), k(0.0068), { k: k(0.006) }));
     prims.push(ell(P(0, -0.029 * nl, 0.1 + 0.004 * F.nose), r3(0.0068 + 0.0018 * F.noseWidth, 0.0068, 0.0072), { k: k(0.005) }));
+    // The dental arch: the curved mass of the jaws and teeth the lips lie on, filling the philtrum
+    // and the area under the lower lip, so the mouth isn't a pair of tubes on a hollow.
+    prims.push(ell(P(0, -0.056, 0.074), r3(0.027, 0.024, 0.019), { k: k(0.014) }));
     // Lips: arcs of small round cones; a crease between.
-    const lf = 0.42 + 0.25 * F.lips + 0.15 * fem;
+    const lf = 0.44 + 0.24 * F.lips + 0.15 * fem;
     const up = [P(-0.021, -0.0615, 0.081), P(-0.009, -0.0585, 0.089), P(0, -0.059, 0.0915), P(0.009, -0.0585, 0.089), P(0.021, -0.0615, 0.081)];
     const lo = [P(-0.017, -0.066, 0.082), P(-0.007, -0.0688, 0.087), P(0.007, -0.0688, 0.087), P(0.017, -0.066, 0.082)];
     for (let i = 0; i < up.length - 1; i += 1) prims.push(cone(up[i], up[i + 1], k(0.0042 * lf * (i === 0 || i === 3 ? 0.75 : 1)), k(0.0042 * lf * (i === 0 || i === 3 ? 0.75 : 1)), { k: k(0.006) }));
     for (let i = 0; i < lo.length - 1; i += 1) prims.push(cone(lo[i], lo[i + 1], k(0.0052 * lf * (i === 1 ? 1 : 0.8)), k(0.0052 * lf * (i === 1 ? 1 : 0.8)), { k: k(0.007) }));
-    prims.push(ell(P(0, -0.0628, 0.089), r3(0.022, 0.0022, 0.016), { k: k(0.002), sub: true })); // the crease
+    prims.push(ell(P(0, -0.0628, 0.089), r3(0.021, 0.0016, 0.012), { k: k(0.0025), sub: true })); // the crease
     prims.push(ell(P(0, -0.049, 0.096), r3(0.004, 0.008, 0.003), { k: k(0.003), sub: true })); // philtrum
     // Chin.
     prims.push(ell(P(0, -0.093, 0.064), r3(0.017 + 0.006 * F.chin, 0.015, 0.016), { k: k(0.014) }));
@@ -702,6 +705,8 @@ function skinColors(D, S, pos, isHead) {
     b *= 1 + mott * 1.1;
     let flush = 0;
     let lip = 0;
+    let brow = 0;
+    let beard = 0;
     if (isHead) {
       const hx = (x - c[0]) / s, hy = (y - c[1]) / s, hz = (z - c[2]) / s;
       const g2 = (dx, dy, dz, w) => Math.exp(-(dx * dx + dy * dy + dz * dz) / (w * w));
@@ -714,6 +719,9 @@ function skinColors(D, S, pos, isHead) {
         flush += 0.5 * g2(Math.abs(hx) - 0.072, hy, hz + 0.01, 0.03); // ears
         flush -= 0.25 * g2(Math.abs(hx) - 0.032, hy + 0.004, hz - 0.08, 0.012); // under the eyes, shadowed
         flush += 0.15 * g2(hx, hy - 0.05, hz - 0.06, 0.04); // forehead
+        // Under the brow hairs, the skin is a little darker; on a male face, a faint beard shadow.
+        brow = 0.35 * g2(Math.abs(hx) - 0.032, (hy - 0.033) * 1.6, (hz - 0.085) * 0.5, 0.011);
+        if (S.sex < 0.5) beard = 0.22 * Math.max(g2(hx * 0.6, hy + 0.085, (hz - 0.06) * 0.5, 0.03), g2(hx * 0.5, hy + 0.047, (hz - 0.09) * 0.6, 0.012) * 0.8);
       }
     }
     // Knuckles, elbows, knees.
@@ -730,6 +738,16 @@ function skinColors(D, S, pos, isHead) {
       r = mix(r, L[0], lip * 0.85);
       g = mix(g, L[1], lip * 0.85);
       b = mix(b, L[2], lip * 0.85);
+    }
+    if (brow) {
+      r *= 1 - brow;
+      g *= 1 - brow * 1.05;
+      b *= 1 - brow * 1.05;
+    }
+    if (beard) {
+      r *= 1 - beard * 1.1;
+      g *= 1 - beard;
+      b *= 1 - beard * 0.85;
     }
     out.set([r, g, b], v * 3);
   }
@@ -849,10 +867,12 @@ export function buildHuman(THREE, spec = {}) {
   const hair = hairField(D, S);
   if (hair) makeSkinned(hair.f, hair.min, hair.max, 0.0018 / res * D.hs, mats.hair, "hair", (p) => hair.colors(p), null, (n) => n === "head");
   const brow = browField(D, S);
-  makeSkinned(brow.f, brow.min, brow.max, 0.0011 / res * D.hs, mats.brow, "brows", null, null, (n) => n === "head");
+  // Anime brows are solid strokes; realistic brows are hair (strands, in realFaceDetail).
+  if (anime) makeSkinned(brow.f, brow.min, brow.max, 0.0011 / res * D.hs, mats.brow, "brows", null, null, (n) => n === "head");
 
   // Eyes: eyeball + iris/pupil (+ anime highlights), lids that blink and widen.
   const eyes = buildEyes(THREE, D, S, bones.head, mats);
+  if (!anime) realFaceDetail(THREE, D, S, bones.head, meshes.hair);
   // Face morphs (displacement fields on the head mesh): smile, browUp, browIn, frown, squint, jaw.
   addFaceMorphs(THREE, D, S, [meshes.head, meshes.brows].filter(Boolean));
   const outlines = outlineQueue.filter(([m]) => m.name !== "brows").map(([m, w]) => [addOutline(THREE, m, skeleton, w), m]);
@@ -1185,7 +1205,7 @@ function hairField(D, S) {
   const f = (x, y, z) => {
     const [hx, hy, hz] = L(x, y, z);
     // A shell over the skull, above the hairline and the ears.
-    const line = (hz > 0.02 ? (anime ? 0.05 : 0.062) - 0.12 * Math.max(0, Math.abs(hx) - 0.035) : hz > -0.04 ? 0.03 - 0.25 * (0.02 - hz) : -0.075) + (anime ? 0 : 0.006 * (vnoise(hx * 90, 3.1, hz * 90) - 0.5));
+    const line = (hz > 0.02 ? (anime ? 0.05 : 0.074) - 0.12 * Math.max(0, Math.abs(hx) - 0.035) : hz > -0.04 ? 0.03 - 0.25 * (0.02 - hz) : -0.075) + (anime ? 0 : 0.006 * (vnoise(hx * 90, 3.1, hz * 90) - 0.5));
     // Thickness grows from nothing at the hairline, so the hair blends into the scalp.
     const grow = anime ? 1 : ss(line - 0.004, line + 0.035, hy);
     const tuft = anime ? 0 : (vnoise(hx * 38 + 7, hy * 38, hz * 38) - 0.5) * 0.009 * s + (vnoise(hx * 90, hy * 90, hz * 90) - 0.5) * 0.003 * s;
@@ -1259,6 +1279,141 @@ function browField(D, S) {
   return { f: (x, y, z) => dPart(P0, x, y, z, 0.01), min: [c[0] - 0.07 * s, c[1] + 0.015 * s, c[2] + 0.05 * s], max: [c[0] + 0.07 * s, c[1] + 0.05 * s, c[2] + 0.115 * s] };
 }
 
+/* ---------------- realistic face detail ---------------- */
+
+/**
+ * What makes a code-built face read as real at a close-up: hair that is hair. Brows as a few
+ * hundred short strands that grow out of the skin in the directions real brows grow (up and out at
+ * the head, out along the arch, down toward the tail); upper and lower lashes that curl away from
+ * the lid; thousands of strands laid over the hair mass along its flow; a cornea over each iris,
+ * and the pink caruncle in the inner corner. Lines are one pixel wide, so they stay fine at any
+ * distance. Everything rides on the head bone.
+ */
+function realFaceDetail(THREE, D, S, headBone, hairMesh) {
+  const s = D.head.s;
+  const c = D.head.c;
+  const hj = D.J.head;
+  let seed = 9173;
+  const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  const pos = [];
+  const col = [];
+  const toLocal = (p) => [p[0] - hj[0], p[1] - hj[1], p[2] - hj[2]];
+  const strand = (pts, rgb) => {
+    for (let i = 0; i < pts.length - 1; i += 1) {
+      pos.push(...toLocal(pts[i]), ...toLocal(pts[i + 1]));
+      col.push(...rgb, ...rgb.map((q) => q * 0.9));
+    }
+  };
+  const P = (x, y, z) => [c[0] + x * s, c[1] + y * s, c[2] + z * s];
+  // March from in front of the face back to the skin.
+  const onSkin = (p, lift = 0.0004) => {
+    let z = p[2] + 0.06 * s;
+    for (let i = 0; i < 90; i += 1) {
+      const d = dPart(D.head.part, p[0], p[1], z, 0.02);
+      if (d < lift * s) break;
+      z -= Math.max(0.0003 * s, d * 0.8);
+    }
+    return [p[0], p[1], z];
+  };
+  const browCol = hex(S.brows);
+  const hairCol = S.hair.style === "bald" ? browCol : hex(S.hair.color);
+
+  /* Brows: along an arch from the head (inner) to the tail. */
+  for (const sd of [1, -1]) {
+    for (let k = 0; k < 420; k += 1) {
+      const t = rnd();
+      const x = sd * (0.012 + 0.04 * t);
+      // The arch peaks two-thirds out; the brow is tall at the head and thins to the tail.
+      const yMid = 0.031 + 0.006 * Math.sin(Math.min(1, t / 0.68) * Math.PI * 0.5) - 0.007 * Math.max(0, (t - 0.68) / 0.32) ** 1.5;
+      const h = 0.0075 * (1 - 0.65 * t);
+      const y = yMid + (rnd() - 0.5) * h;
+      const root = onSkin(P(x, y, 0.085));
+      // Up and slightly out at the head, out along the body, out and down at the tail.
+      const ang = t < 0.15 ? 1.2 - t * 3 : t < 0.7 ? 0.25 - (t - 0.15) * 0.3 : -0.25 - (t - 0.7);
+      const L = (0.0055 + rnd() * 0.0035) * s;
+      const dx = sd * Math.cos(ang) * L;
+      const dy = Math.sin(ang) * L;
+      const v = 0.75 + rnd() * 0.5;
+      strand([root, [root[0] + dx * 0.5, root[1] + dy * 0.5, root[2] + 0.0007 * s], [root[0] + dx, root[1] + dy, root[2] + 0.0009 * s]], browCol.map((q) => q * v));
+    }
+  }
+
+  /* Lashes: along the lid margins of the almond opening (the same curves as the sculpted lids). */
+  for (const sd of [1, -1]) {
+    const ec = P(sd * 0.032, 0.012, 0.073);
+    const r = 0.0122 * s;
+    const R0 = r + 0.0032 * s;
+    for (const [up, n, len] of [[true, 70, 0.0085], [false, 34, 0.0045]]) {
+      for (let k = 0; k < n; k += 1) {
+        const u = -0.85 + 1.7 * ((k + rnd() * 0.6) / n);
+        const lx = u * r;
+        const ly = up ? r * (0.4 - 0.3 * u * u + 0.12 * u) : r * (-0.36 + 0.22 * u * u + 0.04 * u);
+        const lz = Math.sqrt(Math.max(0, R0 * R0 - lx * lx - ly * ly));
+        const root = [ec[0] + sd * lx, ec[1] + ly, ec[2] + lz];
+        const nrm = [(sd * lx) / R0, ly / R0, lz / R0];
+        // Longest toward the outer corner.
+        const L = len * s * (1 - 0.45 * u * u) * (0.8 + rnd() * 0.4) * (u > 0.3 ? 1.1 : 1);
+        const curl = up ? 1 : -1;
+        const p1 = [root[0] + nrm[0] * L * 0.45 + sd * u * L * 0.15, root[1] + nrm[1] * L * 0.45 + curl * L * 0.25, root[2] + nrm[2] * L * 0.45];
+        const p2 = [root[0] + nrm[0] * L * 0.7 + sd * u * L * 0.25, root[1] + nrm[1] * L * 0.7 + curl * L * 0.7, root[2] + nrm[2] * L * 0.55];
+        strand([root, p1, p2], [0.02, 0.016, 0.014]);
+      }
+    }
+  }
+
+  /* Hair: strands laid over the hair mass along its flow. */
+  if (hairMesh) {
+    const hp = hairMesh.geometry.attributes.position;
+    const hn = hairMesh.geometry.attributes.normal;
+    for (let k = 0; k < 14000; k += 1) {
+      const i = Math.floor(rnd() * hp.count);
+      const x = hp.getX(i), y = hp.getY(i), z = hp.getZ(i);
+      const nx = hn.getX(i), ny = hn.getY(i), nz = hn.getZ(i);
+      if (ny < -0.6) continue;
+      const hy = (y - c[1]) / s;
+      const hz = (z - c[2]) / s;
+      // Swept up and back at the front, back over the crown, down the sides and nape.
+      let f = hz > 0.03 ? [0, 0.75, -0.65] : hy > 0.05 ? [0, 0.1, -1] : [0, -0.85, -0.3];
+      const dn = f[0] * nx + f[1] * ny + f[2] * nz;
+      f = [f[0] - dn * nx, f[1] - dn * ny, f[2] - dn * nz];
+      const fl = Math.hypot(...f) || 1;
+      const L = (0.008 + rnd() * 0.014) * s * (hy > 0.05 ? 1 : 0.6);
+      const j = (rnd() - 0.5) * 0.5;
+      const dir = [f[0] / fl + j * nz, f[1] / fl, f[2] / fl - j * nx];
+      const lift = (a) => [nx * a * s, ny * a * s, nz * a * s];
+      const at = (t, a) => [x + dir[0] * L * t + lift(a)[0], y + dir[1] * L * t + lift(a)[1], z + dir[2] * L * t + lift(a)[2]];
+      const v = 0.6 + rnd() * 0.9;
+      strand([at(0, -0.0008), at(0.5, 0.0007), at(1, 0.0004)], hairCol.map((q) => Math.min(1, q * v)));
+    }
+  }
+
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
+  geo.setAttribute("color", new THREE.Float32BufferAttribute(col, 3));
+  const lines = new THREE.LineSegments(geo, new THREE.LineBasicMaterial({ vertexColors: true }));
+  lines.frustumCulled = false;
+  headBone.add(lines);
+
+  /* Corneas and caruncles. */
+  for (const sd of [1, -1]) {
+    const ec = toLocal(P(sd * 0.032, 0.012, 0.073));
+    const r = 0.0122 * s;
+    // The cornea: a clear dome over the iris, so the eye catches a sharp highlight.
+    const cornea = new THREE.Mesh(
+      new THREE.SphereGeometry(r * 0.62, 32, 16, 0, Math.PI * 2, 0, Math.PI * 0.42),
+      new THREE.MeshPhysicalMaterial({ color: 0xffffff, transparent: true, opacity: 0.18, roughness: 0, clearcoat: 1, clearcoatRoughness: 0, depthWrite: false }),
+    );
+    cornea.rotation.x = Math.PI / 2;
+    cornea.position.set(ec[0], ec[1], ec[2] + r * 0.43);
+    headBone.add(cornea);
+    // The caruncle: the small pink mound in the inner corner.
+    const car = new THREE.Mesh(new THREE.SphereGeometry(r * 0.2, 12, 8), new THREE.MeshPhysicalMaterial({ color: 0xc87a78, roughness: 0.25, clearcoat: 1 }));
+    car.scale.set(1, 0.8, 0.8);
+    car.position.set(ec[0] - sd * r * 0.92, ec[1] - r * 0.02, ec[2] + r * 0.42);
+    headBone.add(car);
+  }
+}
+
 /* ---------------- eyes ---------------- */
 
 function eyeTexture(THREE, S, anime) {
@@ -1267,7 +1422,7 @@ function eyeTexture(THREE, S, anime) {
   if (!cv) return null;
   cv.width = cv.height = N;
   const g = cv.getContext("2d");
-  g.fillStyle = anime ? "#ffffff" : "#ece6df";
+  g.fillStyle = anime ? "#ffffff" : "#e3d9d2";
   g.fillRect(0, 0, N, N);
   const ir = N * (anime ? 0.34 : 0.245);
   const col = S.eyes;
@@ -1466,7 +1621,7 @@ function materials(THREE, S) {
     };
   }
   return {
-    skin: new THREE.MeshPhysicalMaterial({ vertexColors: true, roughness: 0.52, sheen: 0.35, sheenRoughness: 0.55, sheenColor: col(S.skin).multiplyScalar(1.2), clearcoat: 0.08, clearcoatRoughness: 0.6 }),
+    skin: skinMaterial(THREE, S),
     lid: new THREE.MeshPhysicalMaterial({ color: col(S.skin).multiplyScalar(0.92), roughness: 0.5, sheen: 0.3 }),
     lash: new THREE.MeshStandardMaterial({ color: 0x16100c, roughness: 0.7 }),
     hair: new THREE.MeshPhysicalMaterial({ vertexColors: true, roughness: 0.42, sheen: 1, sheenRoughness: 0.3, sheenColor: col(S.hair.color).multiplyScalar(1.6) }),
@@ -1479,6 +1634,52 @@ function materials(THREE, S) {
     band: new THREE.MeshPhysicalMaterial({ color: col(S.bands ?? "#222222"), roughness: 0.8, sheen: 0.5 }),
   };
 }
+/**
+ * Realistic skin: light that wraps past the terminator and reddens there (a cheap subsurface
+ * scattering), pores and fine creases as a procedural bump from the rest-pose position (no UVs
+ * needed), and roughness that varies with them.
+ */
+function skinMaterial(THREE, S) {
+  const m = new THREE.MeshPhysicalMaterial({ vertexColors: true, roughness: 0.5, sheen: 0.25, sheenRoughness: 0.5, sheenColor: new THREE.Color(S.skin).multiplyScalar(1.1), clearcoat: 0.12, clearcoatRoughness: 0.45 });
+  m.onBeforeCompile = (sh) => {
+    sh.uniforms.uPore = { value: 0.000045 };
+    sh.vertexShader = sh.vertexShader.replace("#include <common>", "#include <common>\nvarying vec3 vRest;").replace("#include <begin_vertex>", "#include <begin_vertex>\nvRest = position;");
+    const noise = `
+      varying vec3 vRest;
+      uniform float uPore;
+      float hS3(vec3 p) { return fract(sin(dot(p, vec3(127.1, 311.7, 74.7))) * 43758.5453); }
+      float vnS(vec3 p) {
+        vec3 i = floor(p), f = fract(p); f = f * f * (3.0 - 2.0 * f);
+        return mix(mix(mix(hS3(i), hS3(i + vec3(1,0,0)), f.x), mix(hS3(i + vec3(0,1,0)), hS3(i + vec3(1,1,0)), f.x), f.y),
+                   mix(mix(hS3(i + vec3(0,0,1)), hS3(i + vec3(1,0,1)), f.x), mix(hS3(i + vec3(0,1,1)), hS3(i + vec3(1,1,1)), f.x), f.y), f.z);
+      }
+      // Pores are small pits; creases are a softer, larger ripple.
+      float skinH(vec3 p) { float pore = 1.0 - smoothstep(0.0, 0.35, vnS(p * 2200.0)); return -pore + 0.5 * vnS(p * 380.0) + 0.25 * vnS(p * 900.0); }
+      vec3 skinPerturb(vec3 surf_pos, vec3 surf_norm, vec2 dHdxy, float faceDirection) {
+        vec3 vSigmaX = normalize(dFdx(surf_pos.xyz)); vec3 vSigmaY = normalize(dFdy(surf_pos.xyz)); vec3 vN = surf_norm;
+        vec3 R1 = cross(vSigmaY, vN); vec3 R2 = cross(vN, vSigmaX);
+        float fDet = dot(vSigmaX, R1) * faceDirection;
+        vec3 vGrad = sign(fDet) * (dHdxy.x * R1 + dHdxy.y * R2);
+        return normalize(abs(fDet) * surf_norm - vGrad);
+      }`;
+    sh.fragmentShader = sh.fragmentShader
+      .replace("#include <common>", "#include <common>\n" + noise)
+      .replace("#include <normal_fragment_maps>", "#include <normal_fragment_maps>\n{ float hh = skinH(vRest) * uPore; normal = skinPerturb(-vViewPosition, normal, vec2(dFdx(hh), dFdy(hh)), faceDirection); }")
+      .replace("#include <roughnessmap_fragment>", "#include <roughnessmap_fragment>\nroughnessFactor = clamp(roughnessFactor + 0.14 * (vnS(vRest * 500.0) - 0.5), 0.3, 0.75);")
+      .replace(
+        "#include <lights_physical_pars_fragment>",
+        THREE.ShaderChunk.lights_physical_pars_fragment.replace(
+          "reflectedLight.directDiffuse += irradiance * BRDF_Lambert( material.diffuseColor );",
+          `float ndlS = dot( geometryNormal, directLight.direction );
+          vec3 wS = vec3( 0.45, 0.22, 0.16 );
+          vec3 wrapS = clamp( ( vec3( ndlS ) + wS ) / ( 1.0 + wS ), 0.0, 1.0 );
+          reflectedLight.directDiffuse += wrapS * wrapS * directLight.color * BRDF_Lambert( material.diffuseColor );`,
+        ),
+      );
+  };
+  return m;
+}
+
 /** Ink outline for anime: the same skinned mesh, back faces, pushed out along the normal. */
 function addOutline(THREE, m, skeleton, w) {
   const mat = new THREE.MeshBasicMaterial({ color: 0x1a1214, side: THREE.BackSide });
