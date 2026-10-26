@@ -1,0 +1,111 @@
+{
+  "version": 3,
+  "logline": "Kael's sword becomes an enormous blue-white arc; Raizen forms a crimson-black sphere that pulls debris inward; they charge; the collision holds in slow motion, then a dome of light expands across the skyline.",
+  "slug": "the-last-eclipse-s5-ultimates",
+  "seconds": 12,
+  "fps": 24,
+  "frames": 288,
+  "aspect": "16:9",
+  "width": 1920,
+  "height": 1080,
+  "script": "eclipse",
+  "colors": {
+    "sky": "#2a1016",
+    "ink": "#14080c",
+    "moon": "#100608",
+    "accent": "#ff3b3b",
+    "practical": "#f3f6ff",
+    "iris": "#ff5a4a",
+    "skin": "#e8b8a8",
+    "hair": "#1a1014",
+    "sclera": "#f6f3ee",
+    "line": "#f6e4e4"
+  },
+  "designColors": {
+    "azure": "#4fd8ff",
+    "crimson": "#ff2a3c",
+    "abyss": "#120a14"
+  },
+  "style": "painted-world",
+  "styleReference": "Premium 3D anime in three.js: cel-shaded characters with ink outlines in a painted world. An ancient city of floating temples over a bottomless abyss under a crimson eclipse; shattered stone bridges; ",
+  "animation": "full",
+  "lines": [],
+  "card": "",
+  "props": "energy arc; vortex sphere; energy dome",
+  "voice": {
+    "mode": "off"
+  },
+  "cast": [
+    {
+      "name": "Kael Arashi",
+      "slug": "kael-arashi",
+      "kind": "original",
+      "reference": ""
+    },
+    {
+      "name": "Raizen Kuro",
+      "slug": "raizen-kuro",
+      "kind": "original",
+      "reference": ""
+    }
+  ],
+  "motion": [
+    "blade",
+    "handling",
+    "effects"
+  ],
+  "sequence": {
+    "slug": "the-last-eclipse",
+    "scene": "s5-ultimates",
+    "index": 4,
+    "start": 32,
+    "title": "Heaven Splitter Versus Eclipse Devourer",
+    "root": "../.."
+  },
+  "shots": [
+    {
+      "id": "establish",
+      "label": "Establish",
+      "start": 0,
+      "end": 2.5,
+      "dur": 2.5,
+      "sakuga": false,
+      "size": "wide",
+      "camera": "push",
+      "drawings": 3
+    },
+    {
+      "id": "approach",
+      "label": "Approach",
+      "start": 2.5,
+      "end": 5,
+      "dur": 2.5,
+      "sakuga": false,
+      "size": "medium",
+      "camera": "pan",
+      "drawings": 3
+    },
+    {
+      "id": "sakuga",
+      "label": "Sakuga",
+      "start": 5,
+      "end": 9,
+      "dur": 4,
+      "sakuga": true,
+      "size": "medium",
+      "camera": "shake",
+      "drawings": 8
+    },
+    {
+      "id": "button",
+      "label": "Button",
+      "start": 9,
+      "end": 12,
+      "dur": 3,
+      "sakuga": false,
+      "size": "close",
+      "camera": "locked",
+      "drawings": 3
+    }
+  ]
+}

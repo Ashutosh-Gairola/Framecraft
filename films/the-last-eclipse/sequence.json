@@ -1,0 +1,115 @@
+{
+  "version": 1,
+  "kind": "sequence",
+  "title": "The Last Eclipse",
+  "slug": "the-last-eclipse",
+  "fps": 24,
+  "frames": 1248,
+  "seconds": 52,
+  "aspect": "16:9",
+  "width": 1920,
+  "height": 1080,
+  "script": "eclipse",
+  "colors": {
+    "sky": "#2a1016",
+    "ink": "#14080c",
+    "moon": "#100608",
+    "accent": "#ff3b3b",
+    "practical": "#f3f6ff",
+    "iris": "#ff5a4a",
+    "skin": "#e8b8a8",
+    "hair": "#1a1014",
+    "sclera": "#f6f3ee",
+    "line": "#f6e4e4"
+  },
+  "designColors": {
+    "azure": "#4fd8ff",
+    "crimson": "#ff2a3c",
+    "abyss": "#120a14"
+  },
+  "style": "painted-world",
+  "styleReference": "Premium 3D anime in three.js: cel-shaded characters with ink outlines in a painted world. An ancient city of floating temples over a bottomless abyss under a crimson eclipse; shattered stone bridges; ",
+  "cast": [
+    {
+      "name": "Kael Arashi",
+      "slug": "kael-arashi",
+      "kind": "original",
+      "reference": ""
+    },
+    {
+      "name": "Raizen Kuro",
+      "slug": "raizen-kuro",
+      "kind": "original",
+      "reference": ""
+    }
+  ],
+  "motion": [
+    "blade",
+    "handling",
+    "effects",
+    "strike",
+    "locomotion"
+  ],
+  "scenes": [
+    {
+      "id": "s1-confrontation",
+      "title": "The Final Confrontation",
+      "index": 0,
+      "start": 0,
+      "seconds": 8,
+      "dir": "scenes/s1-confrontation",
+      "composition": "compositions/s1-confrontation.html",
+      "lines": 0
+    },
+    {
+      "id": "s2-steel",
+      "title": "Steel Against Steel",
+      "index": 1,
+      "start": 8,
+      "seconds": 8,
+      "dir": "scenes/s2-steel",
+      "composition": "compositions/s2-steel.html",
+      "lines": 0
+    },
+    {
+      "id": "s3-echo",
+      "title": "Speed Versus Strength",
+      "index": 2,
+      "start": 16,
+      "seconds": 8,
+      "dir": "scenes/s3-echo",
+      "composition": "compositions/s3-echo.html",
+      "lines": 0
+    },
+    {
+      "id": "s4-rupture",
+      "title": "The Crimson Rupture",
+      "index": 3,
+      "start": 24,
+      "seconds": 8,
+      "dir": "scenes/s4-rupture",
+      "composition": "compositions/s4-rupture.html",
+      "lines": 0
+    },
+    {
+      "id": "s5-ultimates",
+      "title": "Heaven Splitter Versus Eclipse Devourer",
+      "index": 4,
+      "start": 32,
+      "seconds": 12,
+      "dir": "scenes/s5-ultimates",
+      "composition": "compositions/s5-ultimates.html",
+      "lines": 0
+    },
+    {
+      "id": "s6-choice",
+      "title": "The Choice",
+      "index": 5,
+      "start": 44,
+      "seconds": 8,
+      "dir": "scenes/s6-choice",
+      "composition": "compositions/s6-choice.html",
+      "lines": 0
+    }
+  ]
+}

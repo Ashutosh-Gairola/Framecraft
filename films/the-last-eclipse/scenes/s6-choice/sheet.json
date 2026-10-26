@@ -1,0 +1,100 @@
+{
+  "version": 3,
+  "logline": "The light fades; Kael kneels, Raizen stands with his sword lowered; the fractured Eclipse Core floats between them; Kael reaches toward it instead of attacking; Raizen's grip loosens.",
+  "slug": "the-last-eclipse-s6-choice",
+  "seconds": 8,
+  "fps": 24,
+  "frames": 192,
+  "aspect": "16:9",
+  "width": 1920,
+  "height": 1080,
+  "script": "eclipse",
+  "colors": {
+    "sky": "#2a1016",
+    "ink": "#14080c",
+    "moon": "#100608",
+    "accent": "#ff3b3b",
+    "practical": "#f3f6ff",
+    "iris": "#ff5a4a",
+    "skin": "#e8b8a8",
+    "hair": "#1a1014",
+    "sclera": "#f6f3ee",
+    "line": "#f6e4e4"
+  },
+  "designColors": {
+    "azure": "#4fd8ff",
+    "crimson": "#ff2a3c",
+    "abyss": "#120a14"
+  },
+  "style": "painted-world",
+  "styleReference": "Premium 3D anime in three.js: cel-shaded characters with ink outlines in a painted world. An ancient city of floating temples over a bottomless abyss under a crimson eclipse; shattered stone bridges; ",
+  "animation": "full",
+  "lines": [],
+  "card": "",
+  "props": "Eclipse Core; particles; fading eclipse",
+  "voice": {
+    "mode": "off"
+  },
+  "cast": [
+    {
+      "name": "Kael Arashi",
+      "slug": "kael-arashi",
+      "kind": "original",
+      "reference": ""
+    },
+    {
+      "name": "Raizen Kuro",
+      "slug": "raizen-kuro",
+      "kind": "original",
+      "reference": ""
+    }
+  ],
+  "motion": [
+    "blade",
+    "handling",
+    "effects"
+  ],
+  "sequence": {
+    "slug": "the-last-eclipse",
+    "scene": "s6-choice",
+    "index": 5,
+    "start": 44,
+    "title": "The Choice",
+    "root": "../.."
+  },
+  "shots": [
+    {
+      "id": "establish",
+      "label": "Establish",
+      "start": 0,
+      "end": 2.4,
+      "dur": 2.4,
+      "sakuga": false,
+      "size": "wide",
+      "camera": "push",
+      "drawings": 3
+    },
+    {
+      "id": "sakuga",
+      "label": "Sakuga",
+      "start": 2.4,
+      "end": 6,
+      "dur": 3.6,
+      "sakuga": true,
+      "size": "medium",
+      "camera": "shake",
+      "drawings": 8
+    },
+    {
+      "id": "button",
+      "label": "Button",
+      "start": 6,
+      "end": 8,
+      "dur": 2,
+      "sakuga": false,
+      "size": "close",
+      "camera": "locked",
+      "drawings": 3
+    }
+  ]
+}

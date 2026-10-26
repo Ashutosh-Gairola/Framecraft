@@ -332,7 +332,7 @@ function design(S) {
   const mu = S.muscle - (anime ? 0.35 : 0);
   const fa = S.fat - (anime ? 0.25 : 0);
   // Head height: 1/7.5 of the body (real), 1/7 (anime: a larger head).
-  const headH = H / (anime ? 6.9 : 7.6);
+  const headH = H / (S.heads ?? (anime ? 6.9 : 7.6));
   const hs = headH / 0.232; // head scale against the reference head
   // Landmarks as fractions of height.
   const yChin = H - headH;
@@ -719,6 +719,14 @@ function skinColors(D, S, pos, isHead) {
       const g2 = (dx, dy, dz, w) => Math.exp(-(dx * dx + dy * dy + dz * dz) / (w * w));
       if (anime) {
         flush += 0.6 * g2(Math.abs(hx) - 0.042, hy + 0.035, hz - 0.07, 0.016); // blush
+        if (S.face.scar) {
+          // A scar crossing the brow (character's left is +x): a thin diagonal line, pinker.
+          const sd = S.face.scar === "rightBrow" ? -1 : 1;
+          const ax = sd * 0.024, ay = 0.062, bx = sd * 0.05, by2 = -0.006;
+          const t = clamp(((hx - ax) * (bx - ax) + (hy - ay) * (by2 - ay)) / ((bx - ax) ** 2 + (by2 - ay) ** 2), 0, 1);
+          const dd = Math.hypot(hx - ax - (bx - ax) * t, hy - ay - (by2 - ay) * t);
+          if (hz > 0.04 && dd < 0.0042) lip = Math.max(lip, 0.95 * (1 - dd / 0.0042));
+        }
       } else {
         lip = g2(hx * 0.42, (hy + 0.064) * 1.25, (hz - 0.09) * 0.6, 0.012);
         flush += 0.5 * g2(Math.abs(hx) - 0.042, hy + 0.025, hz - 0.07, 0.025); // cheeks
@@ -896,7 +904,8 @@ export function buildHuman(THREE, spec = {}, opts = {}) {
     eyes.set(f);
   }
   setFace({});
-  return { root, bones, skeleton, J: D.J, meshes, setFace, spec: S, design: D };
+  const cape = S.cape ? buildCape(THREE, D, S, bones.chest) : null;
+  return { root, bones, skeleton, J: D.J, meshes, setFace, spec: S, design: D, cape };
 }
 
 /* ---------------- clothes ---------------- */
@@ -1023,6 +1032,92 @@ function clothFields(D, S, bodyF) {
     };
     items.push({ name: "top", f, min: box()[0], max: box()[1], mat: "top", h: 0.0032, allow: topAllow(sleeve) });
     coverTop(hem, sleeve);
+  }
+  if (T === "coat" || T === "plate") {
+    // coat: a long coat to the knee, sleeves to the wrist, a standing high collar, split at the
+    // front from the waist down. plate: segmented armour over the torso, short sleeves of mail.
+    const coat = T === "coat";
+    const sleeve = coat ? 1.93 : 0.4;
+    const hem = L.yHip - (coat ? 0.02 : 0.0) * sc;
+    const base = topField({ thick: (coat ? 0.009 : 0.015) * sc, sleeve, hem, loose: (coat ? 0.004 : 0.006) * sc, hang: coat });
+    const kneeY = J.shinL[1] - 0.06 * sc;
+    const f = (x, y, z) => {
+      let d = base(x, y, z);
+      if (!coat) {
+        // Segments: horizontal plates over the abdomen, a ridge down the sternum.
+        if (y < L.yChest + 0.04 * sc) d += 0.0035 * sc * ss(0.75, 0.95, ((L.yChest - y) / (0.055 * sc)) % 1);
+        if (z > 0) d -= 0.003 * sc * Math.exp(-((x / (0.008 * sc)) ** 2)) * ss(L.yNeck, L.yChest, y);
+      } else {
+        // The skirt: an elliptical shell flaring from the waist to below the knee, open at the front.
+        if (y < L.yWaist + 0.02 * sc && y > kneeY - 0.01 * sc) {
+          const t = clamp((L.yWaist - y) / (L.yWaist - kneeY), 0, 1);
+          const ax = (0.17 + 0.07 * t) * sc;
+          const az = (0.125 + 0.06 * t) * sc;
+          const zc = -0.012 * sc;
+          let sk = (Math.hypot(x / ax, (z - zc) / az) - 1) * Math.min(ax, az);
+          sk = Math.abs(sk) - 0.006 * sc;
+          // The front split widens downward; a back vent below the seat.
+          const slit = 0.004 * sc + 0.07 * sc * ss(0.1, 1, t);
+          if (z > zc) sk = smax(sk, slit - Math.abs(x), 0.003 * sc);
+          if (z < zc && t > 0.45) sk = smax(sk, 0.012 * sc * ss(0.45, 0.6, t) - Math.abs(x), 0.003 * sc);
+          sk = smax(sk, kneeY - y, 0.004 * sc);
+          sk = smax(sk, y - (L.yWaist + 0.02 * sc), 0.01 * sc);
+          // Hanging folds.
+          sk += 0.0025 * sc * Math.sin(Math.atan2(x, z) * 9) * t;
+          d = smin(d, sk, 0.01 * sc);
+        }
+        // A belt line at the waist.
+        d -= 0.0018 * sc * Math.exp(-(((y - L.yHip - 0.06 * sc) / (0.008 * sc)) ** 2));
+      }
+      // The high collar: a band round the neck, flaring a little outward, open at the throat.
+      const rx = x - J.neck[0], rz = z - (J.neck[2] + 0.003 * sc);
+      const yc = L.yNeck + 0.02 * sc;
+      const ht = (coat ? 0.04 : 0.025) * sc;
+      const rad = Math.hypot(rx, rz / 0.92);
+      let col = Math.abs(rad - (0.064 * sc + 0.08 * Math.max(0, y - yc))) - 0.004 * sc;
+      col = smax(col, Math.abs(y - yc - ht * 0.5) - ht * 0.75, 0.004 * sc);
+      if (rz > 0) col = smax(col, (coat ? 0.026 : 0.034) * sc - Math.abs(rx), 0.003 * sc);
+      return smin(d, col, 0.005 * sc);
+    };
+    items.push({ name: "top", f, min: [-0.45 * H, kneeY - 0.05, -0.3 * H], max: box()[1], mat: "top", h: 0.0035, allow: (n, x, y, z) => (y < L.yHip ? n === "torso" || n.startsWith("thigh") : topAllow(sleeve)(n, x, y, z)) });
+    coverTop(hem, sleeve);
+  }
+  if (S.armor?.pauldrons) {
+    // Pauldrons: two or three overlapping curved plates over each shoulder.
+    const sz = S.armor.size ?? 1;
+    const layers = S.armor.layers ?? 2;
+    const f = (x, y, z) => {
+      let d = 1e9;
+      for (const [n, sd] of [["L", 1], ["R", -1]]) {
+        const a = J["arm" + n];
+        for (let q = 0; q < layers; q += 1) {
+          const cx = a[0] + sd * (0.012 + 0.01 * q) * sc * sz, cy = a[1] + (0.035 - 0.032 * q) * sc * sz, cz = a[2];
+          const rx = (0.072 + 0.006 * q) * sc * sz, ry = 0.06 * sc * sz, rz = (0.085 - 0.004 * q) * sc * sz;
+          let e = (len3((x - cx) / rx, (y - cy) / ry, (z - cz) / rz) - 1) * Math.min(rx, ry, rz);
+          e = Math.abs(e) - 0.006 * sc;
+          // Only the upper shell, angled down toward the arm.
+          e = smax(e, cy - 0.01 * sc - y + sd * (x - cx) * 0.45, 0.003 * sc);
+          d = Math.min(d, e);
+        }
+      }
+      return d;
+    };
+    items.push({ name: "pauldrons", f, min: box()[0], max: box()[1], mat: "armor", h: 0.0028, allow: (n) => n === "torso" || n.startsWith("upper") });
+  }
+  if (S.armor?.gauntlets) {
+    const f = (x, y, z) => {
+      let d = 1e9;
+      for (const [fo, n] of [[foreL, "L"], [foreR, "R"]]) {
+        const tF = along(J["fore" + n], J["hand" + n], x, y, z);
+        let g = dPart(fo, x, y, z) - 0.014 * sc - 0.006 * sc * ss(0.4, 1, tF);
+        g = smax(g, Math.max(0.3 - tF, tF - 1.04) * 0.2, 0.003 * sc);
+        // Plate bands.
+        g += 0.002 * sc * ss(0.7, 0.9, (tF * 6) % 1);
+        d = Math.min(d, g);
+      }
+      return d;
+    };
+    items.push({ name: "gauntlets", f, min: box()[0], max: box()[1], mat: "armor", h: 0.0028, allow: (n) => n.startsWith("fore") || n.startsWith("hand") });
   }
   if (T === "gi") {
     // A martial-arts gi: a fitted undershirt, then the loose crossed top over it with short sleeves.
@@ -1208,7 +1303,8 @@ function hairField(D, S) {
       [[-0.02, 0.8, 0.6], [0.05, 0.75, 0.6], 0.08, 0.026],
     ],
   };
-  const spikes = (SPIKES[st] ?? null)?.map(([dir, out, L, r]) => {
+  const locks = SPIKES[st] ?? S.hair.locks ?? null;
+  const spikes = locks?.map(([dir, out, L, r]) => {
     const n = len3(...dir);
     const R0 = [c[0] + (dir[0] / n) * 0.082 * s, c[1] + 0.02 * s + (dir[1] / n) * 0.085 * s, c[2] + (dir[2] / n) * 0.09 * s];
     const m = len3(...out);
@@ -1228,9 +1324,13 @@ function hairField(D, S) {
     d = smax(d, (line - 0.006 - hy) * s * 0.5, 0.004 * s);
     d = smax(d, (-0.085 - hy) * s, 0.006 * s);
     if (st === "long") {
-      // A fall of hair down the back to the shoulder blades.
-      const back = len3(hx / 0.088, (hy + 0.1) / 0.21, (hz + 0.04) / 0.065) - 1;
-      const fall = smax(back * 0.06 * s, (-0.29 - hy) * s, 0.01 * s);
+      // A fall of hair down the back (hair.length below the head centre; tied: gathered narrow).
+      const Lh = S.hair.length ?? 0.29;
+      const wx = S.hair.tied ? 0.088 - 0.05 * ss(-0.08, -0.2, hy) : 0.088 + 0.02 * ss(-0.1, -Lh, hy);
+      // Grown downward only: the ellipsoid's top stays at the crown (hy 0.11) however long the hair.
+      const ry = 0.21 * Lh / 0.29;
+      const back = len3(hx / wx, (hy - (0.11 - ry)) / ry, (hz + 0.04) / 0.065) - 1;
+      const fall = smax(back * 0.06 * s, (-Lh - hy) * s, 0.01 * s);
       d = smin(d, smax(fall, (hz - 0.02) * s, 0.01 * s), 0.02 * s);
     }
     if (anime && (st === "short" || st === "long")) {
@@ -1251,6 +1351,8 @@ function hairField(D, S) {
     return d;
   };
   const base = hex(S.hair.color);
+  const tipC = S.hair.tip ? hex(S.hair.tip) : null;
+  const tipFrom = S.hair.tipFrom ?? -0.16;
   const colors = (pos) => {
     const out = new Float32Array(pos.length);
     for (let i = 0; i < pos.length; i += 3) {
@@ -1258,11 +1360,16 @@ function hairField(D, S) {
       const ang = Math.atan2(hx, -hz);
       const groove = 0.5 + 0.5 * Math.sin(ang * (anime ? 30 : 90) + hy * 8);
       const k = (anime ? 0.85 + 0.25 * groove : 0.75 + 0.4 * groove) * (1 + 0.15 * vnoise(hx * 200, hy * 30, hz * 200));
-      out.set([base[0] * k, base[1] * k, base[2] * k], i);
+      // Coloured tips: the ends of the locks and the fall fade into hair.tip.
+      const tq = tipC ? ss(tipFrom, tipFrom - 0.12, hy) + (spikes ? 0.7 * ss(0.11, 0.17, len3(hx, hy - 0.02, hz)) * ss(0.0, -0.06, hy) : 0) : 0;
+      const t2 = Math.min(1, tq);
+      const cc = tipC ? base.map((v, q) => mix(v, tipC[q], t2)) : base;
+      out.set([cc[0] * k, cc[1] * k, cc[2] * k], i);
     }
     return out;
   };
-  return { f, min: [c[0] - (spikes ? 0.24 : 0.13) * s, c[1] - 0.36 * s, c[2] - (spikes ? 0.26 : 0.15) * s], max: [c[0] + (spikes ? 0.24 : 0.13) * s, c[1] + (spikes ? 0.3 : 0.14) * s, c[2] + (spikes ? 0.2 : 0.14) * s], colors };
+  const deep = Math.max(0.36, (S.hair.length ?? 0.29) + 0.12, spikes ? 0.4 : 0);
+  return { f, min: [c[0] - (spikes ? 0.26 : 0.14) * s, c[1] - deep * s, c[2] - (spikes ? 0.3 : 0.16) * s], max: [c[0] + (spikes ? 0.26 : 0.14) * s, c[1] + (spikes ? 0.3 : 0.14) * s, c[2] + (spikes ? 0.22 : 0.14) * s], colors };
 }
 function browField(D, S) {
   const c = D.head.c;
@@ -1768,9 +1875,10 @@ function eyeTexture(THREE, S, anime) {
   const col = new THREE.Color(S.eyes);
   const css2 = (k) => `rgb(${(col.r * 255 * k) | 0},${(col.g * 255 * k) | 0},${(col.b * 255 * k) | 0})`;
   const grad = g.createLinearGradient(0, -ry, 0, ry);
-  grad.addColorStop(0, css2(0.35));
-  grad.addColorStop(0.45, css2(0.85));
-  grad.addColorStop(1, css2(1.15));
+  const glow = S.face.glow ? 1 : 0;
+  grad.addColorStop(0, css2(0.35 + 0.5 * glow));
+  grad.addColorStop(0.45, css2(0.85 + 0.35 * glow));
+  grad.addColorStop(1, glow ? "#ffffff" : css2(1.15));
   g.fillStyle = grad;
   g.beginPath();
   g.arc(0, 0, ry, 0, Math.PI * 2);
@@ -1778,9 +1886,10 @@ function eyeTexture(THREE, S, anime) {
   g.lineWidth = ry * 0.08;
   g.strokeStyle = "#0b0c10";
   g.stroke();
-  g.fillStyle = "#050506";
+  // A glowing eye has a small, pale pupil, the iris lit from within.
+  g.fillStyle = glow ? css2(0.25) : "#050506";
   g.beginPath();
-  g.ellipse(0, 0, ry * 0.42, ry * 0.5, 0, 0, Math.PI * 2);
+  g.ellipse(0, 0, ry * (glow ? 0.22 : 0.42), ry * (glow ? 0.34 : 0.5), 0, 0, Math.PI * 2);
   g.fill();
   // Highlights: a large one upper-right, a small one lower-left.
   g.fillStyle = "#ffffff";
@@ -1918,6 +2027,40 @@ function addFaceMorphs(THREE, D, S, meshes) {
 
 /* ---------------- materials ---------------- */
 
+/**
+ * A procedural glow painted on a toon material from the rest-pose position (no UVs): "cracks" are
+ * glowing fractures (Raizen's armour); "runes" are glyph strokes down one arm (Kael's sleeve).
+ * g: { kind, color, strength, side: -1 right arm / +1 left, armX: |x| beyond which the arm begins }.
+ */
+function glowPattern(THREE, m, g) {
+  m.onBeforeCompile = (sh) => {
+    sh.uniforms.uGlowC = { value: new THREE.Color(g.color).multiplyScalar(g.strength ?? 2.5) };
+    sh.vertexShader = sh.vertexShader.replace("#include <common>", "#include <common>\nvarying vec3 vRP;").replace("#include <begin_vertex>", "#include <begin_vertex>\nvRP = position;");
+    const pat =
+      g.kind === "runes"
+        ? `float glowAt(vec3 p) {
+            if (${(g.side ?? -1).toFixed(1)} * p.x < ${(g.armX ?? 0.2).toFixed(3)}) return 0.0;
+            float row = floor(p.y * 34.0);
+            float cy = fract(p.y * 34.0);
+            float hsh = fract(sin(row * 12.9898) * 43758.5453);
+            float ang = atan(p.z, abs(p.x)) * 3.0;
+            float bar = (1.0 - smoothstep(0.06, 0.12, abs(cy - 0.5))) * step(0.35, hsh) * (1.0 - smoothstep(0.25, 0.35, abs(fract(ang + hsh) - 0.5)));
+            float stem = (1.0 - smoothstep(0.03, 0.07, abs(fract(ang * 2.0 + hsh * 3.0) - 0.5))) * step(0.25, cy) * step(cy, 0.75) * step(hsh, 0.7);
+            float lane = 1.0 - smoothstep(0.4, 0.6, abs(ang - 0.3));
+            return max(bar, stem) * lane;
+          }`
+        : `float hG(vec3 p) { return fract(sin(dot(p, vec3(127.1, 311.7, 74.7))) * 43758.5453); }
+          float nG(vec3 p) { vec3 i = floor(p), f = fract(p); f = f * f * (3.0 - 2.0 * f);
+            return mix(mix(mix(hG(i), hG(i + vec3(1,0,0)), f.x), mix(hG(i + vec3(0,1,0)), hG(i + vec3(1,1,0)), f.x), f.y),
+                       mix(mix(hG(i + vec3(0,0,1)), hG(i + vec3(1,0,1)), f.x), mix(hG(i + vec3(0,1,1)), hG(i + vec3(1,1,1)), f.x), f.y), f.z); }
+          float glowAt(vec3 p) { float n = nG(p * 22.0) * 0.65 + nG(p * 55.0) * 0.35; return 1.0 - smoothstep(0.0, 0.045, abs(n - 0.52)); }`;
+    sh.fragmentShader = sh.fragmentShader
+      .replace("#include <common>", "#include <common>\nvarying vec3 vRP;\nuniform vec3 uGlowC;\n" + pat)
+      .replace("#include <emissivemap_fragment>", "#include <emissivemap_fragment>\ntotalEmissiveRadiance += uGlowC * glowAt(vRP);");
+  };
+  return m;
+}
+
 function toonRamp(THREE) {
   const data = new Uint8Array([175, 170, 180, 255, 255, 255, 255, 255]);
   const t = new THREE.DataTexture(data, 2, 1, THREE.RGBAFormat);
@@ -1931,13 +2074,16 @@ function materials(THREE, S) {
   if (anime) {
     const ramp = toonRamp(THREE);
     const toon = (c, vc = false) => new THREE.MeshToonMaterial({ color: vc ? 0xffffff : col(c), gradientMap: ramp, vertexColors: vc });
+    const top = toon(S.top.color);
+    if (S.top.glow) glowPattern(THREE, top, S.top.glow);
     return {
+      armor: S.armor ? (() => { const m = new THREE.MeshToonMaterial({ color: col(S.armor.color ?? "#9aa3ad"), gradientMap: ramp }); if (S.armor.glow) glowPattern(THREE, m, S.armor.glow); return m; })() : null,
       skin: toon(S.skin, true),
       lid: toon(S.skin),
       lash: new THREE.MeshBasicMaterial({ color: 0x1a1214 }),
       hair: toon(S.hair.color, true),
       brow: new THREE.MeshBasicMaterial({ color: col(S.hair.color).multiplyScalar(0.6) }),
-      top: toon(S.top.color),
+      top,
       under: toon(S.top.under ?? S.top.color),
       bottom: toon(S.bottom.color),
       shoes: toon(S.shoes.color, true),
@@ -2069,5 +2215,216 @@ export function poseHuman(h, p = {}) {
     B["foot" + n].rotation.set(an[0] ?? 0, s * (an[1] ?? 0), s * (an[2] ?? 0));
   }
   h.setFace(p.face ?? {});
+  if (h.cape) h.cape.update(p.clock ?? 0, p.wind ?? 0.6, p.capeLift ?? 0);
+}
+
+/* ---------------- cape ---------------- */
+
+/**
+ * A cape from the shoulder blades to the calves, hanging from the chest bone, its hem torn into
+ * ragged tongues (S.cape.torn, 0..1). Each frame it drapes behind the back, flares toward the hem,
+ * and ripples in the wind from story time (clock).
+ */
+function buildCape(THREE, D, S, chest) {
+  const sc = D.H / 1.76;
+  const CW = 18;
+  const CH = 30;
+  const Wd = (S.cape.width ?? 0.62) * sc;
+  const Ht = (S.cape.length ?? 1.15) * sc;
+  const torn = S.cape.torn ?? 0.6;
+  let seed = 4242;
+  const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  // Per column, how far down the cloth reaches (ragged tongues).
+  const reach = [];
+  for (let i = 0; i <= CW; i += 1) reach.push(1 - torn * (0.12 + 0.3 * rnd() ** 1.5) * (0.6 + 0.4 * Math.abs(Math.sin(i * 1.7))));
+  const pos = [];
+  const uv = [];
+  for (let j = 0; j <= CH; j += 1)
+    for (let i = 0; i <= CW; i += 1) {
+      pos.push(0, 0, 0);
+      uv.push(i / CW, j / CH);
+    }
+  const idx = [];
+  for (let j = 0; j < CH; j += 1)
+    for (let i = 0; i < CW; i += 1) {
+      const v = (j + 1) / CH;
+      if (v > Math.min(reach[i], reach[i + 1]) + 0.02) continue;
+      const a = j * (CW + 1) + i;
+      idx.push(a, a + CW + 1, a + 1, a + 1, a + CW + 1, a + CW + 2);
+    }
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
+  geo.setAttribute("uv", new THREE.Float32BufferAttribute(uv, 2));
+  geo.setIndex(idx);
+  const ramp = toonRamp(THREE);
+  const mat = new THREE.MeshToonMaterial({ color: new THREE.Color(S.cape.color), gradientMap: ramp, side: THREE.DoubleSide });
+  const mesh = new THREE.Mesh(geo, mat);
+  mesh.castShadow = true;
+  mesh.frustumCulled = false;
+  chest.add(mesh);
+  const cj = D.J.chest;
+  const topY = D.landmarks.yShoulder - cj[1] + 0.005 * sc;
+  const p = geo.attributes.position;
+  function update(t, wind, lift) {
+    for (let j = 0; j <= CH; j += 1)
+      for (let i = 0; i <= CW; i += 1) {
+        const u = i / CW - 0.5;
+        const v = j / CH;
+        // Pinned across the shoulders, wrapping round them; free and flaring below.
+        const wrap = 1 - ss(0, 0.12, v);
+        const x = u * Wd * (0.78 + 0.35 * v) + Math.sin(t * 1.3 + v * 3 + u) * 0.03 * v * wind * sc;
+        const ripple = (Math.sin(t * 2.3 + v * 5.5 + u * 3.4) * 0.05 + Math.sin(t * 3.9 + v * 9 + u * 6) * 0.02) * v * wind * sc;
+        const back = -0.11 * sc - 0.05 * sc * v - (0.12 + 0.25 * wind) * sc * v * v - lift * v * v * 0.5 * sc;
+        const z = back + ripple + wrap * 0.05 * sc * (1 - (2 * u) ** 2) * 0.6 - Math.abs(u) * 0.02 * sc * wrap;
+        const y = topY - v * Ht * (1 - 0.08 * wind * v) + lift * v * v * 0.3 * sc;
+        p.setXYZ(j * (CW + 1) + i, x, y, z);
+      }
+    p.needsUpdate = true;
+    geo.computeVertexNormals();
+  }
+  update(0, 0.6, 0);
+  return { mesh, update };
+}
+
+/* ---------------- weapons ---------------- */
+
+/**
+ * Weapons are built with the grip centre at the origin and the blade along +y; attachWeapon puts
+ * one in a hand (blade forward out of the fist, +y → the hand's +z).
+ */
+export function buildKatana(THREE, o = {}) {
+  const g = new THREE.Group();
+  const L = o.blade ?? 0.72;
+  const sori = o.sori ?? 0.018;
+  const steel = new THREE.MeshStandardMaterial({ color: o.color ?? 0x5c6573, metalness: 0.75, roughness: 0.28 });
+  const edge = new THREE.MeshBasicMaterial({ color: new THREE.Color(o.edge ?? "#4fd8ff").multiplyScalar(2.4) });
+  // Blade: a curved, tapering strip; the edge (ha) on the convex side (+z), a kissaki tip.
+  const N = 40;
+  const back = [];
+  const cut = [];
+  for (let i = 0; i <= N; i += 1) {
+    const u = i / N;
+    const y = 0.16 + u * L;
+    const zc = -sori * (u ** 2) * 1.0;
+    const w = 0.031 * (1 - 0.3 * u) * (u > 0.93 ? Math.sqrt(Math.max(0, (1 - u) / 0.07)) : 1);
+    back.push([y, zc - w * 0.45]);
+    cut.push([y, zc + w * 0.55]);
+  }
+  const shape = new THREE.Shape();
+  shape.moveTo(back[0][1], back[0][0]);
+  for (const [y, z] of back) shape.lineTo(z, y);
+  for (const [y, z] of [...cut].reverse()) shape.lineTo(z, y);
+  const bgeo = new THREE.ExtrudeGeometry(shape, { depth: 0.006, bevelEnabled: true, bevelThickness: 0.002, bevelSize: 0.0015, bevelSegments: 1 });
+  bgeo.translate(0, 0, -0.003);
+  bgeo.rotateY(Math.PI / 2); // shape x (z) → world z
+  g.add(new THREE.Mesh(bgeo, steel));
+  // The luminous edge.
+  const pts = cut.map(([y, z]) => new THREE.Vector3(0, y, z));
+  g.add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 60, 0.0035, 6), edge));
+  // Habaki, tsuba, tsuka with a diamond wrap, kashira.
+  const gold = new THREE.MeshStandardMaterial({ color: 0x9aa3ad, metalness: 1, roughness: 0.35 });
+  const habaki = new THREE.Mesh(new THREE.BoxGeometry(0.012, 0.03, 0.036), gold);
+  habaki.position.y = 0.165;
+  g.add(habaki);
+  const tsuba = new THREE.Mesh(new THREE.CylinderGeometry(0.042, 0.042, 0.008, 24), new THREE.MeshStandardMaterial({ color: 0x15171c, metalness: 0.8, roughness: 0.4 }));
+  tsuba.position.y = 0.146;
+  tsuba.scale.set(0.85, 1, 1);
+  g.add(tsuba);
+  const wrapTex = (() => {
+    const c = document.createElement("canvas");
+    c.width = 64;
+    c.height = 256;
+    const x = c.getContext("2d");
+    x.fillStyle = "#0b0c10";
+    x.fillRect(0, 0, 64, 256);
+    x.fillStyle = "#2a3446";
+    for (let k = 0; k < 8; k += 1) {
+      x.beginPath();
+      x.moveTo(32, k * 32 + 4);
+      x.lineTo(56, k * 32 + 16);
+      x.lineTo(32, k * 32 + 28);
+      x.lineTo(8, k * 32 + 16);
+      x.fill();
+    }
+    const t = new THREE.CanvasTexture(c);
+    t.colorSpace = THREE.SRGBColorSpace;
+    return t;
+  })();
+  const tsuka = new THREE.Mesh(new THREE.CylinderGeometry(0.016, 0.017, 0.29, 16), new THREE.MeshStandardMaterial({ map: wrapTex, roughness: 0.8 }));
+  tsuka.position.y = -0.0;
+  tsuka.scale.set(1, 1, 1.25);
+  g.add(tsuka);
+  const kashira = new THREE.Mesh(new THREE.SphereGeometry(0.018, 12, 8), gold);
+  kashira.scale.set(1, 0.6, 1.2);
+  kashira.position.y = -0.148;
+  g.add(kashira);
+  g.userData.edge = edge;
+  g.userData.tip = new THREE.Vector3(0, 0.16 + L, -sori);
+  return g;
+}
+export function buildGreatsword(THREE, o = {}) {
+  const g = new THREE.Group();
+  const L = o.blade ?? 1.25;
+  const Wb = o.width ?? 0.2;
+  const steel = new THREE.MeshStandardMaterial({ color: o.color ?? 0x2e3038, metalness: 0.7, roughness: 0.38 });
+  const glowC = new THREE.Color(o.core ?? "#ff2a3c");
+  // A broad blade with a jagged, saw-toothed edge on one side and a spine notch near the tip.
+  const s = new THREE.Shape();
+  const y0 = 0.24;
+  s.moveTo(-Wb * 0.45, y0);
+  const teeth = 9;
+  for (let k = 0; k <= teeth; k += 1) {
+    const y = y0 + (k / teeth) * L * 0.85;
+    s.lineTo(-Wb * (0.45 + (k % 2 ? 0.1 : 0)) * (1 - 0.25 * (k / teeth)), y);
+  }
+  s.lineTo(-Wb * 0.12, y0 + L);
+  s.lineTo(Wb * 0.3, y0 + L * 0.88);
+  s.lineTo(Wb * 0.42, y0 + L * 0.6);
+  s.lineTo(Wb * 0.38, y0 + L * 0.55);
+  s.lineTo(Wb * 0.45, y0 + L * 0.5);
+  s.lineTo(Wb * 0.5, y0);
+  s.lineTo(-Wb * 0.45, y0);
+  const bgeo = new THREE.ExtrudeGeometry(s, { depth: 0.03, bevelEnabled: true, bevelThickness: 0.008, bevelSize: 0.01, bevelSegments: 1 });
+  bgeo.translate(0, 0, -0.015);
+  bgeo.rotateY(Math.PI / 2);
+  const blade = new THREE.Mesh(bgeo, steel);
+  g.add(blade);
+  // A fuller groove that glows faintly along its length.
+  const fuller = new THREE.Mesh(new THREE.BoxGeometry(0.05, L * 0.62, 0.04), new THREE.MeshBasicMaterial({ color: glowC.clone().multiplyScalar(0.7) }));
+  fuller.position.set(0, y0 + L * 0.38, 0);
+  g.add(fuller);
+  // The core: a glowing red gem set near the hilt.
+  const core = new THREE.Mesh(new THREE.OctahedronGeometry(0.045, 0), new THREE.MeshBasicMaterial({ color: glowC.clone().multiplyScalar(2.2) }));
+  core.position.y = y0 + 0.07;
+  core.scale.set(0.8, 1.3, 0.8);
+  g.add(core);
+  const rim = new THREE.Mesh(new THREE.TorusGeometry(0.055, 0.012, 8, 20), steel);
+  rim.rotation.y = Math.PI / 2;
+  rim.position.y = y0 + 0.07;
+  g.add(rim);
+  // Crossguard, grip, pommel.
+  const guard = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.05, Wb * 1.5), steel);
+  guard.position.y = y0 - 0.02;
+  g.add(guard);
+  const grip = new THREE.Mesh(new THREE.CylinderGeometry(0.019, 0.021, 0.36, 12), new THREE.MeshStandardMaterial({ color: 0x1c1012, roughness: 0.8 }));
+  grip.position.y = 0.03;
+  g.add(grip);
+  const pommel = new THREE.Mesh(new THREE.SphereGeometry(0.032, 12, 8), steel);
+  pommel.position.y = -0.16;
+  g.add(pommel);
+  g.userData.core = core;
+  g.userData.tip = new THREE.Vector3(0, y0 + L, 0);
+  return g;
+}
+/** Put a weapon in a hand: the grip in the fist, the blade forward (+y → the hand's +z). */
+export function attachWeapon(h, side, weapon) {
+  const n = side === "L" ? "L" : "R";
+  const s = n === "L" ? 1 : -1;
+  const hand = h.bones["hand" + n];
+  const palm = (h.design.H * 0.106 * 0.52) / 1;
+  weapon.position.set(-s * 0.012 * (h.design.H / 1.76), -palm * 0.78, 0.004);
+  weapon.rotation.set(Math.PI / 2, 0, 0);
+  hand.add(weapon);
+  return weapon;
 }
 export const _internal = { design, clothFields, merge, DEFAULTS, dPart, part };
