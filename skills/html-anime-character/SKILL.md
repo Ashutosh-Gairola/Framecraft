@@ -7,6 +7,19 @@ description: Design and build 3D characters for a three.js film — a human from
 
 A person on screen is judged harder than anything else in the frame. A body built from separate tubes, with a head that is a deformed sphere, reads as a mannequin however well it moves. Build every human and humanoid with `harness/templates/human.js`, and show a turnaround before anything is animated.
 
+## The loop: always study, build, compare, then proceed
+
+Every character goes through this loop, for the face, the body and the clothes. Never skip a step, and never move on while the comparison still shows a mismatch.
+
+1. **Study.** Get references first: a freely licensed photo for a real-looking person, or official art for a known character (study only, kept in `references/`, never shipped). Write down what you see in `references.md`:
+   - **Face:** proportions (thirds); eye shape, size and how much white shows; iris; brows; nose; mouth; jaw; ears; hairline and hair silhouette.
+   - **Body:** height in heads; shoulder vs hip width; build and muscle; limb lengths; how the legs part under the hips.
+   - **Clothes:** every garment, layer by layer: cut, length, fit (tight, straight, baggy), where it is gathered or tucked, seams, sleeves, collar, and each colour sampled with `harness/refs.js palette`.
+2. **Build.** Translate each observation into the spec (`cast.js`) and, where the template lacks a feature, into `human.js` as a new field. Write the reference values into the spec, not guesses.
+3. **Compare.** Render front, three-quarter, profile and back, full body and face. Lay them side by side with the reference at the same framing, and check each item from step 1. List every mismatch.
+4. **Fix and repeat.** Fix the largest mismatch first, then render and compare again. Repeat until the face, the body and every garment read as the reference at a glance and at thumbnail size.
+5. **Proceed.** Only then animate or place the character in a film. Keep the final comparison sheet (`renders/<slug>-comparison.png`) as the character's model sheet.
+
 ## What the template does
 
 Copy `harness/templates/human.js` into `films/<slug>/assets/`, then call `buildHuman(THREE, spec)`, and pose the result with `poseHuman(h, pose)`.
