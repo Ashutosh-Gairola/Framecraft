@@ -40,5 +40,5 @@ export const GOKU = {
   belt: "#1f3f94",
   bands: "#1f3f94",
   bottom: { type: "gi", color: "#f2851e" },
-  shoes: { type: "boot", color: "#1f3f94", sole: "#1f3f94", tie: "#c8302a" },
+  shoes: { type: "boot", color: "#2c4f9e", sole: "#c8302a", tie: "#f2f2f2" },
 };

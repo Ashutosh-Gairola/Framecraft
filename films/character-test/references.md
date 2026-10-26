@@ -9,3 +9,9 @@
   - a heavily muscled build.
 
   The symbol on the gi is left out (no text).
+
+- **Goku's outfit** (`references/goku-cosplay.jpg`, git-ignored): "Goku cosplay" by Hikaru Kazushime, CC BY-SA 2.0, https://commons.wikimedia.org/wiki/File:Goku_cosplay.jpg. What it shows:
+  - two separate trouser legs that balloon to the knee and are gathered into the boots, with a puff over the boot tops;
+  - a wide wrapped blue sash with long tails;
+  - blue boots with red trim at the sole and a white tie at the top;
+  - blue wristbands.

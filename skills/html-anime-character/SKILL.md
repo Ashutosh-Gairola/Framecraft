@@ -113,7 +113,9 @@ These are the faults earlier builds had. Look for each one in the turnaround.
 
 **Lower body and garments**
 - **Proportions.** Hips no wider than the shoulders on a male build. Glutes modest in profile, no saddlebags at the top of the thigh.
+- **Hip joints.** About 0.05 × height either side of the midline (≈ 9 cm), with the knees and feet under them. Wider, and the legs part right under the hem like two sticks with a tall gap between them.
 - **Tops hang.** Below the chest, cloth falls straight from the chest's cross-section to the hem (`topField({ hang: true })`), so a shirt or gi hangs over the hips instead of wrapping them. An undershirt is the exception (`hang: false`).
+- **Trouser legs stay separate.** Join the two legs with a hard `min`, never a smooth union, or wide trousers merge into a skirt.
 - **Trousers are tubes.** Each leg is a straight tube from mid-thigh to the hem, so it doesn't cling to the knee and calf. Jeans are about 0.054 m at the hem; gi trousers are wide, with a puff above the boot. Start the tubes below the top's hem, or they poke out above it as a V.
 - **Shoes have a sole.** A sole with a rounded edge and a little toe spring, a foxing stripe, laces across the instep, and a collar at the ankle. Boots add a shaft to mid-calf with a tie.
 - **Field cuts stay at the surface.** A groove (a placket, a seam) must only cut within a millimetre of the surface, as `max(groove, -d - 1 mm)`. A plane cut through the whole field splits the garment.

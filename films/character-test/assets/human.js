@@ -364,10 +364,12 @@ function design(S) {
     const wx = ex + s * Math.sin(abd * 0.8) * fore;
     const wy = ey - Math.cos(abd * 0.8) * fore;
     J["hand" + n] = [wx, wy, 0.005];
-    J["thigh" + n] = [s * hw * 1.7, yHip, 0.005];
-    J["shin" + n] = [s * hw * 1.6, yHip - thigh, 0.012];
-    J["foot" + n] = [s * hw * 1.55, yHip - thigh - shin, -0.012];
-    J["toe" + n] = [s * hw * 1.6, 0.012, J["foot" + n][2] + H * 0.11];
+    // Hip joints ~0.09 m either side of the midline (a real pelvis), knees and feet under them:
+    // wider and the legs part high under the hips like two sticks.
+    J["thigh" + n] = [s * hw * 1.02, yHip, 0.005];
+    J["shin" + n] = [s * hw * 0.98, yHip - thigh, 0.012];
+    J["foot" + n] = [s * hw * 1.0, yHip - thigh - shin, -0.012];
+    J["toe" + n] = [s * hw * 1.08, 0.012, J["foot" + n][2] + H * 0.11];
   }
   const A = (n) => J[n];
   const lerp3 = (a, b2, u) => [mix(a[0], b2[0], u), mix(a[1], b2[1], u), mix(a[2], b2[2], u)];
@@ -400,7 +402,7 @@ function design(S) {
       // Glutes.
       P.push(ell([s * mm(0.066), yHip - mm(0.005), -mm(0.062)], [mm(0.068 + 0.012 * fem), mm(0.078), mm(0.052 + 0.012 * fem)], { k: mm(0.045) }));
       // The top of the thigh into the hip.
-      P.push(ell([s * hw * 1.45, yHip - mm(0.05), mm(0.0)], [mm(0.07 + 0.012 * fem), mm(0.09), mm(0.075)], { k: mm(0.05) }));
+      P.push(ell([s * hw * 1.25, yHip - mm(0.04), mm(0.0)], [mm(0.075 + 0.012 * fem), mm(0.09), mm(0.075)], { k: mm(0.05) }));
       // Clavicle ridge.
       P.push(cone([s * mm(0.02), yNeck - mm(0.025), mm(0.05)], [s * sw * 0.9, yShoulder + mm(0.005), mm(0.02)], mm(0.012), mm(0.014), { k: mm(0.02) }));
     }
@@ -1004,20 +1006,20 @@ function clothFields(D, S, bodyF) {
     const yb = S.top.type === "gi" ? L.yWaist - 0.04 * sc : L.yHip + 0.06 * sc;
     const f = (x, y, z) => {
       let d = dPart(torso, x, y, z) - (S.top.type === "gi" ? 0.02 : 0.009) * sc;
-      d = smax(d, Math.abs(y - yb) - 0.022 * sc, 0.003 * sc);
+      d = smax(d, Math.abs(y - yb) - (S.top.type === "gi" ? 0.03 : 0.022) * sc, 0.003 * sc);
       if (S.top.type === "gi") {
         // The knot and its two tails.
         const kx = 0, kz = 0.16 * sc;
         d = smin(d, len3((x - kx) / 1.3, (y - yb) / 1.0, (z - kz) / 0.8) - 0.022 * sc, 0.006 * sc);
         for (const sd of [-1, 1]) {
-          const t = clamp((yb - y) / (0.16 * sc), 0, 1);
+          const t = clamp((yb - y) / (0.24 * sc), 0, 1);
           const tail = len3(x - sd * (0.012 + 0.03 * t) * sc, 0, (z - kz + 0.01 * sc * t) / 0.4) - 0.016 * sc;
-          d = smin(d, Math.max(tail, Math.max(y - yb, yb - 0.17 * sc - y)), 0.004 * sc);
+          d = smin(d, Math.max(tail, Math.max(y - yb, yb - 0.25 * sc - y)), 0.004 * sc);
         }
       }
       return d;
     };
-    items.push({ allow: (n) => n === "torso", name: "belt", f, min: [-0.3 * H, yb - 0.25 * sc, -0.2 * H], max: [0.3 * H, yb + 0.05 * sc, 0.25 * H], mat: "belt", h: 0.0025 });
+    items.push({ allow: (n) => n === "torso", name: "belt", f, min: [-0.3 * H, yb - 0.32 * sc, -0.2 * H], max: [0.3 * H, yb + 0.05 * sc, 0.25 * H], mat: "belt", h: 0.0025 });
   }
   // Wristbands.
   if (S.bands) {
@@ -1045,17 +1047,25 @@ function clothFields(D, S, bodyF) {
       for (const P of legs) d = smin(d, dPart(P, x, y, z) - thick, 0.015 * sc);
       // Each trouser leg hangs as a straight tube from the hip to the hem (gi: wider, gathered into
       // the boot with a puff above it), so the cloth doesn't cling to the knee and calf.
+      let tubes = 1e9;
       for (const n of ["L", "R"]) {
         const hp = J["thigh" + n], an = J["foot" + n];
         // From mid-thigh down (above that the hips shape the cloth), so the tubes stay under a top.
         const t0 = [hp[0] + (an[0] - hp[0]) * 0.25, hp[1] - 0.14 * sc, hp[2]];
         const t1 = [an[0] + (hp[0] - an[0]) * 0.02, cuff, an[2] + 0.01 * sc];
-        const r0 = (gi ? 0.105 : 0.078) * sc;
-        const r1 = (gi ? 0.085 : 0.054) * sc;
-        let tube = dPrim({ type: "cone", a: t0, b: t1, ra: r0, rb: r1 }, x, y, z);
-        if (gi) tube -= 0.012 * sc * Math.exp(-(((y - cuff - 0.06 * sc) / (0.05 * sc)) ** 2));
-        d = smin(d, tube, 0.02 * sc);
+        let tube;
+        if (gi) {
+          // Gi trousers balloon out to the knee and stay full to the cuff, where they are gathered
+          // into the boot with a puff hanging over its top (after the cosplay reference).
+          const kn = J["shin" + n];
+          const k1 = [kn[0], kn[1], kn[2] + 0.01 * sc];
+          tube = Math.min(dPrim({ type: "cone", a: t0, b: k1, ra: 0.078 * sc, rb: 0.084 * sc }, x, y, z), dPrim({ type: "cone", a: k1, b: [t1[0], cuff + 0.03 * sc, t1[2]], ra: 0.084 * sc, rb: 0.082 * sc }, x, y, z));
+          tube -= 0.01 * sc * Math.exp(-(((y - cuff - 0.05 * sc) / (0.045 * sc)) ** 2));
+        } else tube = dPrim({ type: "cone", a: t0, b: t1, ra: 0.078 * sc, rb: 0.054 * sc }, x, y, z);
+        // A sharp union between the legs, so two trouser legs never merge into a skirt.
+        tubes = Math.min(tubes, tube);
       }
+      d = smin(d, tubes, 0.02 * sc);
       // Folds: soft diagonal creases, more behind the knee and stacked at the hem.
       d += (gi ? 0.0022 : 0.0009) * sc * Math.sin(y * (gi ? 55 : 80) + x * 40 + 2 * Math.sin(z * 60)) * (gi ? 1 : 0.5 + ss(J.shinL[1] + 0.1 * sc, J.shinL[1], y) * ss(J.shinL[1] - 0.1 * sc, J.shinL[1], y) + ss(0.16 * sc, cuff, y));
       d = smax(d, cuff - y, 0.004 * sc);
