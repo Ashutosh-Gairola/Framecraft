@@ -18,6 +18,7 @@ Start with `skills/html-anime-director/SKILL.md`. The director refines the brief
 | Render | `skills/html-anime-render/SKILL.md` |
 | Editor | `skills/html-anime-editor/SKILL.md` |
 | 3D Actor | `skills/html-anime-3d-actor/SKILL.md` (when the film needs real 3D space: three.js) |
+| Character | `skills/html-anime-character/SKILL.md` (every 3D human or humanoid: sculpted, skinned, real or anime, turnaround first) |
 
 The HyperFrames engine skills are vendored in `vendor/hyperframes/skills/`. Where they disagree with an html-anime skill, the html-anime skill wins.
 

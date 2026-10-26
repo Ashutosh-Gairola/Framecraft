@@ -20,19 +20,19 @@ const CUT = 16;
 const AGENTS = {
   claude: {
     note: "Claude Code reads CLAUDE.md, then starts with the director skill.",
-    command: "git clone https://github.com/blixvip/html-anime.git\ncd html-anime\nclaude",
+    command: "git clone https://github.com/Ashutosh-Gairola/html-anime-rework.git\ncd html-anime-rework\nclaude",
   },
   codex: {
     note: "Codex reads AGENTS.md, then starts with the director skill.",
-    command: "git clone https://github.com/blixvip/html-anime.git\ncd html-anime\ncodex",
+    command: "git clone https://github.com/Ashutosh-Gairola/html-anime-rework.git\ncd html-anime-rework\ncodex",
   },
   cursor: {
     note: "Cursor reads .cursor/rules/html-anime.mdc. Paste the sheet into Agent.",
-    command: "git clone https://github.com/blixvip/html-anime.git\ncd html-anime\ncursor .",
+    command: "git clone https://github.com/Ashutosh-Gairola/html-anime-rework.git\ncd html-anime-rework\ncursor .",
   },
   grok: {
     note: "Grok reads AGENTS.md, then starts with the director skill.",
-    command: "git clone https://github.com/blixvip/html-anime.git\ncd html-anime\ngrok",
+    command: "git clone https://github.com/Ashutosh-Gairola/html-anime-rework.git\ncd html-anime-rework\ngrok",
   },
 };
 
@@ -219,9 +219,15 @@ document.addEventListener("visibilitychange", () => {
 });
 
 const film = document.querySelector(".film");
+const filmNote = document.querySelector("#film-note");
 for (const still of document.querySelectorAll(".still")) {
   still.addEventListener("click", () => {
-    film.currentTime = Number(still.dataset.time);
+    // A film picker swaps the source; a still from one film seeks to its moment.
+    if (still.dataset.src) {
+      film.poster = still.dataset.poster;
+      film.src = still.dataset.src;
+      if (filmNote) filmNote.textContent = still.dataset.note;
+    } else film.currentTime = Number(still.dataset.time);
     const started = film.play();
     if (started) started.catch(() => {});
     for (const item of document.querySelectorAll(".still")) {

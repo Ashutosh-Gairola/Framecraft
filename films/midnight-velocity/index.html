@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Midnight Velocity — html-anime</title>
+    <style>
+      html, body { margin: 0; background: #140c1c; }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: #140c1c; }
+    </style>
+    <script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/" } }</script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  </head>
+  <body>
+    <div id="root" data-composition-id="midnight-velocity" data-start="0" data-duration="96" data-width="1920" data-height="1080">
+      <div id="s1-reveal-host" data-composition-id="s1-reveal" data-composition-src="compositions/s1-reveal.html" data-start="0" data-duration="12" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <div id="s2-launch-host" data-composition-id="s2-launch" data-composition-src="compositions/s2-launch.html" data-start="12" data-duration="8" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <div id="s3-boulevard-host" data-composition-id="s3-boulevard" data-composition-src="compositions/s3-boulevard.html" data-start="20" data-duration="20" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <div id="s4-tunnel-host" data-composition-id="s4-tunnel" data-composition-src="compositions/s4-tunnel.html" data-start="40" data-duration="12" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <div id="s5-drift-host" data-composition-id="s5-drift" data-composition-src="compositions/s5-drift.html" data-start="52" data-duration="12" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <div id="s6-highway-host" data-composition-id="s6-highway" data-composition-src="compositions/s6-highway.html" data-start="64" data-duration="20" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <div id="s7-finish-host" data-composition-id="s7-finish" data-composition-src="compositions/s7-finish.html" data-start="84" data-duration="12" data-track-index="1" data-width="1920" data-height="1080"></div>
+      <audio id="sfx-0" class="clip" src="assets/sfx/car.wav" data-start="0" data-duration="96" data-track-index="20" data-volume="0.9"></audio>
+      <audio id="sfx-1" class="clip" src="assets/sfx/score.wav" data-start="0" data-duration="96" data-track-index="21" data-volume="0.55"></audio>
+      <audio id="sfx-2" class="clip" src="assets/sfx/rain.wav" data-start="0" data-duration="96" data-track-index="22" data-volume="0.32"></audio>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      window.__timelines["midnight-velocity"] = gsap.timeline({ paused: true });
+    </script>
+  </body>
+</html>

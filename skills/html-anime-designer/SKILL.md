@@ -7,6 +7,8 @@ description: Design the cast and key props of a code-drawn anime before animatio
 
 Nothing moves until it has a model sheet. The model sheet is the contract every later drawing is corrected against.
 
+For a 3D film, a human or humanoid character is designed and built with `skills/html-anime-character/SKILL.md`. Its model sheet is the rendered turnaround and comparison sheet, not an SVG.
+
 ## Which path
 
 Read the sheet's Cast section. Each member is one of:

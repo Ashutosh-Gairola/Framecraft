@@ -31,6 +31,8 @@ window.__threeReady(); // resolves window.__hf.buildReady["three"], created befo
 
 ## Actors in 3D
 
+**People and humanoids: use `skills/html-anime-character/SKILL.md`** (`harness/templates/human.js`, one sculpted, skinned body in a realistic or an anime style, with a turnaround before animation). The hierarchy below is for simple figures, creatures and props.
+
 The actor skill's spec still defines the character; in 3D it becomes a hierarchy:
 
 - **Skeleton**: groups that pivot at joints (hips → spine → neck → head; shoulder → elbow → wrist; hip → knee → ankle). A limb is a mesh offset from its pivot, so rotating the group rotates the limb at the joint.

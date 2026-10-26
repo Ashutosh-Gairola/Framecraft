@@ -1,0 +1,86 @@
+{
+  "version": 3,
+  "logline": "It launches: the rear tyre spins and throws water, flames on the gear change; a low front tracking shot as it races at the lens, then a side mount as the city blurs.",
+  "slug": "midnight-velocity-s2-launch",
+  "seconds": 8,
+  "fps": 24,
+  "frames": 192,
+  "aspect": "16:9",
+  "width": 1920,
+  "height": 1080,
+  "script": "festival",
+  "colors": {
+    "sky": "#24143a",
+    "ink": "#140c1c",
+    "moon": "#ffd7a1",
+    "accent": "#ff4d6d",
+    "practical": "#ffb020",
+    "iris": "#ffd0a1",
+    "skin": "#f0c2ae",
+    "hair": "#1a1020",
+    "sclera": "#f6f3ee",
+    "line": "#fff1ea"
+  },
+  "designColors": {
+    "cyan": "#29e0ff",
+    "violet": "#8a3cff",
+    "electric": "#2a6bff"
+  },
+  "style": "painted-world",
+  "styleReference": "Cinematic realism in three.js after night-city references (Shinjuku, Hong Kong, highway light trails): an original widebody supercar, a rain-wet neon city, planar reflections on the road, bloom, camer",
+  "animation": "full",
+  "lines": [],
+  "card": "",
+  "props": "wheel spin; spray; exhaust flames; suspension squat",
+  "voice": {
+    "mode": "off"
+  },
+  "cast": [],
+  "motion": [
+    "handling",
+    "effects"
+  ],
+  "sequence": {
+    "slug": "midnight-velocity",
+    "scene": "s2-launch",
+    "index": 1,
+    "start": 12,
+    "title": "The Launch",
+    "root": "../.."
+  },
+  "shots": [
+    {
+      "id": "establish",
+      "label": "Establish",
+      "start": 0,
+      "end": 2.4,
+      "dur": 2.4,
+      "sakuga": false,
+      "size": "wide",
+      "camera": "push",
+      "drawings": 3
+    },
+    {
+      "id": "sakuga",
+      "label": "Sakuga",
+      "start": 2.4,
+      "end": 6,
+      "dur": 3.6,
+      "sakuga": true,
+      "size": "medium",
+      "camera": "shake",
+      "drawings": 8
+    },
+    {
+      "id": "button",
+      "label": "Button",
+      "start": 6,
+      "end": 8,
+      "dur": 2,
+      "sakuga": false,
+      "size": "close",
+      "camera": "locked",
+      "drawings": 3
+    }
+  ]
+}

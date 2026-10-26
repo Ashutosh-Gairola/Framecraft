@@ -1,0 +1,111 @@
+{
+  "version": 1,
+  "kind": "sequence",
+  "title": "Midnight Velocity",
+  "slug": "midnight-velocity",
+  "fps": 24,
+  "frames": 2304,
+  "seconds": 96,
+  "aspect": "16:9",
+  "width": 1920,
+  "height": 1080,
+  "script": "festival",
+  "colors": {
+    "sky": "#24143a",
+    "ink": "#140c1c",
+    "moon": "#ffd7a1",
+    "accent": "#ff4d6d",
+    "practical": "#ffb020",
+    "iris": "#ffd0a1",
+    "skin": "#f0c2ae",
+    "hair": "#1a1020",
+    "sclera": "#f6f3ee",
+    "line": "#fff1ea"
+  },
+  "designColors": {
+    "cyan": "#29e0ff",
+    "violet": "#8a3cff",
+    "electric": "#2a6bff"
+  },
+  "style": "painted-world",
+  "styleReference": "Cinematic realism in three.js after night-city references (Shinjuku, Hong Kong, highway light trails): an original widebody supercar, a rain-wet neon city, planar reflections on the road, bloom, camer",
+  "cast": [],
+  "motion": [
+    "handling",
+    "effects",
+    "locomotion",
+    "cloth-hair"
+  ],
+  "scenes": [
+    {
+      "id": "s1-reveal",
+      "title": "The Reveal",
+      "index": 0,
+      "start": 0,
+      "seconds": 12,
+      "dir": "scenes/s1-reveal",
+      "composition": "compositions/s1-reveal.html",
+      "lines": 0
+    },
+    {
+      "id": "s2-launch",
+      "title": "The Launch",
+      "index": 1,
+      "start": 12,
+      "seconds": 8,
+      "dir": "scenes/s2-launch",
+      "composition": "compositions/s2-launch.html",
+      "lines": 0
+    },
+    {
+      "id": "s3-boulevard",
+      "title": "Neon Boulevard",
+      "index": 2,
+      "start": 20,
+      "seconds": 20,
+      "dir": "scenes/s3-boulevard",
+      "composition": "compositions/s3-boulevard.html",
+      "lines": 0
+    },
+    {
+      "id": "s4-tunnel",
+      "title": "The Tunnel",
+      "index": 3,
+      "start": 40,
+      "seconds": 12,
+      "dir": "scenes/s4-tunnel",
+      "composition": "compositions/s4-tunnel.html",
+      "lines": 0
+    },
+    {
+      "id": "s5-drift",
+      "title": "The Drift",
+      "index": 4,
+      "start": 52,
+      "seconds": 12,
+      "dir": "scenes/s5-drift",
+      "composition": "compositions/s5-drift.html",
+      "lines": 0
+    },
+    {
+      "id": "s6-highway",
+      "title": "Elevated Highway",
+      "index": 5,
+      "start": 64,
+      "seconds": 20,
+      "dir": "scenes/s6-highway",
+      "composition": "compositions/s6-highway.html",
+      "lines": 0
+    },
+    {
+      "id": "s7-finish",
+      "title": "The Overlook",
+      "index": 6,
+      "start": 84,
+      "seconds": 12,
+      "dir": "scenes/s7-finish",
+      "composition": "compositions/s7-finish.html",
+      "lines": 0
+    }
+  ]
+}

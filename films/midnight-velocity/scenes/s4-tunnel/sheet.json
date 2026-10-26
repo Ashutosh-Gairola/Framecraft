@@ -1,0 +1,97 @@
+{
+  "version": 3,
+  "logline": "Into a long tunnel of cyan, purple and white LED strips; behind, then alongside, then a hood view as it curves; out into the city's light.",
+  "slug": "midnight-velocity-s4-tunnel",
+  "seconds": 12,
+  "fps": 24,
+  "frames": 288,
+  "aspect": "16:9",
+  "width": 1920,
+  "height": 1080,
+  "script": "festival",
+  "colors": {
+    "sky": "#24143a",
+    "ink": "#140c1c",
+    "moon": "#ffd7a1",
+    "accent": "#ff4d6d",
+    "practical": "#ffb020",
+    "iris": "#ffd0a1",
+    "skin": "#f0c2ae",
+    "hair": "#1a1020",
+    "sclera": "#f6f3ee",
+    "line": "#fff1ea"
+  },
+  "designColors": {
+    "cyan": "#29e0ff",
+    "violet": "#8a3cff",
+    "electric": "#2a6bff"
+  },
+  "style": "painted-world",
+  "styleReference": "Cinematic realism in three.js after night-city references (Shinjuku, Hong Kong, highway light trails): an original widebody supercar, a rain-wet neon city, planar reflections on the road, bloom, camer",
+  "animation": "full",
+  "lines": [],
+  "card": "",
+  "props": "LED strips; tunnel walls; hood camera; exit flare",
+  "voice": {
+    "mode": "off"
+  },
+  "cast": [],
+  "motion": [
+    "handling",
+    "effects"
+  ],
+  "sequence": {
+    "slug": "midnight-velocity",
+    "scene": "s4-tunnel",
+    "index": 3,
+    "start": 40,
+    "title": "The Tunnel",
+    "root": "../.."
+  },
+  "shots": [
+    {
+      "id": "establish",
+      "label": "Establish",
+      "start": 0,
+      "end": 2.5,
+      "dur": 2.5,
+      "sakuga": false,
+      "size": "wide",
+      "camera": "push",
+      "drawings": 3
+    },
+    {
+      "id": "approach",
+      "label": "Approach",
+      "start": 2.5,
+      "end": 5,
+      "dur": 2.5,
+      "sakuga": false,
+      "size": "medium",
+      "camera": "pan",
+      "drawings": 3
+    },
+    {
+      "id": "sakuga",
+      "label": "Sakuga",
+      "start": 5,
+      "end": 9,
+      "dur": 4,
+      "sakuga": true,
+      "size": "medium",
+      "camera": "shake",
+      "drawings": 8
+    },
+    {
+      "id": "button",
+      "label": "Button",
+      "start": 9,
+      "end": 12,
+      "dur": 3,
+      "sakuga": false,
+      "size": "close",
+      "camera": "locked",
+      "drawings": 3
+    }
+  ]
+}

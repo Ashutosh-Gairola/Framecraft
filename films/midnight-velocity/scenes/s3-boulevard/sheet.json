@@ -1,0 +1,119 @@
+{
+  "version": 3,
+  "logline": "Full speed down a broad neon boulevard past traffic, palms and billboards: ultra-low front, side profile, rear chase, an overhead drone, and the driver's hands on the wheel as he shifts.",
+  "slug": "midnight-velocity-s3-boulevard",
+  "seconds": 20,
+  "fps": 24,
+  "frames": 480,
+  "aspect": "16:9",
+  "width": 1920,
+  "height": 1080,
+  "script": "festival",
+  "colors": {
+    "sky": "#24143a",
+    "ink": "#140c1c",
+    "moon": "#ffd7a1",
+    "accent": "#ff4d6d",
+    "practical": "#ffb020",
+    "iris": "#ffd0a1",
+    "skin": "#f0c2ae",
+    "hair": "#1a1020",
+    "sclera": "#f6f3ee",
+    "line": "#fff1ea"
+  },
+  "designColors": {
+    "cyan": "#29e0ff",
+    "violet": "#8a3cff",
+    "electric": "#2a6bff"
+  },
+  "style": "painted-world",
+  "styleReference": "Cinematic realism in three.js after night-city references (Shinjuku, Hong Kong, highway light trails): an original widebody supercar, a rain-wet neon city, planar reflections on the road, bloom, camer",
+  "animation": "full",
+  "lines": [],
+  "card": "",
+  "props": "traffic; billboards; palms; street lamps; cockpit; dashboard lights",
+  "voice": {
+    "mode": "off"
+  },
+  "cast": [],
+  "motion": [
+    "locomotion",
+    "effects"
+  ],
+  "sequence": {
+    "slug": "midnight-velocity",
+    "scene": "s3-boulevard",
+    "index": 2,
+    "start": 20,
+    "title": "Neon Boulevard",
+    "root": "../.."
+  },
+  "shots": [
+    {
+      "id": "establish",
+      "label": "Establish",
+      "start": 0,
+      "end": 3,
+      "dur": 3,
+      "sakuga": false,
+      "size": "wide",
+      "camera": "push",
+      "drawings": 3
+    },
+    {
+      "id": "approach",
+      "label": "Approach",
+      "start": 3,
+      "end": 6,
+      "dur": 3,
+      "sakuga": false,
+      "size": "medium",
+      "camera": "pan",
+      "drawings": 3
+    },
+    {
+      "id": "turn",
+      "label": "Turn",
+      "start": 6,
+      "end": 9,
+      "dur": 3,
+      "sakuga": false,
+      "size": "close",
+      "camera": "locked",
+      "drawings": 3
+    },
+    {
+      "id": "sakuga",
+      "label": "Sakuga",
+      "start": 9,
+      "end": 14,
+      "dur": 5,
+      "sakuga": true,
+      "size": "medium",
+      "camera": "shake",
+      "drawings": 8
+    },
+    {
+      "id": "aftermath",
+      "label": "Aftermath",
+      "start": 14,
+      "end": 17.5,
+      "dur": 3.5,
+      "sakuga": false,
+      "size": "wide",
+      "camera": "locked",
+      "drawings": 3
+    },
+    {
+      "id": "button",
+      "label": "Button",
+      "start": 17.5,
+      "end": 20,
+      "dur": 2.5,
+      "sakuga": false,
+      "size": "close",
+      "camera": "locked",
+      "drawings": 3
+    }
+  ]
+}

@@ -6,26 +6,26 @@
 
 <p align="center">
   <a href="https://github.com/Ashutosh-Gairola/html-anime-rework/stargazers"><img src="https://img.shields.io/github/stars/Ashutosh-Gairola/html-anime-rework?style=flat-square&color=e8434b" alt="GitHub stars"></a>
-  <a href="https://blixvip.github.io/html-anime/"><img src="https://img.shields.io/badge/site-blixvip.github.io%2Fhtml--anime-111?style=flat-square" alt="Site"></a>
+  <a href="https://ashutosh-gairola.github.io/html-anime-rework/"><img src="https://img.shields.io/badge/watch%20the%20films-ashutosh--gairola.github.io-111?style=flat-square" alt="Watch the films"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-111?style=flat-square" alt="MIT license"></a>
   <img src="https://img.shields.io/badge/render-HyperFrames-111?style=flat-square" alt="HyperFrames">
+  <img src="https://img.shields.io/badge/3D-three.js-111?style=flat-square" alt="three.js">
   <img src="https://img.shields.io/badge/agents-Claude%20%C2%B7%20Codex%20%C2%B7%20Cursor%20%C2%B7%20Grok-111?style=flat-square" alt="Claude, Codex, Cursor, Grok">
-  <a href="https://discord.gg/zEB4VjmfSb"><img src="https://img.shields.io/badge/Discord-Join%20the%20community-5865F2?style=flat-square&logo=discord&logoColor=white" alt="Discord"></a>
 </p>
 
 <p align="center">
-  <a href="https://blixvip.github.io/html-anime/"><img src="media/city.jpg" width="860" alt="A moon over the night city, a still from Kokuyō"></a>
+  <a href="https://ashutosh-gairola.github.io/html-anime-rework/"><img src="media/life-on-earth.jpg" width="860" alt="Life on Earth: an aerial sweep along a tropical coast"></a>
 </p>
 
 <p align="center">
-  <sub>A still from <i>Kokuyō</i>, drawn entirely in HTML. <a href="https://blixvip.github.io/html-anime/">Watch it on the site</a> · <a href="media/film.mp4">media/film.mp4</a></sub>
+  <sub>A still from <i>Life on Earth</i>, a two-minute single shot drawn entirely in code. <b><a href="https://ashutosh-gairola.github.io/html-anime-rework/">Watch every film on the site</a></b> · or click any still below.</sub>
 </p>
 
-> **This is the studio rework of [html-anime](https://github.com/blixvip/html-anime).** One sheet-and-render loop became a full crew of agent skills — research, director, designer, actor, art, motion, cameraman, staff, voice, sound, render, editor, and a three.js 3D actor — with a drawing kit, procedural sound, an editor's review, and multi-scene sequences up to two minutes. The films below were made with it.
+**html-anime** turns a written scene into a finished film, drawn entirely in code. A crew of agent skills does the work: research, director, designer, actor, character, art, motion, cameraman, staff, voice, sound, render, editor, and a three.js 3D actor. They draw 2D anime and full 3D worlds, synthesize the sound, review every render like an editor, and deliver multi-scene films up to two minutes. Everything below was made with it, and nothing calls a video model.
 
 ## Films made with the crew
 
-Click a still to watch (720p, with sound).
+Click a still to watch (720p, with sound), or watch them all in the player on **[the site](https://ashutosh-gairola.github.io/html-anime-rework/)**.
 
 <table>
   <tr>
@@ -46,34 +46,27 @@ Click a still to watch (720p, with sound).
   </tr>
   <tr>
     <td width="50%"><a href="media/living-light-ocean.mp4"><img src="media/living-light-ocean.jpg" alt="The Living Light of the Ocean: a sardine school lit by bioluminescent plankton at night"></a></td>
-    <td width="50%"></td>
+    <td width="50%"><a href="media/midnight-velocity.mp4"><img src="media/midnight-velocity.jpg" alt="Midnight Velocity: a supercar racing through an LED tunnel"></a></td>
   </tr>
   <tr>
     <td><b><a href="media/living-light-ocean.mp4">The Living Light of the Ocean</a></b> · 0:40 · three.js, one continuous shot<br><sub>A night beach where only the breaking waves glow, a macro look into the surf, a dive under a wave, plankton that flashes in the wake of a sardine school and a green sea turtle, and the deep.</sub></td>
+    <td><b><a href="media/midnight-velocity.mp4">Midnight Velocity</a></b> · 1:36 · three.js, seven scenes<br><sub>A widebody supercar through a rain-wet neon city: the reveal, the launch, a neon boulevard, an LED tunnel, a drift, an elevated highway, and a skyline overlook. Engine, shifts, tyres and score are synthesized from the car's own motion.</sub></td>
+  </tr>
+  <tr>
+    <td width="50%"><a href="media/character-test.mp4"><img src="media/character-test.jpg" alt="Character test: before and after, a reference photo, the realistic and anime builds, and Goku"></a></td>
+    <td width="50%"></td>
+  </tr>
+  <tr>
+    <td><b><a href="media/character-test.mp4">Character test</a></b> · 0:12 · three.js turnaround<br><sub>The character system: one sculpted, skinned body with face, hair and clothes. A person designed from a CC-licensed reference photo, the same design in anime, and Goku, compared with the old figures.</sub></td>
     <td></td>
   </tr>
 </table>
 
 ## How it works
 
-An anime, written as HTML. You write a scene. [The site](https://blixvip.github.io/html-anime/) turns it into a shot sheet: holds, one expensive shot, a closed color script, an art style, the cast, and the voice. Paste that sheet into Claude, Codex, Cursor, or Grok. A crew of agent skills draws it: research, a director, a designer, an actor, art, motion, a cameraman, the animation staff, voice, sound, render, and an editor — or a 3D actor in three.js when the camera must fly.
+An anime, written as HTML. You write a scene. [The site](https://ashutosh-gairola.github.io/html-anime-rework/#sheet) turns it into a shot sheet: holds, one expensive shot, a closed color script, an art style, the cast, and the voice. Paste that sheet into Claude, Codex, Cursor, or Grok. A crew of agent skills draws it: research, a director, a designer, an actor, art, motion, a cameraman, the animation staff, voice, sound, render, and an editor — or a 3D actor in three.js when the camera must fly.
 
 The pictures are HTML, timed for [HyperFrames](https://github.com/heygen-com/hyperframes). Nothing here calls a video model.
-
-## The film
-
-Kokuyō. Watch it on [the site](https://blixvip.github.io/html-anime/) or open [media/film.mp4](media/film.mp4).
-
-<table>
-  <tr>
-    <td width="50%"><img src="media/moon.jpg" alt="A cracked moon falling through rain"></td>
-    <td width="50%"><img src="media/fight.jpg" alt="Two figures crossing blades in front of the moon"></td>
-  </tr>
-  <tr>
-    <td width="50%"><img src="media/helm.jpg" alt="A dark helm with a red crescent"></td>
-    <td width="50%"><img src="media/ren.jpg" alt="A close-up washed in white light"></td>
-  </tr>
-</table>
 
 ## Start
 
@@ -141,6 +134,7 @@ node harness/sheet.js brief.json        # films/<slug>/sheet.md and sheet.json
 | Render | `skills/html-anime-render/` | The HyperFrames file and the gates, at 24 fps |
 | Editor | `skills/html-anime-editor/` | Reviews every render (stutter, frozen runs, cuts, flashes, colour, loudness), rhythm and continuity, mastering |
 | 3D Actor | `skills/html-anime-3d-actor/` | three.js characters, buildings, terrain, clouds, water, crowds, animals, and traffic with real camera moves, deterministic for HyperFrames; multi-stage journeys and one-map worlds |
+| Character | `skills/html-anime-character/` | 3D people and humanoids as one sculpted, skinned body with face, hair and clothes; realistic or anime from one design; a reference photo or a known character's signature features; a turnaround gate before animation |
 
 Claude Code also finds them in `.claude/skills/`, so `/html-anime-director` works.
 
@@ -167,7 +161,7 @@ node harness/refs.js palette photo.jpg --film films/<slug>   # a reference photo
 
 ## 3D films
 
-When the camera must really move — a drone over a valley, a flight from a mountain to the galaxy — the 3D actor builds the world in three.js as a pure function of film time: `films/<slug>/assets/world.js` is imported by each scene composition, built once, and seeked frame by frame by HyperFrames. Seams between places are hidden the way the script asks (cloud and smoke veils, a surface break, dissolves through scale), so a two-minute film is one shot. See `skills/html-anime-3d-actor/SKILL.md` and the three films above.
+When the camera must really move — a drone over a valley, a flight from a mountain to the galaxy — the 3D actor builds the world in three.js as a pure function of film time: `films/<slug>/assets/world.js` is imported by each scene composition, built once, and seeked frame by frame by HyperFrames. Seams between places are hidden the way the script asks (cloud and smoke veils, a surface break, dissolves through scale), so a two-minute film is one shot. See `skills/html-anime-3d-actor/SKILL.md` and the 3D films above. People and humanoids are built with `skills/html-anime-character/SKILL.md` and `harness/templates/human.js`: one sculpted, skinned body with face, hair and clothes, in a realistic or an anime style, checked on a turnaround before it moves.
 
 ## Sequences
 
@@ -181,7 +175,7 @@ node harness/sequence.js brief.json      # films/<slug>/sequence.md and one shee
 
 ## What is in the repo
 
-- `index.html`, `site.css`, `site.js`, `tokens.css` — the site
+- `index.html`, `site.css`, `site.js`, `tokens.css` — the site: the films player and the sheet builder, published at https://ashutosh-gairola.github.io/html-anime-rework/
 - `skills/` — the crew, above
 - `harness/compile.js` — scene to sheet (with `palettes.js`, `plans.js`, `styles.js`, `cast.js`, `motion.js`, `voice-profiles.js`)
 - `harness/sheet.js`, `harness/sequence.js` — write sheets to `films/`
@@ -192,11 +186,12 @@ node harness/sequence.js brief.json      # films/<slug>/sequence.md and one shee
 - `harness/refs.js` — research before drawing: `init` writes a film's `references.md`; `palette` samples a reference photo's colours and maps them to the sheet's paints
 - `harness/edit.js` — the editor's bench: `review` (stutter, frozen runs, shots, flashes, colour grade, loudness, contact sheet) and `master`
 - `harness/templates/three-scene.html` — a working three.js scene for HyperFrames
+- `harness/templates/human.js` — 3D characters: a sculpted, skinned body with face, hair and clothes, realistic or anime
 - `harness/templates/` — the bible and model sheet the designer starts from
 - `vendor/hyperframes/` — the HyperFrames engine skills (Apache-2.0), pinned
-- `films/` — the films: `life-on-earth/`, `mountain-shrine/`, `everest-to-galaxy/`, `living-light-ocean/` (three.js), `sky-city-duel/`, `stickman-blade-fight/` (2D sequences), `roof/` (the reference). Each has its brief, sheets, bible, build script, and its synthesized sound in `assets/sfx/` (rebuild it with `harness/sfx.js`)
+- `films/` — the films: `life-on-earth/`, `mountain-shrine/`, `everest-to-galaxy/`, `living-light-ocean/`, `midnight-velocity/`, `character-test/` (three.js), `sky-city-duel/`, `stickman-blade-fight/` (2D sequences), `roof/` (the reference). Each has its brief, sheets, bible, build script, and its synthesized sound in `assets/sfx/` (rebuild it with `harness/sfx.js`)
 - `media/*.mp4`, `media/*.jpg` — 720p cuts of the films above, and their stills
-- `media/film.mp4` — Kokuyō, the original film
+- `media/film.mp4` — Kokuyō, the reference film from the original html-anime
 - `media/city.jpg`, `media/moon.jpg`, `media/fight.jpg`, `media/helm.jpg`, `media/ren.jpg` — stills from it
 - `films/roof/` — an 8 second reference: file shape, the color-dip cut, a bible, a model sheet, a voiced line. Not a film to remix
 - `tests/fixtures/` — scripts used as end-to-end tests
@@ -240,10 +235,10 @@ npx hyperframes render --fps 24 --quality delivery --output renders/<slug>.mp4
 - No animation before the model sheets exist. An original character waits for your yes
 - The lines you wrote, verbatim, at most two per sheet, or no dialogue at all
 
-## Community
+## Feedback
 
-💬 [Join the Discord](https://discord.gg/zEB4VjmfSb) for questions, help, feedback, and updates.
+Questions, ideas, or a film you made with it? [Open an issue](https://github.com/Ashutosh-Gairola/html-anime-rework/issues).
 
 ## License
 
-[MIT](LICENSE). Built on [html-anime](https://github.com/blixvip/html-anime) by blixvip. The reference film's font keeps its own license: see [films/roof/fonts/NOTICE.txt](films/roof/fonts/NOTICE.txt).
+[MIT](LICENSE). © Ashutosh Gairola. It grew from [html-anime](https://github.com/blixvip/html-anime) by blixvip (MIT), whose reference film *Kokuyō* (`media/film.mp4`, `films/roof/`) is kept here. The reference film's font keeps its own license: see [films/roof/fonts/NOTICE.txt](films/roof/fonts/NOTICE.txt).

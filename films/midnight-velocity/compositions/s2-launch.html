@@ -1,0 +1,38 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; background: #140c1c; }
+    .s2-launch-cv { position: absolute; inset: 0; width: 1920px; height: 1080px; display: block; }
+  </style>
+  <div id="root" data-composition-id="s2-launch" data-start="0" data-duration="8" data-width="1920" data-height="1080">
+    <canvas id="s2-launch-cv" class="clip s2-launch-cv" data-start="0" data-duration="8" data-track-index="1" width="1920" height="1080"></canvas>
+  </div>
+  <script>
+    (function () {
+      // The sheet's paints: the world derives every colour from these.
+      const PAINT = {"sky":"#24143a","ink":"#140c1c","moon":"#ffd7a1","accent":"#ff4d6d","practical":"#ffb020","iris":"#ffd0a1","skin":"#f0c2ae","hair":"#1a1020","sclera":"#f6f3ee","line":"#fff1ea","cyan":"#29e0ff","violet":"#8a3cff","electric":"#2a6bff"};
+      window.__hf = window.__hf || {};
+      window.__hf.buildReady = window.__hf.buildReady || {};
+      let ready;
+      const built = new Promise((resolve) => (ready = resolve));
+      window.__hf.buildReady["s2-launch"] = built;
+      let render = null;
+      let pending = 12;
+      // HyperFrames sends film time; the world is one continuous path across every scene.
+      window.addEventListener("hf-seek", (e) => {
+        pending = e.detail.time;
+        if (render) render(pending);
+        else if (e.detail.waitUntil) e.detail.waitUntil(built.then(() => render && render(pending)));
+      });
+      // "./": a dynamic import without it is a bare package name and never loads.
+      import("./assets/world.js")
+        .then((world) => {
+          render = world.createWorld(document.getElementById("s2-launch-cv"), PAINT).render;
+          render(pending);
+        })
+        .catch((error) => console.error("s2-launch: the world failed to load", error))
+        .finally(() => ready());
+      window.__timelines = window.__timelines || {};
+      window.__timelines["s2-launch"] = gsap.timeline({ paused: true });
+    })();
+  </script>
+</template>

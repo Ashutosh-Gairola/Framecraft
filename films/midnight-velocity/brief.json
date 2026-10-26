@@ -1,0 +1,19 @@
+{
+  "title": "Midnight Velocity",
+  "slug": "midnight-velocity",
+  "aspect": "16:9",
+  "script": "festival",
+  "style": "painted-world",
+  "styleReference": "Cinematic realism in three.js after night-city references (Shinjuku, Hong Kong, highway light trails): an original widebody supercar, a rain-wet neon city, planar reflections on the road, bloom, camera motion blur that keeps the car sharp, light trails. No text on signs, no logos.",
+  "animation": "full",
+  "designColors": { "cyan": "#29e0ff", "violet": "#8a3cff", "electric": "#2a6bff" },
+  "scenes": [
+    { "id": "s1-reveal", "title": "The Reveal", "seconds": 12, "logline": "A widebody supercar waits on a rain-soaked neon street; the camera slides from its headlight along the wheel and bodywork to a low front three-quarter; the engine starts, the lights flare, it revs.", "props": "supercar; underglow; rain; steam vents; billboards; palm trees; wet asphalt" },
+    { "id": "s2-launch", "title": "The Launch", "seconds": 8, "logline": "It launches: the rear tyre spins and throws water, flames on the gear change; a low front tracking shot as it races at the lens, then a side mount as the city blurs.", "props": "wheel spin; spray; exhaust flames; suspension squat" },
+    { "id": "s3-boulevard", "title": "Neon Boulevard", "seconds": 20, "logline": "Full speed down a broad neon boulevard past traffic, palms and billboards: ultra-low front, side profile, rear chase, an overhead drone, and the driver's hands on the wheel as he shifts.", "props": "traffic; billboards; palms; street lamps; cockpit; dashboard lights" },
+    { "id": "s4-tunnel", "title": "The Tunnel", "seconds": 12, "logline": "Into a long tunnel of cyan, purple and white LED strips; behind, then alongside, then a hood view as it curves; out into the city's light.", "props": "LED strips; tunnel walls; hood camera; exit flare" },
+    { "id": "s5-drift", "title": "The Drift", "seconds": 12, "logline": "At a closed-off city intersection it brakes, swings the tail out and drifts the corner on countersteer through smoke and mist, then grips and launches.", "props": "drift; tyre smoke; mist; headlight sweep; closed course" },
+    { "id": "s6-highway", "title": "Elevated Highway", "seconds": 20, "logline": "Up onto an elevated highway between glowing towers; bumper cam, then a rising aerial sweep along a broad curve through ribbons of red and white light, under a skybridge.", "props": "elevated highway; light trails; skybridge; gantries; towers" },
+    { "id": "s7-finish", "title": "The Overlook", "seconds": 12, "logline": "It sweeps onto a skyline overlook and stops under the city lights, idling; water drips; the camera pulls back from the front wheel to the car against the endless city.", "props": "overlook; railing; skyline; mist; idle" }
+  ]
+}

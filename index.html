@@ -23,7 +23,7 @@
       <div class="bar">
         <a class="name" href="#top"><span class="tok">html</span><span class="cut">-</span><span class="pic">anime</span></a>
         <nav>
-          <a href="#film">Film</a>
+          <a href="#film">Films</a>
           <a href="#sheet">Sheet</a>
           <a href="#skills">Skills</a>
           <a href="#agents">Agents</a>
@@ -35,8 +35,9 @@
         <div class="lede">
           <h1 class="name"><span class="tok">html</span><span class="cut">-</span><span class="pic">anime</span></h1>
           <p>
-            Kokuyō is the film. Write the next scene. The sheet locks the shots, the holds,
-            and the colors. Claude, Codex, Cursor, or Grok draw it as HTML.
+            Films drawn entirely in code by a crew of agent skills. Pick one below, or write the next
+            scene: the sheet locks the shots, the holds, and the colors, and Claude, Codex, Cursor, or Grok
+            draw it as HTML and three.js.
           </p>
           <p id="serve-hint" class="serve-hint">
             The sheet runs in the browser. If this note is still here, serve the folder and open the address it prints:
@@ -47,27 +48,44 @@
         </div>
 
       <section class="theater" id="film">
-        <video class="film" controls poster="media/city.jpg" preload="metadata" playsinline>
-          <source src="media/film.mp4" type="video/mp4" />
+        <video class="film" controls poster="media/life-on-earth.jpg" preload="metadata" playsinline>
+          <source src="media/life-on-earth.mp4" type="video/mp4" />
         </video>
-        <div class="stills">
-          <button type="button" class="still" data-time="6">
-            <img src="media/moon.jpg" alt="A cracked moon falling through rain" width="1600" height="900" />
+        <p class="film-note" id="film-note">Life on Earth · 2:00 · A reef, the coast, farmland, a city with live traffic, a forest, golden hour — one continuous three.js shot.</p>
+        <div class="stills films">
+          <button type="button" class="still pick is-on" data-src="media/life-on-earth.mp4" data-poster="media/life-on-earth.jpg" data-note="Life on Earth · 2:00 · A reef, the coast, farmland, a city with live traffic, a forest, golden hour — one continuous three.js shot.">
+            <img src="media/life-on-earth.jpg" alt="Life on Earth" width="1280" height="720" loading="lazy" />
+            <span>Life on Earth</span>
           </button>
-          <button type="button" class="still" data-time="22">
-            <img src="media/helm.jpg" alt="A dark helm with a red crescent" width="1600" height="900" />
+          <button type="button" class="still pick" data-src="media/mountain-shrine.mp4" data-poster="media/mountain-shrine.jpg" data-note="Mountain Shrine · 1:20 · Above the clouds to a five-tiered temple; pilgrims, monks, a yak train, prayer flags.">
+            <img src="media/mountain-shrine.jpg" alt="Mountain Shrine" width="1280" height="720" loading="lazy" />
+            <span>Mountain Shrine</span>
           </button>
-          <button type="button" class="still" data-time="32">
-            <img src="media/fight.jpg" alt="Two figures crossing blades in front of the moon" width="1600" height="900" />
+          <button type="button" class="still pick" data-src="media/everest-to-galaxy.mp4" data-poster="media/everest-to-galaxy.jpg" data-note="Everest to the Galaxy · 2:00 · From Everest at sunrise through a volcano's plume to Earth, the planets, and the Milky Way.">
+            <img src="media/everest-to-galaxy.jpg" alt="Everest to the Galaxy" width="1280" height="720" loading="lazy" />
+            <span>Everest to the Galaxy</span>
           </button>
-          <button type="button" class="still" data-time="41">
-            <img src="media/ren.jpg" alt="A close-up washed in white light" width="1600" height="900" />
+          <button type="button" class="still pick" data-src="media/midnight-velocity.mp4" data-poster="media/midnight-velocity.jpg" data-note="Midnight Velocity · 1:36 · A widebody supercar through a rain-wet neon city: launch, LED tunnel, drift, elevated highway, overlook.">
+            <img src="media/midnight-velocity.jpg" alt="Midnight Velocity" width="1280" height="720" loading="lazy" />
+            <span>Midnight Velocity</span>
           </button>
-          <button type="button" class="still" data-time="63">
-            <img src="media/city.jpg" alt="A moon over the night city" width="1600" height="900" />
+          <button type="button" class="still pick" data-src="media/living-light-ocean.mp4" data-poster="media/living-light-ocean.jpg" data-note="The Living Light of the Ocean · 0:40 · Glowing surf, a dive under a wave, plankton lit by a sardine school and a sea turtle.">
+            <img src="media/living-light-ocean.jpg" alt="The Living Light of the Ocean" width="1280" height="720" loading="lazy" />
+            <span>The Living Light of the Ocean</span>
+          </button>
+          <button type="button" class="still pick" data-src="media/sky-city-duel.mp4" data-poster="media/sky-city-duel.jpg" data-note="Sky City Duel · 1:44 · An aerial duel over a floating city, with a dragon and a phoenix — six 2D scenes.">
+            <img src="media/sky-city-duel.jpg" alt="Sky City Duel" width="1280" height="720" loading="lazy" />
+            <span>Sky City Duel</span>
+          </button>
+          <button type="button" class="still pick" data-src="media/character-test.mp4" data-poster="media/character-test.jpg" data-note="Character test · 0:12 · The character system: a person from a reference photo, the same design in anime, and Goku.">
+            <img src="media/character-test.jpg" alt="Character test" width="1280" height="720" loading="lazy" />
+            <span>Character test</span>
+          </button>
+          <button type="button" class="still pick" data-src="media/film.mp4" data-poster="media/city.jpg" data-note="Kokuyō · 1:20 · The reference film from the original html-anime project.">
+            <img src="media/city.jpg" alt="Kokuyō" width="1280" height="720" loading="lazy" />
+            <span>Kokuyō</span>
           </button>
         </div>
-        <p class="film-note">Kokuyō · 1:20 · click a frame</p>
       </section>
 
       <div class="hero hero-rest">
@@ -385,7 +403,7 @@
     </main>
     <footer>
       <span>Frames are HTML, rendered with <a href="https://github.com/heygen-com/hyperframes">HyperFrames</a>.</span>
-      <span>Reference short: <a href="films/roof/index.html">films/roof</a></span>
+      <span>Source: <a href="https://github.com/Ashutosh-Gairola/html-anime-rework">github.com/Ashutosh-Gairola/html-anime-rework</a></span>
     </footer>
     <script type="module" src="site.js"></script>
   </body>
